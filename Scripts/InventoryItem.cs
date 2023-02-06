@@ -1,6 +1,4 @@
-﻿using Godot;
-
-namespace Inventory;
+﻿namespace Inventory;
 
 public class InventoryItem
 {
