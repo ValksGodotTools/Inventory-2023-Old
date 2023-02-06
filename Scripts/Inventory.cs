@@ -12,11 +12,12 @@ public class Inventory
 	private Node Parent { get; set; }
 	private PanelContainer PanelContainer { get; set; }
 
-	public Inventory(Node parent, int columns = 9, int rows = 5)
+	public Inventory(Node parent, int columns = 9, int rows = 5, int slotSize = 50)
 	{
 		Parent = parent;
 		Columns = columns;
 		Rows = rows;
+		SlotSize = slotSize;
 
 		PanelContainer = new PanelContainer();
 
@@ -32,10 +33,7 @@ public class Inventory
 		marginContainer.AddChild(GridContainer);
 
 		InventorySlots = new InventorySlot[rows * columns];
-	}
 
-	public void AddChild()
-	{
 		for (int i = 0; i < InventorySlots.Length; i++)
 			InventorySlots[i] = new InventorySlot(this, GridContainer);
 
