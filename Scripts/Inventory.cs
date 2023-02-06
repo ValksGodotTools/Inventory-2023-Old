@@ -23,9 +23,9 @@ public class Inventory
 
 		InventorySlots = new InventorySlot[columns, rows];
 
-		for (int x = 0; x < columns; x++)
-			for (int y = 0; y < rows; y++)
-				InventorySlots[x, y] = new InventorySlot(GridContainer);
+		for (int x = 0; x < rows; x++)
+			for (int y = 0; y < columns; y++)
+				InventorySlots[y, x] = new InventorySlot(GridContainer);
 
 		parent.AddChild(panelContainer);
 	}

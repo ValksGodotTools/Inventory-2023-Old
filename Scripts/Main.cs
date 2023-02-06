@@ -8,6 +8,6 @@ public partial class Main : Node
 	public override void _Ready()
 	{
 		var inventory = new Inventory(this);
-		inventory.SetItem(1, 0, "sprite_frames_coin");
+		inventory.SetItem(8, 1, "sprite_frames_coin");
 	}
 }
