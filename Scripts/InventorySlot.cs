@@ -4,14 +4,15 @@ public class InventorySlot
 {
 	private Panel Panel { get; set; }
 	private InventoryItem InventoryItem { get; set; }
+	private Inventory Inventory { get; set; }
 
-	public InventorySlot(Node parent)
+	public InventorySlot(Inventory inv, Node parent)
 	{
-		var slotSize = 50;
+		Inventory = inv;
 
 		Panel = new Panel
 		{
-			CustomMinimumSize = Vector2.One * slotSize
+			CustomMinimumSize = Vector2.One * Inventory.SlotSize
 		};
 
 		parent.AddChild(Panel);
@@ -22,7 +23,7 @@ public class InventorySlot
 		var label = new Label
 		{
 			Text = text,
-			CustomMinimumSize = Vector2.One * 50,
+			CustomMinimumSize = Vector2.One * Inventory.SlotSize,
 			HorizontalAlignment = HorizontalAlignment.Center,
 			VerticalAlignment = VerticalAlignment.Center,
 		};
@@ -37,8 +38,8 @@ public class InventorySlot
 		InventoryItem?.QueueFree();
 
 		if (animated)
-			InventoryItem = new InventoryAnimatedItem(Panel, name);
+			InventoryItem = new InventoryAnimatedItem(Inventory, Panel, name);
 		else
-			InventoryItem = new InventoryStaticItem(Panel, name);
+			InventoryItem = new InventoryStaticItem(Inventory, Panel, name);
 	}
 }

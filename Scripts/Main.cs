@@ -7,7 +7,11 @@ public partial class Main : Node
 {
 	public override void _Ready()
 	{
-		var inventory = new Inventory(this);
+		var inventory = new Inventory(this)
+		{
+			SlotSize = 50
+		};
+		inventory.AddChild();
 		inventory.SetAnimatedItem(0, 1, "sprite_frames_coin");
 		inventory.SetStaticItem  (1, 1, "snowy_coin");
 
