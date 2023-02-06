@@ -2,27 +2,39 @@
 
 public class InventorySlot
 {
-	private PanelContainer PanelContainer { get; set; }
+	private Panel Panel { get; set; }
 	private InventoryItem InventoryItem { get; set; }
 
 	public InventorySlot(Node parent)
 	{
 		var slotSize = 50;
 
-		PanelContainer = new PanelContainer
+		Panel = new Panel
 		{
 			CustomMinimumSize = Vector2.One * slotSize
 		};
 
-		parent.AddChild(PanelContainer);
+		parent.AddChild(Panel);
+	}
+
+	public void AddDebugLabel(string text)
+	{
+		var label = new Label
+		{
+			Text = text,
+			CustomMinimumSize = Vector2.One * 50,
+			HorizontalAlignment = HorizontalAlignment.Center,
+			VerticalAlignment = VerticalAlignment.Center,
+		};
+
+		label.AddThemeColorOverride("font_shadow_color", Colors.Black);
+
+		Panel.AddChild(label);
 	}
 
 	public void SetItem(string name)
 	{
-		// Clear the previous item if any
-		foreach (Node child in PanelContainer.GetChildren())
-			child.QueueFree();
-
-		InventoryItem = new InventoryItem(PanelContainer, name);
+		InventoryItem?.QueueFree();
+		InventoryItem = new InventoryItem(Panel, name);
 	}
 }

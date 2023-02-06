@@ -2,7 +2,8 @@
 
 public class Inventory
 {
-	private InventorySlot[] InventorySlots { get; set; }
+	public InventorySlot[] InventorySlots { get; set; }
+
 	private GridContainer GridContainer { get; set; }
 	private int Padding { get; set; } = 10;
 	private int Columns { get; set; }
