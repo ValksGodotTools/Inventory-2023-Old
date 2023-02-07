@@ -7,6 +7,11 @@ public partial class ItemCursor : Control
 
 	public static void ClearItem()
 	{
+		ItemPanelDescription.ToggleVisiblity(true);
+
+		// Only move the parent when there is an item in this cursor
+		ItemCursorParent.SetPhysicsProcess(false);
+
 		foreach (Node child in ItemCursorParent.GetChildren())
 			child.QueueFree();
 	}
@@ -21,6 +26,10 @@ public partial class ItemCursor : Control
 
 	public static void SetItem(Item item)
 	{
+		ItemPanelDescription.ToggleVisiblity(false);
+
+		// There is an item in this cursor, lets move the parent now
+		ItemCursorParent.SetPhysicsProcess(true);
 		Item = item;
 
 		foreach (Node child in ItemCursorParent.GetChildren())
@@ -55,6 +64,7 @@ public partial class ItemCursor : Control
 
 	public override void _Ready()
 	{
+		SetPhysicsProcess(false);
 		ItemCursorParent = this;
 	}
 

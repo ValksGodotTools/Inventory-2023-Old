@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://ttjmp58ctrtj"]
+[gd_scene load_steps=4 format=3 uid="uid://ttjmp58ctrtj"]
 
 [ext_resource type="Script" path="res://Scripts/Main.cs" id="1_po44d"]
 [ext_resource type="Script" path="res://Scripts/ItemCursor.cs" id="2_4sll0"]
+[ext_resource type="Script" path="res://Scripts/ItemPanelDescription.cs" id="3_sskaj"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -12,3 +13,8 @@ script = ExtResource("1_po44d")
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("2_4sll0")
+
+[node name="ItemDescriptionParent" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("3_sskaj")
