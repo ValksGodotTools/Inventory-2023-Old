@@ -2,10 +2,12 @@
 
 public class InventorySlot
 {
+	public Label ItemCountLabel { get; set; }
+
 	private Panel Panel { get; set; }
 	private InventoryItem InventoryItem { get; set; }
 	private Inventory Inventory { get; set; }
-	private Label ItemCountLabel { get; set; }
+	private bool JustPickedUpItem { get; set; }
 
 	public InventorySlot(Inventory inv, Node parent)
 	{
@@ -22,16 +24,14 @@ public class InventorySlot
 				return;
 
 			if (inputMouseButtonEvent.IsLeftClickPressed())
+			{
 				HandleLeftClick();
+			}
 
 			if (inputMouseButtonEvent.IsRightClickPressed())
 			{
-				ItemCursor.HoldingRightClick = true;
 				HandleRightClick();
 			}
-
-			if (inputMouseButtonEvent.IsRightClickReleased())
-				ItemCursor.HoldingRightClick = false;
 		};
 
 		Panel.MouseEntered += () =>
@@ -101,14 +101,17 @@ public class InventorySlot
 		// There is no item in this inventory slot
 		if (InventoryItem == null)
 		{
-			// Is there a item attached to the cursor?
-			if (cursorItem != null)
+			if (!JustPickedUpItem)
 			{
-				// Remove the item from the cursor
-				ItemCursor.ClearItem();
+				// Is there a item attached to the cursor?
+				if (cursorItem != null)
+				{
+					// Remove the item from the cursor
+					ItemCursor.ClearItem();
 
-				// Set the item in this inventory slot to the item from the cursor
-				SetItem(cursorItem);
+					// Set the item in this inventory slot to the item from the cursor
+					SetItem(cursorItem);
+				}
 			}
 		}
 		// There is a item in this inventory slot
@@ -117,6 +120,10 @@ public class InventorySlot
 			// Recap
 			// 1. Left click
 			// 2. There is an item in the inventory slot
+
+			JustPickedUpItem = true;
+			Panel.GetTree().CreateTimer(ItemCursor.DoubleClickTime / 1000.0).Timeout += () => 
+				JustPickedUpItem = false;
 
 			// There is an item attached to the cursor
 			if (cursorItem != null)
@@ -177,6 +184,40 @@ public class InventorySlot
 
 				// Set the item in this inventory slot to the item from the cursor
 				ItemCursor.SetItem(item);
+			}
+		}
+
+		// Double click
+		if (ItemCursor.DoubleClick)
+		{
+			var itemCursor = ItemCursor.GetItem();
+
+			// Double clicked with a item in the cursor
+			if (itemCursor != null)
+			{
+				// Scan the inventory for items of the same type and combine them to the cursor
+				foreach (var slot in Inventory.InventorySlots)
+				{
+					var invItem = slot.InventoryItem;
+
+					// A item exists in this inv slot
+					if (invItem != null)
+					{
+						// The inv slot item is the same type as the cursor item type
+						if (invItem.Item.Type == itemCursor.Type)
+						{
+							// Clear the item graphic for this inventory slot
+							invItem.QueueFree();
+							invItem = null;
+
+							// Clear the item count graphic
+							slot.ItemCountLabel.Text = "";
+
+							// Todo:
+							// Add the items to the cursor
+						}
+					}
+				}
 			}
 		}
 	}

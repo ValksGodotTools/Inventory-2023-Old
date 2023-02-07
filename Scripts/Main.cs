@@ -9,8 +9,12 @@ public partial class Main : Node
 	public override void _Ready()
 	{
 		var inventory = new Inventory(this);
-		inventory.SetItem(0, 1, new Item(Items.Coin, 3));
-		inventory.SetItem(1, 1, new Item(Items.CoinSnowy));
+
+		for (int i = 0; i < 9; i++)
+			inventory.SetItem(i, new Item(Items.Coin));
+
+		inventory.SetItem(0, 2, new Item(Items.Coin, 3));
+		inventory.SetItem(1, 2, new Item(Items.CoinSnowy));
 
 		//for (int i = 0; i < inventory.InventorySlots.Length; i++)
 		//	inventory.InventorySlots[i].AddDebugLabel("" + i);
