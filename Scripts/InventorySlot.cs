@@ -122,6 +122,45 @@ public class InventorySlot
 				}
 			}
 		}
+		// There is no item being held in the cursor
+		else
+		{
+			// There is a item in this inventory slot
+			if (InventoryItem != null)
+			{
+				var invSlotItemCount = InventoryItem.Item.Count;
+
+				// Is this the last item in the stack?
+				if (invSlotItemCount - 1 == 0)
+				{
+					ItemCursor.SetItem(InventoryItem.Item);
+
+					// Clear the item graphic for this inventory slot
+					InventoryItem.QueueFree();
+					InventoryItem = null;
+				}
+				// There are two or more items in this inv slot
+				else
+				{
+					// Recap:
+					// 1. User did a right click
+					// 2. There is no item being held in the cursor
+					// 3. There are two or more items in this inv slot
+
+					// Lets take 1 item from the inv slot and bring it to the cursor
+					InventoryItem.Item.Count -= 1;
+
+					if (InventoryItem.Item.Count > 1)
+						ItemCountLabel.Text = InventoryItem.Item.Count + "";
+					else
+						ItemCountLabel.Text = "";
+					
+					var item = InventoryItem.Item.Clone();
+					item.Count = 1;
+					ItemCursor.SetItem(item);
+				}
+			}
+		}
 	}
 
 	private void HandleLeftClickNoInvItem(Item cursorItem)
