@@ -104,6 +104,19 @@ public class InventorySlot
 				item.Count = 1;
 				SetItem(item);
 			}
+			// There is a item in this inventory slot
+			else
+			{
+				// Is the cursor item being held of the same type for the item in the inventory slot?
+				if (cursorItem.Type == InventoryItem.Item.Type)
+				{
+					ItemCursor.TakeItem();
+
+					var item = cursorItem.Clone();
+					item.Count = 1 + InventoryItem.Item.Count;
+					SetItem(item);
+				}
+			}
 		}
 	}
 
