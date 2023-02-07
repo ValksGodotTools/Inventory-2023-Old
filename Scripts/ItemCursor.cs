@@ -2,6 +2,8 @@
 
 public partial class ItemCursor : Control
 {
+	public static bool HoldingRightClick { get; set; }
+
 	private static Node ItemCursorParent { get; set; }
 	private static Item Item { get; set; }
 	private static Label LabelItemCount { get; set; }

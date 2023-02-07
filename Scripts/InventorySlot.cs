@@ -25,15 +25,36 @@ public class InventorySlot
 				HandleLeftClick();
 
 			if (inputMouseButtonEvent.IsRightClickPressed())
+			{
+				ItemCursor.HoldingRightClick = true;
 				HandleRightClick();
+			}
+
+			if (inputMouseButtonEvent.IsRightClickReleased())
+				ItemCursor.HoldingRightClick = false;
 		};
 
 		Panel.MouseEntered += () =>
 		{
 			if (InventoryItem == null)
-				return;
+			{
+				var cursorItem = ItemCursor.GetItem();
 
-			ItemPanelDescription.Display(InventoryItem.Item);
+				if (ItemCursor.HoldingRightClick && cursorItem != null)
+				{
+					// Take 1 item from the cursor
+					ItemCursor.TakeItem();
+
+					// Pass 1 item from cursor to the inventory slot
+					var item = cursorItem.Clone();
+					item.Count = 1;
+					SetItem(item);
+				}
+			}
+			else
+			{
+				ItemPanelDescription.Display(InventoryItem.Item);
+			}
 		};
 
 		Panel.MouseExited += () =>
@@ -170,6 +191,7 @@ public class InventorySlot
 			// There is no item in this inventory slot
 			if (InventoryItem == null)
 			{
+				// Take 1 item from the cursor
 				ItemCursor.TakeItem();
 
 				// Pass 1 item from cursor to the inventory slot
