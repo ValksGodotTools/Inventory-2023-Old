@@ -33,13 +33,9 @@ public class InventorySlot
 		Panel.AddChild(label);
 	}
 
-	public void SetItem(string name, bool animated)
+	public void SetItem(Item item)
 	{
 		InventoryItem?.QueueFree();
-
-		if (animated)
-			InventoryItem = new InventoryAnimatedItem(Inventory, Panel, name);
-		else
-			InventoryItem = new InventoryStaticItem(Inventory, Panel, name);
+		InventoryItem = item.ToInventoryItem(Inventory, Panel);
 	}
 }

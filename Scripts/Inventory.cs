@@ -40,19 +40,10 @@ public class Inventory
 		Parent.AddChild(PanelContainer);
 	}
 
-	private void SetItem(int i, string name, bool animated) =>
-		InventorySlots[i].SetItem(name, animated);
+	private void SetItem(int i, Item item) =>
+		InventorySlots[i].SetItem(item);
 
-	public void SetAnimatedItem(int i, string name) =>
-		SetItem(i, name, true);
-
-	public void SetAnimatedItem(int x, int y, string name) =>
-		SetItem(x + y * Columns, name, true);
-
-	public void SetStaticItem(int i, string name) =>
-		SetItem(i, name, false);
-
-	public void SetStaticItem(int x, int y, string name) =>
-		SetItem(x + y * Columns, name, false);
+	public void SetItem(int x, int y, Item item) =>
+		SetItem(x + y * Columns, item);
 
 }

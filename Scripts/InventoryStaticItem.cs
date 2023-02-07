@@ -4,11 +4,11 @@ public class InventoryStaticItem : InventoryItem
 {
 	private Sprite2D Sprite2D { get; set; }
 
-	public InventoryStaticItem(Inventory inv, Node parent, string name)
+	public InventoryStaticItem(Inventory inv, Node parent, ItemStatic item)
 	{
 		Sprite2D = new Sprite2D
 		{
-			Texture = GD.Load<Texture2D>($"res://Sprites/{name}.png"),
+			Texture = item.Texture,
 			Position = Vector2.One * (inv.SlotSize / 2),
 			Scale = Vector2.One * (inv.SlotSize / 25)
 		};

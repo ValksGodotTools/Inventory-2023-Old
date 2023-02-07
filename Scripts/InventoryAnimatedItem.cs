@@ -4,11 +4,11 @@ public class InventoryAnimatedItem : InventoryItem
 {
 	private AnimatedSprite2D AnimatedSprite2D { get; set; }
 
-	public InventoryAnimatedItem(Inventory inv, Node parent, string name)
+	public InventoryAnimatedItem(Inventory inv, Node parent, ItemAnimated item)
 	{
 		AnimatedSprite2D = new AnimatedSprite2D
 		{
-			SpriteFrames = GD.Load<SpriteFrames>($"res://{name}.tres"),
+			SpriteFrames = item.SpriteFrames,
 			Position = Vector2.One * (inv.SlotSize / 2),
 			Scale = Vector2.One * (inv.SlotSize / 25)
 		};
