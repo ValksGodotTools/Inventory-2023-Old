@@ -35,7 +35,7 @@ public partial class ItemCursor : Control
 		foreach (Node child in ItemCursorParent.GetChildren())
 			child.QueueFree();
 
-		if (item is ItemStatic itemStatic)
+		if (item.Type is ItemStatic itemStatic)
 		{
 			var cursorItem = new Sprite2D
 			{
@@ -47,7 +47,7 @@ public partial class ItemCursor : Control
 			ItemCursorParent.AddChild(cursorItem);
 		}
 		
-		if (item is ItemAnimated itemAnimated)
+		if (item.Type is ItemAnimated itemAnimated)
 		{
 			var animatedItem = new AnimatedSprite2D
 			{

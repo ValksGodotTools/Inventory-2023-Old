@@ -65,8 +65,10 @@ public class InventorySlot
 
 	public void SetItem(Item item)
 	{
+		if (item.Count > 1)
+			ItemCountLabel.Text = item.Count + "";
 		InventoryItem?.QueueFree();
-		InventoryItem = item.ToInventoryItem(Inventory, Panel);
+		InventoryItem = item.Type.ToInventoryItem(Inventory, Panel, item);
 	}
 	
 	private void HandleLeftClick()
@@ -78,6 +80,8 @@ public class InventorySlot
 
 			if (inputMouseButtonEvent.IsLeftClickPressed())
 			{
+				ItemCountLabel.Text = "";
+
 				var cursorItem = ItemCursor.GetItem();
 
 				// There is no item in this inventory slot

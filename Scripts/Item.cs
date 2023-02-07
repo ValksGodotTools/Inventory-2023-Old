@@ -1,9 +1,13 @@
 ﻿namespace Inventory;
 
-public abstract class Item
+public class Item
 {
-	public string Name { get; set; }
-	public string Description { get; set; }
+	public ItemType Type { get; set; }
+	public int Count { get; set; }
 
-	public abstract InventoryItem ToInventoryItem(Inventory inventory, Panel panel);
+	public Item(ItemType type, int count = 1)
+	{
+		Type = type;
+		Count = count;
+	}
 }

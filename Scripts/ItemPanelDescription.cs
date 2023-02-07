@@ -30,11 +30,11 @@ public partial class ItemPanelDescription : Control
 		marginContainer.AddChild(vbox);
 
 		var labelName = new Label();
-		labelName.Text = item.Name;
+		labelName.Text = item.Type.Name;
 		labelName.HorizontalAlignment = HorizontalAlignment.Center;
 
 		var labelDescription = new Label();
-		labelDescription.Text = item.Description;
+		labelDescription.Text = item.Type.Description;
 		labelDescription.HorizontalAlignment = HorizontalAlignment.Center;
 
 		vbox.AddChild(labelName);

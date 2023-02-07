@@ -4,12 +4,12 @@ public class InventoryAnimatedItem : InventoryItem
 {
 	private AnimatedSprite2D AnimatedSprite2D { get; set; }
 
-	public InventoryAnimatedItem(Inventory inv, Node parent, ItemAnimated item)
+	public InventoryAnimatedItem(Inventory inv, Node parent, ItemAnimated itemAnimated, Item item)
 	{
 		Item = item;
 		AnimatedSprite2D = new AnimatedSprite2D
 		{
-			SpriteFrames = item.SpriteFrames,
+			SpriteFrames = itemAnimated.SpriteFrames,
 			Position = Vector2.One * (inv.SlotSize / 2),
 			Scale = Vector2.One * (inv.SlotSize / 25)
 		};

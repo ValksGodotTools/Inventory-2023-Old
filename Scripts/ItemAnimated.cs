@@ -1,9 +1,9 @@
 ﻿namespace Inventory;
 
-public class ItemAnimated : Item
+public class ItemAnimated : ItemType
 {
 	public SpriteFrames SpriteFrames { get; set; }
 
-	public override InventoryItem ToInventoryItem(Inventory inventory, Panel panel) =>
-		new InventoryAnimatedItem(inventory, panel, this);
+	public override InventoryItem ToInventoryItem(Inventory inventory, Panel panel, Item item) =>
+		new InventoryAnimatedItem(inventory, panel, this, item);
 }
