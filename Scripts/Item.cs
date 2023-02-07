@@ -10,4 +10,6 @@ public class Item
 		Type = type;
 		Count = count;
 	}
+
+	public Item Clone() => new(Type, Count);
 }

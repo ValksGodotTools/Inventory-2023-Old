@@ -16,7 +16,17 @@ public class InventorySlot
 			CustomMinimumSize = Vector2.One * Inventory.SlotSize
 		};
 
-		HandleLeftClick();
+		Panel.GuiInput += (inputEvent) =>
+		{
+			if (inputEvent is not InputEventMouseButton inputMouseButtonEvent)
+				return;
+
+			if (inputMouseButtonEvent.IsLeftClickPressed())
+				HandleLeftClick();
+
+			if (inputMouseButtonEvent.IsRightClickPressed())
+				HandleRightClick();
+		};
 
 		Panel.MouseEntered += () =>
 		{
@@ -65,25 +75,36 @@ public class InventorySlot
 	
 	private void HandleLeftClick()
 	{
-		Panel.GuiInput += (inputEvent) =>
+		ItemCountLabel.Text = "";
+
+		var cursorItem = ItemCursor.GetItem();
+
+		// There is no item in this inventory slot
+		if (InventoryItem == null)
+			HandleLeftClickNoInvItem(cursorItem);
+		// There is a item in this inventory slot
+		else
+			HandleLeftClickInvItem(cursorItem);
+	}
+
+	private void HandleRightClick()
+	{
+		var cursorItem = ItemCursor.GetItem();
+
+		// Is there a item attached to the cursor?
+		if (cursorItem != null)
 		{
-			if (inputEvent is not InputEventMouseButton inputMouseButtonEvent)
-				return;
-
-			if (inputMouseButtonEvent.IsLeftClickPressed())
+			// There is no item in this inventory slot
+			if (InventoryItem == null)
 			{
-				ItemCountLabel.Text = "";
+				ItemCursor.TakeItem();
 
-				var cursorItem = ItemCursor.GetItem();
-
-				// There is no item in this inventory slot
-				if (InventoryItem == null)
-					HandleLeftClickNoInvItem(cursorItem);
-				// There is a item in this inventory slot
-				else
-					HandleLeftClickInvItem(cursorItem);
+				// Pass 1 item from cursor to the inventory slot
+				var item = cursorItem.Clone();
+				item.Count = 1;
+				SetItem(item);
 			}
-		};
+		}
 	}
 
 	private void HandleLeftClickNoInvItem(Item cursorItem)

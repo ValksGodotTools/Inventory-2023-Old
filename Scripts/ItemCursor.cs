@@ -4,6 +4,7 @@ public partial class ItemCursor : Control
 {
 	private static Node ItemCursorParent { get; set; }
 	private static Item Item { get; set; }
+	private static Label LabelItemCount { get; set; }
 
 	public static void ClearItem()
 	{
@@ -24,24 +25,35 @@ public partial class ItemCursor : Control
 		return Item;
 	}
 
+	public static void TakeItem()
+	{
+		if (Item.Count - 1 <= 0)
+		{
+			ClearItem();
+		}
+
+		Item.Count -= 1;
+		LabelItemCount.Text = Item.Count + "";
+	}
+
 	public static void SetItem(Item item)
 	{
 		ItemPanelDescription.ToggleVisiblity(false);
 
 		// There is an item in this cursor, lets move the parent now
 		ItemCursorParent.SetPhysicsProcess(true);
-		Item = item;
+		Item = item.Clone();
 
 		foreach (Node child in ItemCursorParent.GetChildren())
 			child.QueueFree();
 
-		var itemCountLabel = UtilsLabel.CreateItemCountLabel();
-		itemCountLabel.ZIndex = 1;
+		LabelItemCount = UtilsLabel.CreateItemCountLabel();
+		LabelItemCount.ZIndex = 1;
 
 		if (item.Count > 1)
-			itemCountLabel.Text = item.Count + "";
+			LabelItemCount.Text = item.Count + "";
 		
-		ItemCursorParent.AddChild(itemCountLabel);
+		ItemCursorParent.AddChild(LabelItemCount);
 
 		if (item.Type is ItemStatic itemStatic)
 		{
@@ -71,7 +83,7 @@ public partial class ItemCursor : Control
 
 		// Quick and dirty way to center the label. This is how it has to be
 		// for now until someone can figure out a better way
-		itemCountLabel.Position = -itemCountLabel.Size / 2;
+		LabelItemCount.Position = -LabelItemCount.Size / 2;
 	}
 
 	public override void _Ready()
