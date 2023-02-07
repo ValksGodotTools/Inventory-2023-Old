@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0hnrw2hpe657"
-path="res://.godot/imported/snowy_coin.png-24570497e213a3f49d6faeac23ab8b39.ctex"
+uid="uid://csjd1ixxmnq7"
+path="res://.godot/imported/coin_pink.png-685838c5ab0178f3f7029ee801d87f43.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/snowy_coin.png"
-dest_files=["res://.godot/imported/snowy_coin.png-24570497e213a3f49d6faeac23ab8b39.ctex"]
+source_file="res://Sprites/coin_pink.png"
+dest_files=["res://.godot/imported/coin_pink.png-685838c5ab0178f3f7029ee801d87f43.ctex"]
 
 [params]
 
