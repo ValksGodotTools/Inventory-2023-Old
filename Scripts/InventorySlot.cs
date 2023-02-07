@@ -81,10 +81,40 @@ public class InventorySlot
 
 		// There is no item in this inventory slot
 		if (InventoryItem == null)
-			HandleLeftClickNoInvItem(cursorItem);
+		{
+			// Is there a item attached to the cursor?
+			if (cursorItem != null)
+			{
+				// Remove the item from the cursor
+				ItemCursor.ClearItem();
+
+				// Set the item in this inventory slot to the item from the cursor
+				SetItem(cursorItem);
+			}
+		}
 		// There is a item in this inventory slot
 		else
-			HandleLeftClickInvItem(cursorItem);
+		{
+			// Store temporary reference to the item in this inventory slot
+			var item = InventoryItem.Item;
+
+			// Clear the item graphic for this inventory slot
+			InventoryItem.QueueFree();
+			InventoryItem = null;
+
+			// Is there a item attached to the cursor?
+			if (cursorItem != null)
+			{
+				// Remove the item from the cursor
+				ItemCursor.ClearItem();
+
+				// Set the item in this inventory slot to the item from the cursor
+				SetItem(cursorItem);
+			}
+
+			// Attach the item from the inventory slot to the cursor (pick up the item)
+			ItemCursor.SetItem(item);
+		}
 	}
 
 	private void HandleRightClick()
@@ -161,41 +191,5 @@ public class InventorySlot
 				}
 			}
 		}
-	}
-
-	private void HandleLeftClickNoInvItem(Item cursorItem)
-	{
-		// Is there a item attached to the cursor?
-		if (cursorItem != null)
-		{
-			// Remove the item from the cursor
-			ItemCursor.ClearItem();
-
-			// Set the item in this inventory slot to the item from the cursor
-			SetItem(cursorItem);
-		}
-	}
-
-	private void HandleLeftClickInvItem(Item cursorItem)
-	{
-		// Store temporary reference to the item in this inventory slot
-		var item = InventoryItem.Item;
-
-		// Clear the item graphic for this inventory slot
-		InventoryItem.QueueFree();
-		InventoryItem = null;
-
-		// Is there a item attached to the cursor?
-		if (cursorItem != null)
-		{
-			// Remove the item from the cursor
-			ItemCursor.ClearItem();
-
-			// Set the item in this inventory slot to the item from the cursor
-			SetItem(cursorItem);
-		}
-
-		// Attach the item from the inventory slot to the cursor (pick up the item)
-		ItemCursor.SetItem(item);
 	}
 }
