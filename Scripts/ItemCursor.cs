@@ -35,7 +35,7 @@ public partial class ItemCursor : Control
 		foreach (Node child in ItemCursorParent.GetChildren())
 			child.QueueFree();
 
-		var itemCountLabel = InventorySlot.CreateItemCountLabel();
+		var itemCountLabel = UtilsLabel.CreateItemCountLabel();
 		itemCountLabel.ZIndex = 1;
 
 		if (item.Count > 1)
