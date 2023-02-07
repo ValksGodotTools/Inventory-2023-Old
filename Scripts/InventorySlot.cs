@@ -113,7 +113,11 @@ public class InventorySlot
 					ItemCursor.TakeItem();
 
 					var item = cursorItem.Clone();
+
+					// Take 1 item from cursor and the item count from the inv slot and combine them
 					item.Count = 1 + InventoryItem.Item.Count;
+
+					// Set all these items to the inv slot
 					SetItem(item);
 				}
 			}
