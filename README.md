@@ -1,10 +1,11 @@
 ![Capture](https://user-images.githubusercontent.com/6277739/216915482-8fb374ae-f225-4d72-9fac-6ff632e90083.PNG)
 
 Todo
-- [x] A hovering panel appears when mousing over an item showing information about that item
-- [x] Pick up a item, swap it for another or drop it somewhere else
-- [ ] Items can be stacked
-- [ ] If a item is picked up, it will lerp to the cursors position then stop lerping when it gets there
+- Hold right click = drag place single item
+- Double left click = pick up all items of same type
+- Sync animated sprite animations so they do not reset on being placed or picked up
+- If a item is picked up, it will lerp to the cursors position then stop lerping when it gets there
+- Add another inventory, the player inventory. Work on transfering items between inventories and introducing new hotkeys like Shift + Left Click
 
 Example Code
 ```cs
