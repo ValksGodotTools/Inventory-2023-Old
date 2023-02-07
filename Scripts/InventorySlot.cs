@@ -5,6 +5,7 @@ public class InventorySlot
 	private Panel Panel { get; set; }
 	private InventoryItem InventoryItem { get; set; }
 	private Inventory Inventory { get; set; }
+	private Label ItemCountLabel { get; set; }
 
 	public InventorySlot(Inventory inv, Node parent)
 	{
@@ -34,6 +35,17 @@ public class InventorySlot
 		};
 
 		parent.AddChild(Panel);
+
+		ItemCountLabel = new Label
+		{
+			HorizontalAlignment = HorizontalAlignment.Right,
+			VerticalAlignment = VerticalAlignment.Bottom,
+			CustomMinimumSize = new Vector2(48, 50) // 50 - 2 because push 2 pixels to left
+		};
+		ItemCountLabel.AddThemeColorOverride("font_shadow_color", Colors.Black);
+		ItemCountLabel.AddThemeConstantOverride("shadow_outline_size", 5);
+		ItemCountLabel.AddThemeFontSizeOverride("font_size", 16);
+		Panel.AddChild(ItemCountLabel);
 	}
 
 	public void AddDebugLabel(string text)
