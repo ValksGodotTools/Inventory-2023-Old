@@ -35,6 +35,14 @@ public partial class ItemCursor : Control
 		foreach (Node child in ItemCursorParent.GetChildren())
 			child.QueueFree();
 
+		var itemCountLabel = InventorySlot.CreateItemCountLabel();
+		itemCountLabel.ZIndex = 1;
+
+		if (item.Count > 1)
+			itemCountLabel.Text = item.Count + "";
+		
+		ItemCursorParent.AddChild(itemCountLabel);
+
 		if (item.Type is ItemStatic itemStatic)
 		{
 			var cursorItem = new Sprite2D
@@ -60,6 +68,10 @@ public partial class ItemCursor : Control
 
 			ItemCursorParent.AddChild(animatedItem);
 		}
+
+		// Quick and dirty way to center the label. This is how it has to be
+		// for now until someone can figure out a better way
+		itemCountLabel.Position = -itemCountLabel.Size / 2;
 	}
 
 	public override void _Ready()

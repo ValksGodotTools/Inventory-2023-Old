@@ -36,16 +36,22 @@ public class InventorySlot
 
 		parent.AddChild(Panel);
 
-		ItemCountLabel = new Label
+		ItemCountLabel = CreateItemCountLabel();
+		Panel.AddChild(ItemCountLabel);
+	}
+
+	public static Label CreateItemCountLabel()
+	{
+		var label = new Label
 		{
 			HorizontalAlignment = HorizontalAlignment.Right,
 			VerticalAlignment = VerticalAlignment.Bottom,
 			CustomMinimumSize = new Vector2(48, 50) // 50 - 2 because push 2 pixels to left
 		};
-		ItemCountLabel.AddThemeColorOverride("font_shadow_color", Colors.Black);
-		ItemCountLabel.AddThemeConstantOverride("shadow_outline_size", 5);
-		ItemCountLabel.AddThemeFontSizeOverride("font_size", 16);
-		Panel.AddChild(ItemCountLabel);
+		label.AddThemeColorOverride("font_shadow_color", Colors.Black);
+		label.AddThemeConstantOverride("shadow_outline_size", 5);
+		label.AddThemeFontSizeOverride("font_size", 16);
+		return label;
 	}
 
 	public void AddDebugLabel(string text)
