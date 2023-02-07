@@ -15,6 +15,24 @@ public class InventorySlot
 			CustomMinimumSize = Vector2.One * Inventory.SlotSize
 		};
 
+		Panel.GuiInput += (inputEvent) =>
+		{
+			if (inputEvent is not InputEventMouseButton inputMouseButtonEvent)
+				return;
+
+			if (inputMouseButtonEvent.IsLeftClickPressed())
+			{
+				var cursorItem = ItemCursor.GetItem();
+
+				// There is no item in this inventory slot
+				if (InventoryItem == null)
+					HandleLeftClickNoInvItem(cursorItem);
+				// There is a item in this inventory slot
+				else
+					HandleLeftClickInvItem(cursorItem);
+			}
+		};
+
 		parent.AddChild(Panel);
 	}
 
@@ -37,5 +55,41 @@ public class InventorySlot
 	{
 		InventoryItem?.QueueFree();
 		InventoryItem = item.ToInventoryItem(Inventory, Panel);
+	}
+
+	private void HandleLeftClickNoInvItem(Item cursorItem)
+	{
+		// Is there a item attached to the cursor?
+		if (cursorItem != null)
+		{
+			// Remove the item from the cursor
+			ItemCursor.ClearItem();
+
+			// Set the item in this inventory slot to the item from the cursor
+			SetItem(cursorItem);
+		}
+	}
+
+	private void HandleLeftClickInvItem(Item cursorItem)
+	{
+		// Store temporary reference to the item in this inventory slot
+		var item = InventoryItem.Item;
+
+		// Clear the item graphic for this inventory slot
+		InventoryItem.QueueFree();
+		InventoryItem = null;
+
+		// Is there a item attached to the cursor?
+		if (cursorItem != null)
+		{
+			// Remove the item from the cursor
+			ItemCursor.ClearItem();
+
+			// Set the item in this inventory slot to the item from the cursor
+			SetItem(cursorItem);
+		}
+
+		// Attach the item from the inventory slot to the cursor (pick up the item)
+		ItemCursor.SetItem(item);
 	}
 }

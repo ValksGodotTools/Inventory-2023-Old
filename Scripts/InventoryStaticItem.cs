@@ -6,6 +6,7 @@ public class InventoryStaticItem : InventoryItem
 
 	public InventoryStaticItem(Inventory inv, Node parent, ItemStatic item)
 	{
+		Item = item;
 		Sprite2D = new Sprite2D
 		{
 			Texture = item.Texture,

@@ -6,6 +6,7 @@ public class InventoryAnimatedItem : InventoryItem
 
 	public InventoryAnimatedItem(Inventory inv, Node parent, ItemAnimated item)
 	{
+		Item = item;
 		AnimatedSprite2D = new AnimatedSprite2D
 		{
 			SpriteFrames = item.SpriteFrames,
