@@ -390,6 +390,29 @@ public class InventorySlot
 			// There is a item in this inventory slot
 			if (InventoryItem != null)
 			{
+				// Shift + Right Click = Split Stack
+				if (InputGame.ShiftPressed)
+				{
+					var itemA = InventoryItem.Item;
+
+					// Prevent duping 1 item to 2 items
+					if (itemA.Count == 1)
+						return;
+
+					var itemB = itemA.Clone();
+					
+					var half = itemA.Count / 2;
+					var remainder = itemA.Count % 2;
+
+					itemA.Count = half + remainder;
+					itemB.Count = half;
+
+					SetItem(itemA);
+					ItemCursor.SetItem(itemB);
+
+					return;
+				}
+
 				var invSlotItemCount = InventoryItem.Item.Count;
 
 				// Is this the last item in the stack?
