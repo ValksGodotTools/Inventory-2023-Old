@@ -9,6 +9,7 @@ https://user-images.githubusercontent.com/6277739/217415936-173f1cae-ed8c-4790-9
 ### Implemented Controls
 - [x] `Left Click` to pick up / place item stack
 - [x] `Shift + Left Click` to transfer item stack from inventories A to B
+- [x] `Hold + Shift + Left Click` to continuously transfer item stack from inventories A to B
 - [x] `Right Click` to pick up / place single item
 - [x] `Hold + Right Click` to continuously place a single item
 - [x] `Double Click` to pick up all items of the same type
@@ -20,8 +21,7 @@ https://user-images.githubusercontent.com/6277739/217415936-173f1cae-ed8c-4790-9
 - Saving / loading inventory data
 - Allow items to define their own max stack sizes
 - Top down player controller + world with several containers to open
-- Hold Left Click = Continuously Pickup Entire Stack
-- Hold Shift + Left Click = Continuously Transfer Item from Inv A -> B
+- Hold Left Click = Continuously Pickup Same Type of Item
 - Shift + Right Click = Split stack
 - Shift + Q = Sort Inventory
 - Ctrl + W = Take all items from Inv A -> B
