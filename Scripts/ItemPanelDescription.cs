@@ -15,8 +15,10 @@ public partial class ItemPanelDescription : Control
 	public static void Display(Item item)
 	{
 		ItemPanelDescriptionParent.SetPhysicsProcess(true);
-		var panelContainer = new PanelContainer();
-		panelContainer.ZIndex = 1;
+		var panelContainer = new PanelContainer
+		{
+			ZIndex = 1
+		};
 
 		var marginContainer = new MarginContainer();
 		marginContainer.AddMargin(5);
@@ -26,13 +28,17 @@ public partial class ItemPanelDescription : Control
 		var vbox = new VBoxContainer();
 		marginContainer.AddChild(vbox);
 
-		var labelName = new Label();
-		labelName.Text = item.Type.Name;
-		labelName.HorizontalAlignment = HorizontalAlignment.Center;
+		var labelName = new Label
+		{
+			Text = item.Type.Name,
+			HorizontalAlignment = HorizontalAlignment.Center
+		};
 
-		var labelDescription = new Label();
-		labelDescription.Text = item.Type.Description;
-		labelDescription.HorizontalAlignment = HorizontalAlignment.Center;
+		var labelDescription = new Label
+		{
+			Text = item.Type.Description,
+			HorizontalAlignment = HorizontalAlignment.Center
+		};
 
 		vbox.AddChild(labelName);
 		vbox.AddChild(labelDescription);
