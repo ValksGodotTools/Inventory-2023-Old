@@ -52,7 +52,7 @@ public partial class ItemCursor : Control
 			child.QueueFree();
 
 		LabelItemCount = UtilsLabel.CreateItemCountLabel();
-		LabelItemCount.ZIndex = 1;
+		LabelItemCount.ZIndex = 2;
 
 		if (item.Count > 1)
 			LabelItemCount.Text = item.Count + "";
@@ -87,7 +87,7 @@ public partial class ItemCursor : Control
 
 		// Quick and dirty way to center the label. This is how it has to be
 		// for now until someone can figure out a better way
-		LabelItemCount.Position = -LabelItemCount.Size / 2;
+		LabelItemCount.Position = -LabelItemCount.Size / 2 + new Vector2(4, 0);
 	}
 
 	public override void _Ready()

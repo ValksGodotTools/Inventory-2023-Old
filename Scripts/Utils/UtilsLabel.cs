@@ -6,9 +6,11 @@ public static class UtilsLabel
 	{
 		var label = new Label
 		{
-			HorizontalAlignment = HorizontalAlignment.Right,
+			HorizontalAlignment = HorizontalAlignment.Left,
 			VerticalAlignment = VerticalAlignment.Bottom,
-			CustomMinimumSize = new Vector2(48, 50) // 50 - 2 because push 2 pixels to left
+			CustomMinimumSize = new Vector2(50, 50),
+			ZIndex = 1, // ensure label is rendered on top of item
+			Position = new Vector2(4, 0) // push 4 pixels from left to right
 		};
 		label.AddThemeColorOverride("font_shadow_color", Colors.Black);
 		label.AddThemeConstantOverride("shadow_outline_size", 5);
