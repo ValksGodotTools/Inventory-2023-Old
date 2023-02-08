@@ -42,6 +42,7 @@ public class InventorySlot
 			var cursorItem = ItemCursor.GetItem();
 
 			ContinuousRightClickPlace(cursorItem);
+			ContinuousShiftClickTransfer();
 
 			if (InventoryItem != null)
 				ItemPanelDescription.Display(InventoryItem.Item);
@@ -72,6 +73,14 @@ public class InventorySlot
 		DebugLabel.AddThemeColorOverride("font_shadow_color", Colors.Black);
 
 		Panel.AddChild(DebugLabel);
+	}
+
+	private void ContinuousShiftClickTransfer()
+	{
+		if (!InputGame.HoldingLeftClick || !InputGame.ShiftPressed)
+			return;
+
+		TransferItem();
 	}
 
 	private void ContinuousRightClickPlace(Item cursorItem)
@@ -166,6 +175,36 @@ public class InventorySlot
 		var counts = itemToMergeTo.Count + otherItemCounts;
 		itemToMergeTo.Count = counts;
 		ItemCursor.SetItem(itemToMergeTo);
+	}
+
+	// Transfer the item in the inventory slot we are currently hovering over
+	private void TransferItem()
+	{
+		if (InventoryItem == null)
+			return;
+
+		var targetInv = GetOtherInventory();
+		var emptySlot = targetInv.TryGetEmptyOrSameTypeSlot(InventoryItem.Item.Type);
+
+		if (emptySlot != -1)
+		{
+			// Store temporary reference to the item in this inventory slot
+			var itemRef = InventoryItem.Item;
+
+			this.RemoveItem();
+
+			var otherInvSlot = targetInv.InventorySlots[emptySlot];
+
+			var otherInvSlotItem = otherInvSlot.InventoryItem;
+
+			if (otherInvSlotItem == null)
+				targetInv.InventorySlots[emptySlot].SetItem(itemRef);
+			else
+			{
+				itemRef.Count += otherInvSlotItem.Item.Count;
+				targetInv.InventorySlots[emptySlot].SetItem(itemRef);
+			}
+		}
 	}
 	
 	private void HandleLeftClick()
@@ -276,28 +315,7 @@ public class InventorySlot
 				// Shift + Click
 				if (InputGame.ShiftPressed)
 				{
-					var targetInv = GetOtherInventory();
-					var emptySlot = targetInv.TryGetEmptyOrSameTypeSlot(InventoryItem.Item.Type);
-
-					if (emptySlot != -1)
-					{
-						// Store temporary reference to the item in this inventory slot
-						var itemRef = InventoryItem.Item;
-
-						this.RemoveItem();
-
-						var otherInvSlot = targetInv.InventorySlots[emptySlot];
-
-						var otherInvSlotItem = otherInvSlot.InventoryItem;
-
-						if (otherInvSlotItem == null)
-							targetInv.InventorySlots[emptySlot].SetItem(itemRef);
-						else
-						{
-							itemRef.Count += otherInvSlotItem.Item.Count;
-							targetInv.InventorySlots[emptySlot].SetItem(itemRef);
-						}
-					}
+					TransferItem();
 
 					return;
 				}
