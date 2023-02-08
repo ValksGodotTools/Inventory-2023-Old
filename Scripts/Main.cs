@@ -25,10 +25,15 @@ public partial class Main : Node
 
 		for (int i = 0; i < 9; i++)
 			PlayerInv.SetItem(i, new Item(Items.CoinPink));
+
+		Inventory.PlayerInventory = PlayerInv;
+		Inventory.ActiveInventory = ChestInv;
 	}
 
 	public override void _Input(InputEvent @event)
 	{
+		InputGame.Handle(@event);
+
 		if (Input.IsKeyPressed(Key.E))
 		{
 			for (int i = 0; i < ChestInv.InventorySlots.Length; i++)

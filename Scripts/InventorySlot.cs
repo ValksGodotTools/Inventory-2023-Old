@@ -43,7 +43,7 @@ public class InventorySlot
 			{
 				var cursorItem = ItemCursor.GetItem();
 
-				if (ItemCursor.HoldingRightClick && cursorItem != null)
+				if (InputGame.HoldingRightClick && cursorItem != null)
 				{
 					// Take 1 item from the cursor
 					ItemCursor.TakeItem();
@@ -111,8 +111,26 @@ public class InventorySlot
 	{
 		var cursorItem = ItemCursor.GetItem();
 
+		// Shift + Click
+		if (InputGame.ShiftPressed)
+		{
+			/*// Store temporary reference to the item in this inventory slot
+			var item = InventoryItem.Item;
+
+			// Clear the item graphic for this inventory slot
+			InventoryItem.QueueFreeGraphic();
+			InventoryItem = null;
+
+			// Clear the item count graphic
+			UpdateItemCountLabel(0);
+
+			Inventory.ActiveInventory.InventorySlots[0].SetItem(item);*/
+
+			return;
+		}
+
 		// Double click
-		if (ItemCursor.DoubleClick)
+		if (InputGame.DoubleClick)
 		{
 			var itemCursor = ItemCursor.GetItem();
 
@@ -180,7 +198,7 @@ public class InventorySlot
 			// 2. There is an item in the inventory slot
 
 			JustPickedUpItem = true;
-			Panel.GetTree().CreateTimer(ItemCursor.DoubleClickTime / 1000.0).Timeout += () => 
+			Panel.GetTree().CreateTimer(InputGame.DoubleClickTime / 1000.0).Timeout += () => 
 				JustPickedUpItem = false;
 
 			// There is an item attached to the cursor
@@ -244,8 +262,6 @@ public class InventorySlot
 				ItemCursor.SetItem(item);
 			}
 		}
-
-		
 	}
 
 	private void HandleRightClick()

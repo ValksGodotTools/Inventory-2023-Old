@@ -2,6 +2,9 @@
 
 public class Inventory
 {
+	public static Inventory ActiveInventory { get; set; } // a container the player opened
+	public static Inventory PlayerInventory { get; set; }
+
 	public InventorySlot[] InventorySlots { get; set; }
 	public int SlotSize { get; set; } = 50;
 
