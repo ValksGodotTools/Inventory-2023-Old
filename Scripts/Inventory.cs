@@ -37,10 +37,13 @@ public class Inventory
 		for (int i = 0; i < InventorySlots.Length; i++)
 			InventorySlots[i] = new InventorySlot(this, GridContainer);
 
-		PanelContainer.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.Center);
+		SetAnchor(Control.LayoutPreset.Center);
 
 		Parent.AddChild(PanelContainer);
 	}
+
+	public void SetAnchor(Control.LayoutPreset preset) =>
+		PanelContainer.SetAnchorsAndOffsetsPreset(preset);
 
 	public void SetItem(int i, Item item) =>
 		InventorySlots[i].SetItem(item);
