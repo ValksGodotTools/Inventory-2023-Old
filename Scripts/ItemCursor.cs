@@ -49,7 +49,7 @@ public partial class ItemCursor : Control
 		ItemCursorParent.QueueFreeChildren();
 
 		LabelItemCount = UtilsLabel.CreateItemCountLabel();
-		LabelItemCount.ZIndex = 2;
+		LabelItemCount.ZIndex = 3;
 
 		if (item.Count > 1)
 			LabelItemCount.Text = item.Count + "";
@@ -58,28 +58,28 @@ public partial class ItemCursor : Control
 
 		if (item.Type is ItemStatic itemStatic)
 		{
-			var cursorItem = new Sprite2D
+			var staticSprite = new Sprite2D
 			{
 				Texture = itemStatic.Texture,
 				Scale = Vector2.One * 2,
-				ZIndex = 1 // ensure cursor item rendered above Inventory UI
+				ZIndex = 2 // ensure cursor item rendered above Inventory UI
 			};
 
-			ItemCursorParent.AddChild(cursorItem);
+			ItemCursorParent.AddChild(staticSprite);
 		}
 		
 		if (item.Type is ItemAnimated itemAnimated)
 		{
-			var animatedItem = new AnimatedSprite2D
+			var animatedSprite = new AnimatedSprite2D
 			{
 				SpriteFrames = itemAnimated.SpriteFrames,
 				Scale = Vector2.One * 2,
-				ZIndex = 1 // ensure cursor item rendered above Inventory UI
+				ZIndex = 2 // ensure cursor item rendered above Inventory UI
 			};
 
-			animatedItem.Play();
+			animatedSprite.Play();
 
-			ItemCursorParent.AddChild(animatedItem);
+			ItemCursorParent.AddChild(animatedSprite);
 		}
 
 		// Quick and dirty way to center the label. This is how it has to be
