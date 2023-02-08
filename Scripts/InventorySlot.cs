@@ -99,6 +99,16 @@ public class InventorySlot
 		InventoryItem = item.Type.ToInventoryItem(Inventory, Panel, item);
 	}
 
+	public void RemoveItem()
+	{
+		// Clear the item graphic for this inventory slot
+		InventoryItem.QueueFreeGraphic();
+		InventoryItem = null;
+
+		// Clear the item count graphic
+		UpdateItemCountLabel(0);
+	}
+
 	private void UpdateItemCountLabel(int count)
 	{
 		if (count > 1)
@@ -138,12 +148,7 @@ public class InventorySlot
 						{
 							otherItemCounts += invItem.Item.Count;
 
-							// Clear the item graphic for this inventory slot
-							invItem.QueueFreeGraphic();
-							slot.InventoryItem = null;
-
-							// Clear the item count graphic
-							slot.ItemCountLabel.Text = "";
+							slot.RemoveItem();
 						}
 					}
 				}
@@ -165,7 +170,7 @@ public class InventorySlot
 				if (cursorItem != null)
 				{
 					// Remove the item from the cursor
-					ItemCursor.ClearItem();
+					ItemCursor.RemoveItem();
 
 					// Set the item in this inventory slot to the item from the cursor
 					SetItem(cursorItem);
@@ -192,7 +197,7 @@ public class InventorySlot
 					var item = cursorItem.Clone();
 					item.Count += InventoryItem.Item.Count;
 
-					ItemCursor.ClearItem();
+					ItemCursor.RemoveItem();
 
 					SetItem(item);
 				}
@@ -207,18 +212,11 @@ public class InventorySlot
 					// 
 					// So lets swap the cursor item with the inv slot item
 
-					// Store temporary reference to the item in this inventory slot
 					var item = InventoryItem.Item;
 
-					// Clear the item graphic for this inventory slot
-					InventoryItem.QueueFreeGraphic();
-					InventoryItem = null;
+					this.RemoveItem();
 
-					// Clear the item count graphic
-					UpdateItemCountLabel(0);
-
-					// Remove the item from the cursor
-					ItemCursor.ClearItem();
+					ItemCursor.RemoveItem();
 
 					// Set the item in this inventory slot to the item from the cursor
 					SetItem(cursorItem);
@@ -243,12 +241,7 @@ public class InventorySlot
 						// Store temporary reference to the item in this inventory slot
 						var itemRef = InventoryItem.Item;
 
-						// Clear the item graphic for this inventory slot
-						InventoryItem.QueueFreeGraphic();
-						InventoryItem = null;
-
-						// Clear the item count graphic
-						UpdateItemCountLabel(0);
+						this.RemoveItem();
 
 						var otherInvSlot = targetInv.InventorySlots[emptySlot];
 
@@ -266,15 +259,9 @@ public class InventorySlot
 					return;
 				}
 
-				// Store temporary reference to the item in this inventory slot
 				var item = InventoryItem.Item;
 
-				// Clear the item graphic for this inventory slot
-				InventoryItem.QueueFreeGraphic();
-				InventoryItem = null;
-
-				// Clear the item count graphic
-				UpdateItemCountLabel(0);
+				this.RemoveItem();
 
 				// Set the item in this inventory slot to the item from the cursor
 				ItemCursor.SetItem(item);
@@ -331,9 +318,7 @@ public class InventorySlot
 				{
 					ItemCursor.SetItem(InventoryItem.Item);
 
-					// Clear the item graphic for this inventory slot
-					InventoryItem.QueueFreeGraphic();
-					InventoryItem = null;
+					RemoveItem();
 				}
 				// There are two or more items in this inv slot
 				else

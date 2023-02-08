@@ -6,7 +6,7 @@ public partial class ItemCursor : Control
 	private static Item Item { get; set; }
 	private static Label LabelItemCount { get; set; }
 
-	public static void ClearItem()
+	public static void RemoveItem()
 	{
 		ItemPanelDescription.ToggleVisiblity(true);
 
@@ -27,7 +27,7 @@ public partial class ItemCursor : Control
 	{
 		if (Item.Count - 1 <= 0)
 		{
-			ClearItem();
+			RemoveItem();
 		}
 
 		Item.Count -= 1;
