@@ -1,7 +1,5 @@
 https://user-images.githubusercontent.com/6277739/217415936-173f1cae-ed8c-4790-9be6-cfe970446f78.mp4
 
-https://user-images.githubusercontent.com/6277739/217419952-8adfd0e8-eb7a-4382-a633-ab195bcc5250.mp4
-
 ## A Game Inventory being made in Godot 4 Beta 17 C#
 
 ### Features
@@ -34,7 +32,6 @@ https://user-images.githubusercontent.com/6277739/217419952-8adfd0e8-eb7a-4382-a
 
 ### Known Issues
 - Multiple description panels stack on top of each other and do not disappear until more mouse movements or other inputs are made
-- `Hold + Right Click` only works when dragging across empty inventory slots, not when there are items of the same type in the inventory slots already. Perhaps a simple bool check could solve this.
 
 ### Setup a Inventory
 ```cs
