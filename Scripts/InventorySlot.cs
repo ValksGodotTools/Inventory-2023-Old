@@ -124,43 +124,43 @@ public class InventorySlot
 	{
 		var cursorItem = ItemCursor.GetItem();
 
-		// Double click
-		if (InputGame.DoubleClick)
+		// Double click with a item in the cursor
+		if (InputGame.DoubleClick && !InputGame.ShiftPressed && cursorItem != null)
 		{
-			var itemCursor = ItemCursor.GetItem();
-
-			// Double clicked with a item in the cursor
-			if (itemCursor != null)
+			if (InventoryItem != null && InventoryItem?.Item.Type != cursorItem.Type)
 			{
-				var otherItemCounts = 0;
-
-				// Scan the inventory for items of the same type and combine them to the cursor
-				foreach (var slot in Inventory.InventorySlots)
-				{
-					// Skip the slot we double clicked on
-					if (slot == this)
-						continue;
-
-					var invItem = slot.InventoryItem;
-
-					// A item exists in this inv slot
-					if (invItem != null)
-					{
-						// The inv slot item is the same type as the cursor item type
-						if (invItem.Item.Type == itemCursor.Type)
-						{
-							otherItemCounts += invItem.Item.Count;
-
-							slot.RemoveItem();
-						}
-					}
-				}
-
-				var counts = itemCursor.Count + otherItemCounts;
-				itemCursor.Count = counts;
-				ItemCursor.SetItem(itemCursor);
+				GD.Print("not same type");
 			}
 
+			var otherItemCounts = 0;
+
+			// Scan the inventory for items of the same type and combine them to the cursor
+			foreach (var slot in Inventory.InventorySlots)
+			{
+				// Skip the slot we double clicked on
+				if (slot == this)
+					continue;
+
+				var invItem = slot.InventoryItem;
+
+				// A item exists in this inv slot
+				if (invItem != null)
+				{
+					// The inv slot item is the same type as the cursor item type
+					if (invItem.Item.Type == cursorItem.Type)
+					{
+						otherItemCounts += invItem.Item.Count;
+
+						slot.RemoveItem();
+					}
+				}
+			}
+
+			var counts = cursorItem.Count + otherItemCounts;
+			cursorItem.Count = counts;
+			ItemCursor.SetItem(cursorItem);
+
+			// This is a double click, don't let anything else happen
 			return;
 		}
 
