@@ -17,5 +17,5 @@ public class InventoryStaticItem : InventoryItem
 		parent.AddChild(Sprite2D);
 	}
 
-	public override void QueueFree() => Sprite2D.QueueFree();
+	public override void QueueFreeGraphic() => Sprite2D.QueueFree();
 }

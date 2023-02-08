@@ -42,7 +42,7 @@ public class Inventory
 		Parent.AddChild(PanelContainer);
 	}
 
-	private void SetItem(int i, Item item) =>
+	public void SetItem(int i, Item item) =>
 		InventorySlots[i].SetItem(item);
 
 	public void SetItem(int x, int y, Item item) =>

@@ -1,11 +1,16 @@
-﻿namespace Inventory;
+﻿using static System.Net.Mime.MediaTypeNames;
+
+namespace Inventory;
 
 public class InventorySlot
 {
+	public Label ItemCountLabel { get; set; }
+	private Label DebugLabel { get; set; }
+
 	private Panel Panel { get; set; }
-	private InventoryItem InventoryItem { get; set; }
+	public InventoryItem InventoryItem { get; set; }
 	private Inventory Inventory { get; set; }
-	private Label ItemCountLabel { get; set; }
+	private bool JustPickedUpItem { get; set; }
 
 	public InventorySlot(Inventory inv, Node parent)
 	{
@@ -22,16 +27,14 @@ public class InventorySlot
 				return;
 
 			if (inputMouseButtonEvent.IsLeftClickPressed())
+			{
 				HandleLeftClick();
+			}
 
 			if (inputMouseButtonEvent.IsRightClickPressed())
 			{
-				ItemCursor.HoldingRightClick = true;
 				HandleRightClick();
 			}
-
-			if (inputMouseButtonEvent.IsRightClickReleased())
-				ItemCursor.HoldingRightClick = false;
 		};
 
 		Panel.MouseEntered += () =>
@@ -69,29 +72,39 @@ public class InventorySlot
 
 		ItemCountLabel = UtilsLabel.CreateItemCountLabel();
 		Panel.AddChild(ItemCountLabel);
-	}
 
-	public void AddDebugLabel(string text)
-	{
-		var label = new Label
+		DebugLabel = new Label
 		{
-			Text = text,
+			Text = "",
+			ZIndex = 100,
 			CustomMinimumSize = Vector2.One * Inventory.SlotSize,
 			HorizontalAlignment = HorizontalAlignment.Center,
 			VerticalAlignment = VerticalAlignment.Center,
 		};
 
-		label.AddThemeColorOverride("font_shadow_color", Colors.Black);
+		DebugLabel.AddThemeColorOverride("font_shadow_color", Colors.Black);
 
-		Panel.AddChild(label);
+		Panel.AddChild(DebugLabel);
+	}
+
+	public void SetDebugLabel(string text)
+	{
+		DebugLabel.Text = text;
 	}
 
 	public void SetItem(Item item)
 	{
-		if (item.Count > 1)
-			ItemCountLabel.Text = item.Count + "";
-		InventoryItem?.QueueFree();
+		UpdateItemCountLabel(item.Count);
+		InventoryItem?.QueueFreeGraphic();
 		InventoryItem = item.Type.ToInventoryItem(Inventory, Panel, item);
+	}
+
+	private void UpdateItemCountLabel(int count)
+	{
+		if (count > 1)
+			ItemCountLabel.Text = count + "";
+		else
+			ItemCountLabel.Text = "";
 	}
 	
 	private void HandleLeftClick()
@@ -101,14 +114,17 @@ public class InventorySlot
 		// There is no item in this inventory slot
 		if (InventoryItem == null)
 		{
-			// Is there a item attached to the cursor?
-			if (cursorItem != null)
+			if (!JustPickedUpItem)
 			{
-				// Remove the item from the cursor
-				ItemCursor.ClearItem();
+				// Is there a item attached to the cursor?
+				if (cursorItem != null)
+				{
+					// Remove the item from the cursor
+					ItemCursor.ClearItem();
 
-				// Set the item in this inventory slot to the item from the cursor
-				SetItem(cursorItem);
+					// Set the item in this inventory slot to the item from the cursor
+					SetItem(cursorItem);
+				}
 			}
 		}
 		// There is a item in this inventory slot
@@ -117,6 +133,10 @@ public class InventorySlot
 			// Recap
 			// 1. Left click
 			// 2. There is an item in the inventory slot
+
+			JustPickedUpItem = true;
+			Panel.GetTree().CreateTimer(ItemCursor.DoubleClickTime / 1000.0).Timeout += () => 
+				JustPickedUpItem = false;
 
 			// There is an item attached to the cursor
 			if (cursorItem != null)
@@ -146,11 +166,11 @@ public class InventorySlot
 					var item = InventoryItem.Item;
 
 					// Clear the item graphic for this inventory slot
-					InventoryItem.QueueFree();
+					InventoryItem.QueueFreeGraphic();
 					InventoryItem = null;
 
 					// Clear the item count graphic
-					ItemCountLabel.Text = "";
+					UpdateItemCountLabel(0);
 
 					// Remove the item from the cursor
 					ItemCursor.ClearItem();
@@ -169,14 +189,57 @@ public class InventorySlot
 				var item = InventoryItem.Item;
 
 				// Clear the item graphic for this inventory slot
-				InventoryItem.QueueFree();
+				InventoryItem.QueueFreeGraphic();
 				InventoryItem = null;
 
 				// Clear the item count graphic
-				ItemCountLabel.Text = "";
+				UpdateItemCountLabel(0);
 
 				// Set the item in this inventory slot to the item from the cursor
 				ItemCursor.SetItem(item);
+			}
+		}
+
+		// Double click
+		if (ItemCursor.DoubleClick)
+		{
+			var itemCursor = ItemCursor.GetItem();
+
+			// Double clicked with a item in the cursor
+			if (itemCursor != null)
+			{
+				int otherItemCounts = 0;
+
+				// Scan the inventory for items of the same type and combine them to the cursor
+				foreach (var slot in Inventory.InventorySlots)
+				{
+					// Skip the slot we double clicked on
+					if (slot == this)
+						continue;
+
+					var invItem = slot.InventoryItem;
+
+					// A item exists in this inv slot
+					if (invItem != null)
+					{
+						// The inv slot item is the same type as the cursor item type
+						if (invItem.Item.Type == itemCursor.Type)
+						{
+							otherItemCounts += invItem.Item.Count;
+
+							// Clear the item graphic for this inventory slot
+							invItem.QueueFreeGraphic();
+							slot.InventoryItem = null;
+
+							// Clear the item count graphic
+							slot.ItemCountLabel.Text = "";
+						}
+					}
+				}
+
+				var counts = itemCursor.Count + otherItemCounts;
+				itemCursor.Count = counts;
+				ItemCursor.SetItem(itemCursor);
 			}
 		}
 	}
@@ -231,7 +294,7 @@ public class InventorySlot
 					ItemCursor.SetItem(InventoryItem.Item);
 
 					// Clear the item graphic for this inventory slot
-					InventoryItem.QueueFree();
+					InventoryItem.QueueFreeGraphic();
 					InventoryItem = null;
 				}
 				// There are two or more items in this inv slot
@@ -245,10 +308,7 @@ public class InventorySlot
 					// Lets take 1 item from the inv slot and bring it to the cursor
 					InventoryItem.Item.Count -= 1;
 
-					if (InventoryItem.Item.Count > 1)
-						ItemCountLabel.Text = InventoryItem.Item.Count + "";
-					else
-						ItemCountLabel.Text = "";
+					UpdateItemCountLabel(InventoryItem.Item.Count);
 					
 					var item = InventoryItem.Item.Clone();
 					item.Count = 1;

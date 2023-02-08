@@ -23,5 +23,5 @@ public class InventoryAnimatedItem : InventoryItem
 		//parent.AddChild(label);
 	}
 
-	public override void QueueFree() => AnimatedSprite2D.QueueFree();
+	public override void QueueFreeGraphic() => AnimatedSprite2D.QueueFree();
 }

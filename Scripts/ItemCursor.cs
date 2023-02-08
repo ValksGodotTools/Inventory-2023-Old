@@ -2,7 +2,9 @@
 
 public partial class ItemCursor : Control
 {
+	public static ulong DoubleClickTime { get; set; } = 250;
 	public static bool HoldingRightClick { get; set; }
+	public static bool DoubleClick { get; set; }
 
 	private static Node ItemCursorParent { get; set; }
 	private static Item Item { get; set; }
@@ -97,5 +99,25 @@ public partial class ItemCursor : Control
 	public override void _PhysicsProcess(double delta)
 	{
 		Position = GetViewport().GetMousePosition();
+	}
+
+	private ulong LastClick { get; set; }
+
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is not InputEventMouseButton inputMouseButtonEvent)
+			return;
+
+		if (inputMouseButtonEvent.IsLeftClickPressed())
+		{
+			DoubleClick = Time.GetTicksMsec() - LastClick <= DoubleClickTime;
+			LastClick = Time.GetTicksMsec();
+		}
+
+		if (inputMouseButtonEvent.IsRightClickPressed())
+			HoldingRightClick = true;
+
+		if (inputMouseButtonEvent.IsRightClickReleased())
+			HoldingRightClick = false;
 	}
 }
