@@ -179,29 +179,30 @@ public class InventorySlot
 		// same item type as the item type in our cursor] then
 		// collect all items to the cursor and return preventing
 		// any other mouse inventory logic from executing.
-		if (cursorItem != null)
+		if (InputGame.DoubleClick && !InputGame.ShiftPressed)
 		{
-			if (InputGame.DoubleClick && !InputGame.ShiftPressed
-			&& (InventoryItem == null || InventoryItem.Item.Type == cursorItem.Type))
+			if (cursorItem != null)
 			{
-				CollectAndMergeAllItemsFrom(cursorItem);
+				if (InventoryItem == null || InventoryItem.Item.Type == cursorItem.Type)
+				{
+					CollectAndMergeAllItemsFrom(cursorItem);
 
-				// We collected all items to the cursor. Do not let anything else happen.
-				return;
+					// We collected all items to the cursor. Do not let anything else happen.
+					return;
+				}
 			}
-		}
-		// There is an item in the cursor and this is a double click
-		else
-		{
-			if (InputGame.DoubleClick && !InputGame.ShiftPressed
-			&& (InventoryItem != null))
+			// There is an item in the cursor and this is a double click
+			else
 			{
-				CollectAndMergeAllItemsFrom(InventoryItem.Item);
+				if (InventoryItem != null)
+				{
+					CollectAndMergeAllItemsFrom(InventoryItem.Item);
 
-				RemoveItem(); // prevent dupe glitch
+					RemoveItem(); // prevent dupe glitch
 
-				// We collected all items to the cursor. Do not let anything else happen.
-				return;
+					// We collected all items to the cursor. Do not let anything else happen.
+					return;
+				}
 			}
 		}
 
