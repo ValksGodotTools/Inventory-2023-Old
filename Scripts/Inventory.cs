@@ -22,9 +22,7 @@ public class Inventory
 		PanelContainer = new PanelContainer();
 
 		var marginContainer = new MarginContainer();
-
-		foreach (var margin in new string[] { "left", "right", "top", "bottom" })
-			marginContainer.AddThemeConstantOverride($"margin_{margin}", Padding);
+		marginContainer.AddMargin(Padding);
 
 		PanelContainer.AddChild(marginContainer);
 

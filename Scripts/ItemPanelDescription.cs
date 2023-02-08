@@ -21,8 +21,7 @@ public partial class ItemPanelDescription : Control
 		panelContainer.ZIndex = 1;
 
 		var marginContainer = new MarginContainer();
-		foreach (var margin in new string[] { "left", "right", "top", "bottom" })
-			marginContainer.AddThemeConstantOverride($"margin_{margin}", 5);
+		marginContainer.AddMargin(5);
 
 		panelContainer.AddChild(marginContainer);
 
