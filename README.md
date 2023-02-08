@@ -9,6 +9,7 @@ https://user-images.githubusercontent.com/6277739/217419952-8adfd0e8-eb7a-4382-a
 - If a item is picked up, it will lerp to the cursors position then stop lerping when it gets there (might not do this)
 - Player inventory hotbar
 - Saving / loading inventory data
+- Allow items to define their own max stack sizes
 - Hold Left Click = Mass Place (x1)
 - Shift + Left Click = Transfer Item from Inv A -> B
 - Hold Shift + Left Click = Mass Transfer Item from Inv A -> B
