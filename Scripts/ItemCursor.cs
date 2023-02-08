@@ -16,9 +16,7 @@ public partial class ItemCursor : Control
 
 		// Only move the parent when there is an item in this cursor
 		ItemCursorParent.SetPhysicsProcess(false);
-
-		foreach (Node child in ItemCursorParent.GetChildren())
-			child.QueueFree();
+		ItemCursorParent.QueueFreeChildren();
 	}
 
 	public static Item GetItem()
@@ -48,8 +46,7 @@ public partial class ItemCursor : Control
 		ItemCursorParent.SetPhysicsProcess(true);
 		Item = item.Clone();
 
-		foreach (Node child in ItemCursorParent.GetChildren())
-			child.QueueFree();
+		ItemCursorParent.QueueFreeChildren();
 
 		LabelItemCount = UtilsLabel.CreateItemCountLabel();
 		LabelItemCount.ZIndex = 2;

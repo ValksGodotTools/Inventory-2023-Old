@@ -8,9 +8,7 @@ public partial class ItemPanelDescription : Control
 
 	public static void Clear()
 	{
-		foreach (Node child in ItemPanelDescriptionParent.GetChildren())
-			child.QueueFree();
-
+		ItemPanelDescriptionParent.QueueFreeChildren();
 		ItemPanelDescriptionParent.SetPhysicsProcess(false);
 	}
 
