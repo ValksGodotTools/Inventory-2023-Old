@@ -17,7 +17,6 @@ https://user-images.githubusercontent.com/6277739/217415936-173f1cae-ed8c-4790-9
 - [x] `Double Click` to pick up all items of the same type
 
 ### Todo
-- Sync animated sprite animations so they do not reset on being placed or picked up (might not do this)
 - If a item is picked up, it will lerp to the cursors position then stop lerping when it gets there (might not do this)
 - Player inventory hotbar
 - Saving / loading inventory data
