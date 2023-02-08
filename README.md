@@ -4,6 +4,10 @@ https://user-images.githubusercontent.com/6277739/217419952-8adfd0e8-eb7a-4382-a
 
 ## A Game Inventory being made in Godot 4 Beta 17 C#
 
+### Features
+- [x] Inventories of varying sizes can be defined
+- [x] Inventory slot size can be customized
+
 ### Implemented Controls
 - [x] `Left Click` to pick up / place item stack
 - [x] `Shift + Left Click` to transfer item stack from inventories A to B
