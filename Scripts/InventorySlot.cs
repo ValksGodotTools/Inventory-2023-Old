@@ -124,14 +124,16 @@ public class InventorySlot
 	{
 		var cursorItem = ItemCursor.GetItem();
 
-		// Double click with a item in the cursor
-		if (InputGame.DoubleClick && !InputGame.ShiftPressed && cursorItem != null)
+		// If were double clicking and not holding shift and
+		// we are holding a item in our cursor [and the inventory
+		// slot we are hovering over has no item or there is
+		// a item in this inventory slot and it is of the
+		// same item type as the item type in our cursor] then
+		// collect all items to the cursor and return preventing
+		// any other mouse inventory logic from executing.
+		if (InputGame.DoubleClick && !InputGame.ShiftPressed && cursorItem != null
+			&& (InventoryItem == null || InventoryItem.Item.Type == cursorItem.Type))
 		{
-			if (InventoryItem != null && InventoryItem?.Item.Type != cursorItem.Type)
-			{
-				GD.Print("not same type");
-			}
-
 			var otherItemCounts = 0;
 
 			// Scan the inventory for items of the same type and combine them to the cursor
@@ -160,7 +162,7 @@ public class InventorySlot
 			cursorItem.Count = counts;
 			ItemCursor.SetItem(cursorItem);
 
-			// This is a double click, don't let anything else happen
+			// We collected all items to the cursor. Do not let anything else happen.
 			return;
 		}
 
