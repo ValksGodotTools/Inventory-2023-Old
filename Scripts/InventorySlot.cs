@@ -120,7 +120,7 @@ public class InventorySlot
 			ItemCountLabel.Text = "";
 	}
 
-	private void CollectAndMergeAllItemsTo(Item itemToMergeTo)
+	private void CollectAndMergeAllItemsFrom(Item itemToMergeTo)
 	{
 		var otherItemCounts = 0;
 
@@ -167,7 +167,7 @@ public class InventorySlot
 			if (InputGame.DoubleClick && !InputGame.ShiftPressed
 			&& (InventoryItem == null || InventoryItem.Item.Type == cursorItem.Type))
 			{
-				CollectAndMergeAllItemsTo(cursorItem);
+				CollectAndMergeAllItemsFrom(cursorItem);
 
 				// We collected all items to the cursor. Do not let anything else happen.
 				return;
@@ -179,7 +179,7 @@ public class InventorySlot
 			if (InputGame.DoubleClick && !InputGame.ShiftPressed
 			&& (InventoryItem != null))
 			{
-				CollectAndMergeAllItemsTo(InventoryItem.Item);
+				CollectAndMergeAllItemsFrom(InventoryItem.Item);
 
 				RemoveItem(); // prevent dupe glitch
 
