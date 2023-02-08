@@ -2,7 +2,7 @@
 
 public class Inventory
 {
-	public static Inventory ActiveInventory { get; set; } // a container the player opened
+	public static Inventory OtherInventory { get; set; } // a container the player opened
 	public static Inventory PlayerInventory { get; set; }
 
 	public InventorySlot[] InventorySlots { get; set; }
@@ -52,4 +52,16 @@ public class Inventory
 	public void SetItem(int x, int y, Item item) =>
 		SetItem(x + y * Columns, item);
 
+	public int TryGetEmptyOrSameTypeSlot(ItemType itemType)
+	{
+		for (int i = 0; i < InventorySlots.Length; i++)
+		{
+			var slot = InventorySlots[i];
+
+			if (slot.InventoryItem == null || slot.InventoryItem.Item.Type == itemType)
+				return i;
+		}
+
+		return -1;
+	}
 }

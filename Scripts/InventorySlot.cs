@@ -111,24 +111,6 @@ public class InventorySlot
 	{
 		var cursorItem = ItemCursor.GetItem();
 
-		// Shift + Click
-		if (InputGame.ShiftPressed)
-		{
-			/*// Store temporary reference to the item in this inventory slot
-			var item = InventoryItem.Item;
-
-			// Clear the item graphic for this inventory slot
-			InventoryItem.QueueFreeGraphic();
-			InventoryItem = null;
-
-			// Clear the item count graphic
-			UpdateItemCountLabel(0);
-
-			Inventory.ActiveInventory.InventorySlots[0].SetItem(item);*/
-
-			return;
-		}
-
 		// Double click
 		if (InputGame.DoubleClick)
 		{
@@ -248,6 +230,42 @@ public class InventorySlot
 			// There is no item attached to the cursor
 			else
 			{
+				// Shift + Click
+				if (InputGame.ShiftPressed)
+				{
+					var targetInv = this.Inventory == Inventory.PlayerInventory ?
+							Inventory.OtherInventory : Inventory.PlayerInventory;
+
+					var emptySlot = targetInv.TryGetEmptyOrSameTypeSlot(InventoryItem.Item.Type);
+
+					if (emptySlot != -1)
+					{
+						// Store temporary reference to the item in this inventory slot
+						var itemRef = InventoryItem.Item;
+
+						// Clear the item graphic for this inventory slot
+						InventoryItem.QueueFreeGraphic();
+						InventoryItem = null;
+
+						// Clear the item count graphic
+						UpdateItemCountLabel(0);
+
+						var otherInvSlot = targetInv.InventorySlots[emptySlot];
+
+						var otherInvSlotItem = otherInvSlot.InventoryItem;
+
+						if (otherInvSlotItem == null)
+							targetInv.InventorySlots[emptySlot].SetItem(itemRef);
+						else
+						{
+							itemRef.Count += otherInvSlotItem.Item.Count;
+							targetInv.InventorySlots[emptySlot].SetItem(itemRef);
+						}
+					}
+
+					return;
+				}
+
 				// Store temporary reference to the item in this inventory slot
 				var item = InventoryItem.Item;
 

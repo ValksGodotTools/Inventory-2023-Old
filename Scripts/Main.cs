@@ -27,7 +27,7 @@ public partial class Main : Node
 			PlayerInv.SetItem(i, new Item(Items.CoinPink));
 
 		Inventory.PlayerInventory = PlayerInv;
-		Inventory.ActiveInventory = ChestInv;
+		Inventory.OtherInventory = ChestInv;
 	}
 
 	public override void _Input(InputEvent @event)
