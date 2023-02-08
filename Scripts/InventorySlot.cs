@@ -90,7 +90,7 @@ public class InventorySlot
 	{
 		if (item.Count > 1)
 			ItemCountLabel.Text = item.Count + "";
-		InventoryItem?.QueueFree();
+		InventoryItem?.QueueFreeGraphic();
 		InventoryItem = item.Type.ToInventoryItem(Inventory, Panel, item);
 	}
 	
@@ -153,7 +153,7 @@ public class InventorySlot
 					var item = InventoryItem.Item;
 
 					// Clear the item graphic for this inventory slot
-					InventoryItem.QueueFree();
+					InventoryItem.QueueFreeGraphic();
 					InventoryItem = null;
 
 					// Clear the item count graphic
@@ -176,7 +176,7 @@ public class InventorySlot
 				var item = InventoryItem.Item;
 
 				// Clear the item graphic for this inventory slot
-				InventoryItem.QueueFree();
+				InventoryItem.QueueFreeGraphic();
 				InventoryItem = null;
 
 				// Clear the item count graphic
@@ -207,7 +207,7 @@ public class InventorySlot
 						if (invItem.Item.Type == itemCursor.Type)
 						{
 							// Clear the item graphic for this inventory slot
-							invItem.QueueFree();
+							invItem.QueueFreeGraphic();
 							invItem = null;
 
 							// Clear the item count graphic
@@ -272,7 +272,7 @@ public class InventorySlot
 					ItemCursor.SetItem(InventoryItem.Item);
 
 					// Clear the item graphic for this inventory slot
-					InventoryItem.QueueFree();
+					InventoryItem.QueueFreeGraphic();
 					InventoryItem = null;
 				}
 				// There are two or more items in this inv slot
