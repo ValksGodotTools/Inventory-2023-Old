@@ -109,6 +109,9 @@ public class InventorySlot
 		UpdateItemCountLabel(0);
 	}
 
+	public Inventory GetOtherInventory() => this.Inventory == Inventory.PlayerInventory ?
+		Inventory.OtherInventory : Inventory.PlayerInventory;
+
 	private void UpdateItemCountLabel(int count)
 	{
 		if (count > 1)
@@ -231,9 +234,7 @@ public class InventorySlot
 				// Shift + Click
 				if (InputGame.ShiftPressed)
 				{
-					var targetInv = this.Inventory == Inventory.PlayerInventory ?
-							Inventory.OtherInventory : Inventory.PlayerInventory;
-
+					var targetInv = GetOtherInventory();
 					var emptySlot = targetInv.TryGetEmptyOrSameTypeSlot(InventoryItem.Item.Type);
 
 					if (emptySlot != -1)
