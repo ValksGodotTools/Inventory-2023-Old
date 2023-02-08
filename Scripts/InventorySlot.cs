@@ -39,10 +39,10 @@ public class InventorySlot
 
 		Panel.MouseEntered += () =>
 		{
+			var cursorItem = ItemCursor.GetItem();
+
 			if (InventoryItem == null)
 			{
-				var cursorItem = ItemCursor.GetItem();
-
 				if (InputGame.HoldingRightClick && cursorItem != null)
 				{
 					// Take 1 item from the cursor
@@ -56,6 +56,18 @@ public class InventorySlot
 			}
 			else
 			{
+				if (InputGame.HoldingRightClick && cursorItem != null &&
+					cursorItem.Type == InventoryItem.Item.Type)
+				{
+					// Take 1 item from the cursor
+					ItemCursor.TakeItem();
+
+					// Pass 1 item from cursor to the inventory slot
+					var item = cursorItem.Clone();
+					item.Count = 1 + InventoryItem.Item.Count;
+					SetItem(item);
+				}
+
 				ItemPanelDescription.Display(InventoryItem.Item);
 			}
 		};
