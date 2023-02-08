@@ -95,7 +95,7 @@ public class InventorySlot
 
 	private void ContinuousShiftClickTransfer()
 	{
-		if (!InputGame.HoldingLeftClick || !InputGame.ShiftPressed)
+		if (!InputGame.HoldingLeftClick || !Input.IsKeyPressed(Key.Shift))
 			return;
 
 		TransferItem();
@@ -236,7 +236,7 @@ public class InventorySlot
 		// same item type as the item type in our cursor] then
 		// collect all items to the cursor and return preventing
 		// any other mouse inventory logic from executing.
-		if (InputGame.DoubleClick && !InputGame.ShiftPressed)
+		if (InputGame.DoubleClick && !Input.IsKeyPressed(Key.Shift))
 		{
 			if (cursorItem != null)
 			{
@@ -331,7 +331,7 @@ public class InventorySlot
 			else
 			{
 				// Shift + Click
-				if (InputGame.ShiftPressed)
+				if (Input.IsKeyPressed(Key.Shift))
 				{
 					TransferItem();
 
@@ -391,7 +391,7 @@ public class InventorySlot
 			if (InventoryItem != null)
 			{
 				// Shift + Right Click = Split Stack
-				if (InputGame.ShiftPressed)
+				if (Input.IsKeyPressed(Key.Shift))
 				{
 					var itemA = InventoryItem.Item;
 
