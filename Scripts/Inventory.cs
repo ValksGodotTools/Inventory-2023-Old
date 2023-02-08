@@ -54,13 +54,25 @@ public class Inventory
 
 	public int TryGetEmptyOrSameTypeSlot(ItemType itemType)
 	{
+		var foundEmptySlot = false;
+		var emptySlotIndex = -1;
+
 		for (int i = 0; i < InventorySlots.Length; i++)
 		{
 			var slot = InventorySlots[i];
 
-			if (slot.InventoryItem == null || slot.InventoryItem.Item.Type == itemType)
+			if (slot.InventoryItem != null && slot.InventoryItem.Item.Type == itemType)
 				return i;
+
+			if (!foundEmptySlot && slot.InventoryItem == null)
+			{
+				foundEmptySlot = true;
+				emptySlotIndex = i;
+			}
 		}
+
+		if (foundEmptySlot)
+			return emptySlotIndex;
 
 		return -1;
 	}
