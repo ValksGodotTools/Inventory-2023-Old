@@ -6,17 +6,36 @@ namespace Inventory;
 
 public partial class Main : Node
 {
+	private Inventory Inventory { get; set; }
+
 	public override void _Ready()
 	{
-		var inventory = new Inventory(this);
+		Inventory = new Inventory(this);
 
 		for (int i = 0; i < 9; i++)
-			inventory.SetItem(i, new Item(Items.Coin));
+			Inventory.SetItem(i, new Item(Items.Coin));
 
-		inventory.SetItem(0, 2, new Item(Items.Coin, 3));
-		inventory.SetItem(1, 2, new Item(Items.CoinSnowy));
+		Inventory.SetItem(0, 2, new Item(Items.Coin, 3));
+		Inventory.SetItem(1, 2, new Item(Items.CoinSnowy));
+	}
 
-		//for (int i = 0; i < inventory.InventorySlots.Length; i++)
-		//	inventory.InventorySlots[i].AddDebugLabel("" + i);
+	public override void _Input(InputEvent @event)
+	{
+		if (Input.IsKeyPressed(Key.E))
+		{
+			for (int i = 0; i < Inventory.InventorySlots.Length; i++)
+			{
+				var invSlot = Inventory.InventorySlots[i];
+				var invItem = invSlot.InventoryItem;
+				invSlot.SetDebugLabel($"{(invItem == null ? "null" : "")}");
+			}
+				
+		}
+
+		if (Input.IsKeyPressed(Key.Q))
+		{
+			for (int i = 0; i < Inventory.InventorySlots.Length; i++)
+				Inventory.InventorySlots[i].SetDebugLabel("");
+		}
 	}
 }
