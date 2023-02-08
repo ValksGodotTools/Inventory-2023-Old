@@ -28,6 +28,10 @@ https://user-images.githubusercontent.com/6277739/217419952-8adfd0e8-eb7a-4382-a
 - Q = Drop Item (x1)
 - Ctrl + Q = Drop Stack
 
+### Known Issues
+- Multiple description panels stack on top of each other and do not disappear until more mouse movements or other inputs are made
+- `Hold + Right Click` only works when dragging across empty inventory slots, not when there are items of the same type in the inventory slots already. Perhaps a simple bool check could solve this.
+
 ### Setup a Inventory
 ```cs
 Inventory = new Inventory(this);
