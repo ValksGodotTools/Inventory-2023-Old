@@ -41,35 +41,10 @@ public class InventorySlot
 		{
 			var cursorItem = ItemCursor.GetItem();
 
-			if (InventoryItem == null)
-			{
-				if (InputGame.HoldingRightClick && cursorItem != null)
-				{
-					// Take 1 item from the cursor
-					ItemCursor.TakeItem();
+			ContinuousRightClickPlace(cursorItem);
 
-					// Pass 1 item from cursor to the inventory slot
-					var item = cursorItem.Clone();
-					item.Count = 1;
-					SetItem(item);
-				}
-			}
-			else
-			{
-				if (InputGame.HoldingRightClick && cursorItem != null &&
-					cursorItem.Type == InventoryItem.Item.Type)
-				{
-					// Take 1 item from the cursor
-					ItemCursor.TakeItem();
-
-					// Pass 1 item from cursor to the inventory slot
-					var item = cursorItem.Clone();
-					item.Count = 1 + InventoryItem.Item.Count;
-					SetItem(item);
-				}
-
+			if (InventoryItem != null)
 				ItemPanelDescription.Display(InventoryItem.Item);
-			}
 		};
 
 		Panel.MouseExited += () =>
@@ -97,6 +72,36 @@ public class InventorySlot
 		DebugLabel.AddThemeColorOverride("font_shadow_color", Colors.Black);
 
 		Panel.AddChild(DebugLabel);
+	}
+
+	private void ContinuousRightClickPlace(Item cursorItem)
+	{
+		if (!InputGame.HoldingRightClick || cursorItem == null)
+			return;
+
+		if (InventoryItem == null)
+		{
+			// Take 1 item from the cursor
+			ItemCursor.TakeItem();
+
+			// Pass 1 item from cursor to the inventory slot
+			var item = cursorItem.Clone();
+			item.Count = 1;
+			SetItem(item);
+		}
+		else
+		{
+			if (cursorItem.Type != InventoryItem.Item.Type)
+				return;
+
+			// Take 1 item from the cursor
+			ItemCursor.TakeItem();
+
+			// Pass 1 item from cursor to the inventory slot
+			var item = cursorItem.Clone();
+			item.Count = 1 + InventoryItem.Item.Count;
+			SetItem(item);
+		}
 	}
 
 	public void SetDebugLabel(string text)
