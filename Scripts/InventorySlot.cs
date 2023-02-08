@@ -131,39 +131,82 @@ public class InventorySlot
 		// same item type as the item type in our cursor] then
 		// collect all items to the cursor and return preventing
 		// any other mouse inventory logic from executing.
-		if (InputGame.DoubleClick && !InputGame.ShiftPressed && cursorItem != null
-			&& (InventoryItem == null || InventoryItem.Item.Type == cursorItem.Type))
+		if (cursorItem != null)
 		{
-			var otherItemCounts = 0;
-
-			// Scan the inventory for items of the same type and combine them to the cursor
-			foreach (var slot in Inventory.InventorySlots)
+			if (InputGame.DoubleClick && !InputGame.ShiftPressed
+			&& (InventoryItem == null || InventoryItem.Item.Type == cursorItem.Type))
 			{
-				// Skip the slot we double clicked on
-				if (slot == this)
-					continue;
+				var otherItemCounts = 0;
 
-				var invItem = slot.InventoryItem;
-
-				// A item exists in this inv slot
-				if (invItem != null)
+				// Scan the inventory for items of the same type and combine them to the cursor
+				foreach (var slot in Inventory.InventorySlots)
 				{
-					// The inv slot item is the same type as the cursor item type
-					if (invItem.Item.Type == cursorItem.Type)
-					{
-						otherItemCounts += invItem.Item.Count;
+					// Skip the slot we double clicked on
+					if (slot == this)
+						continue;
 
-						slot.RemoveItem();
+					var invItem = slot.InventoryItem;
+
+					// A item exists in this inv slot
+					if (invItem != null)
+					{
+						// The inv slot item is the same type as the cursor item type
+						if (invItem.Item.Type == cursorItem.Type)
+						{
+							otherItemCounts += invItem.Item.Count;
+
+							slot.RemoveItem();
+						}
 					}
 				}
+
+				var counts = cursorItem.Count + otherItemCounts;
+				cursorItem.Count = counts;
+				ItemCursor.SetItem(cursorItem);
+
+				// We collected all items to the cursor. Do not let anything else happen.
+				return;
 			}
+		}
+		// There is an item in the cursor and this is a double click
+		else
+		{
+			if (InputGame.DoubleClick && !InputGame.ShiftPressed
+			&& (InventoryItem != null))
+			{
+				var otherItemCounts = 0;
 
-			var counts = cursorItem.Count + otherItemCounts;
-			cursorItem.Count = counts;
-			ItemCursor.SetItem(cursorItem);
+				// Scan the inventory for items of the same type and combine them to the cursor
+				foreach (var slot in Inventory.InventorySlots)
+				{
+					// Skip the slot we double clicked on
+					if (slot == this)
+						continue;
 
-			// We collected all items to the cursor. Do not let anything else happen.
-			return;
+					var invItem = slot.InventoryItem;
+
+					// A item exists in this inv slot
+					if (invItem != null)
+					{
+						// The inv slot item is the same type as the cursor item type
+						if (invItem.Item.Type == InventoryItem.Item.Type)
+						{
+							otherItemCounts += invItem.Item.Count;
+
+							slot.RemoveItem();
+						}
+					}
+				}
+
+				var counts = InventoryItem.Item.Count + otherItemCounts;
+				InventoryItem.Item.Count = counts;
+				ItemCursor.SetItem(InventoryItem.Item);
+
+				RemoveItem();
+
+				// We collected all items to the cursor. Do not let anything else happen.
+				return;
+			}
 		}
 
 		// There is no item in this inventory slot
