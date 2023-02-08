@@ -119,6 +119,37 @@ public class InventorySlot
 		else
 			ItemCountLabel.Text = "";
 	}
+
+	private void CollectAndMergeAllItemsTo(Item itemToMergeTo)
+	{
+		var otherItemCounts = 0;
+
+		// Scan the inventory for items of the same type and combine them to the cursor
+		foreach (var slot in Inventory.InventorySlots)
+		{
+			// Skip the slot we double clicked on
+			if (slot == this)
+				continue;
+
+			var invItem = slot.InventoryItem;
+
+			// A item exists in this inv slot
+			if (invItem != null)
+			{
+				// The inv slot item is the same type as the cursor item type
+				if (invItem.Item.Type == itemToMergeTo.Type)
+				{
+					otherItemCounts += invItem.Item.Count;
+
+					slot.RemoveItem();
+				}
+			}
+		}
+
+		var counts = itemToMergeTo.Count + otherItemCounts;
+		itemToMergeTo.Count = counts;
+		ItemCursor.SetItem(itemToMergeTo);
+	}
 	
 	private void HandleLeftClick()
 	{
@@ -136,33 +167,7 @@ public class InventorySlot
 			if (InputGame.DoubleClick && !InputGame.ShiftPressed
 			&& (InventoryItem == null || InventoryItem.Item.Type == cursorItem.Type))
 			{
-				var otherItemCounts = 0;
-
-				// Scan the inventory for items of the same type and combine them to the cursor
-				foreach (var slot in Inventory.InventorySlots)
-				{
-					// Skip the slot we double clicked on
-					if (slot == this)
-						continue;
-
-					var invItem = slot.InventoryItem;
-
-					// A item exists in this inv slot
-					if (invItem != null)
-					{
-						// The inv slot item is the same type as the cursor item type
-						if (invItem.Item.Type == cursorItem.Type)
-						{
-							otherItemCounts += invItem.Item.Count;
-
-							slot.RemoveItem();
-						}
-					}
-				}
-
-				var counts = cursorItem.Count + otherItemCounts;
-				cursorItem.Count = counts;
-				ItemCursor.SetItem(cursorItem);
+				CollectAndMergeAllItemsTo(cursorItem);
 
 				// We collected all items to the cursor. Do not let anything else happen.
 				return;
@@ -174,35 +179,9 @@ public class InventorySlot
 			if (InputGame.DoubleClick && !InputGame.ShiftPressed
 			&& (InventoryItem != null))
 			{
-				var otherItemCounts = 0;
+				CollectAndMergeAllItemsTo(InventoryItem.Item);
 
-				// Scan the inventory for items of the same type and combine them to the cursor
-				foreach (var slot in Inventory.InventorySlots)
-				{
-					// Skip the slot we double clicked on
-					if (slot == this)
-						continue;
-
-					var invItem = slot.InventoryItem;
-
-					// A item exists in this inv slot
-					if (invItem != null)
-					{
-						// The inv slot item is the same type as the cursor item type
-						if (invItem.Item.Type == InventoryItem.Item.Type)
-						{
-							otherItemCounts += invItem.Item.Count;
-
-							slot.RemoveItem();
-						}
-					}
-				}
-
-				var counts = InventoryItem.Item.Count + otherItemCounts;
-				InventoryItem.Item.Count = counts;
-				ItemCursor.SetItem(InventoryItem.Item);
-
-				RemoveItem();
+				RemoveItem(); // prevent dupe glitch
 
 				// We collected all items to the cursor. Do not let anything else happen.
 				return;
