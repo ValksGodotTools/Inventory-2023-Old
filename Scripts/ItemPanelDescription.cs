@@ -17,26 +17,35 @@ public partial class ItemPanelDescription : Control
 		ItemPanelDescriptionParent.SetPhysicsProcess(true);
 		var panelContainer = new PanelContainer
 		{
+			MouseFilter = MouseFilterEnum.Ignore,
 			ZIndex = 1
 		};
 
-		var marginContainer = new MarginContainer();
+		var marginContainer = new MarginContainer
+		{
+			MouseFilter = MouseFilterEnum.Ignore
+		};
 		marginContainer.AddMargin(5);
 
 		panelContainer.AddChild(marginContainer);
 
-		var vbox = new VBoxContainer();
+		var vbox = new VBoxContainer
+		{
+			MouseFilter = MouseFilterEnum.Ignore
+		};
 		marginContainer.AddChild(vbox);
 
 		var labelName = new Label
 		{
 			Text = item.Type.Name,
+			MouseFilter = MouseFilterEnum.Ignore,
 			HorizontalAlignment = HorizontalAlignment.Center
 		};
 
 		var labelDescription = new Label
 		{
 			Text = item.Type.Description,
+			MouseFilter = MouseFilterEnum.Ignore,
 			HorizontalAlignment = HorizontalAlignment.Center
 		};
 
