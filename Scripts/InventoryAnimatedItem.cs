@@ -14,6 +14,7 @@ public class InventoryAnimatedItem : InventoryItem
 			Scale = Vector2.One * (inv.SlotSize / 25)
 		};
 
+		AnimatedSprite2D.Frame = GD.RandRange(0, AnimatedSprite2D.SpriteFrames.GetFrameCount("default") - 1);
 		AnimatedSprite2D.Play();
 
 		parent.AddChild(AnimatedSprite2D);
