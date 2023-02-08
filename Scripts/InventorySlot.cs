@@ -111,6 +111,51 @@ public class InventorySlot
 	{
 		var cursorItem = ItemCursor.GetItem();
 
+		// Double click
+		if (ItemCursor.DoubleClick)
+		{
+			var itemCursor = ItemCursor.GetItem();
+
+			// Double clicked with a item in the cursor
+			if (itemCursor != null)
+			{
+				var otherItemCounts = 0;
+
+				// Scan the inventory for items of the same type and combine them to the cursor
+				foreach (var slot in Inventory.InventorySlots)
+				{
+					// Skip the slot we double clicked on
+					if (slot == this)
+						continue;
+
+					var invItem = slot.InventoryItem;
+
+					// A item exists in this inv slot
+					if (invItem != null)
+					{
+						// The inv slot item is the same type as the cursor item type
+						if (invItem.Item.Type == itemCursor.Type)
+						{
+							otherItemCounts += invItem.Item.Count;
+
+							// Clear the item graphic for this inventory slot
+							invItem.QueueFreeGraphic();
+							slot.InventoryItem = null;
+
+							// Clear the item count graphic
+							slot.ItemCountLabel.Text = "";
+						}
+					}
+				}
+
+				var counts = itemCursor.Count + otherItemCounts;
+				itemCursor.Count = counts;
+				ItemCursor.SetItem(itemCursor);
+			}
+
+			return;
+		}
+
 		// There is no item in this inventory slot
 		if (InventoryItem == null)
 		{
@@ -200,48 +245,7 @@ public class InventorySlot
 			}
 		}
 
-		// Double click
-		if (ItemCursor.DoubleClick)
-		{
-			var itemCursor = ItemCursor.GetItem();
-
-			// Double clicked with a item in the cursor
-			if (itemCursor != null)
-			{
-				int otherItemCounts = 0;
-
-				// Scan the inventory for items of the same type and combine them to the cursor
-				foreach (var slot in Inventory.InventorySlots)
-				{
-					// Skip the slot we double clicked on
-					if (slot == this)
-						continue;
-
-					var invItem = slot.InventoryItem;
-
-					// A item exists in this inv slot
-					if (invItem != null)
-					{
-						// The inv slot item is the same type as the cursor item type
-						if (invItem.Item.Type == itemCursor.Type)
-						{
-							otherItemCounts += invItem.Item.Count;
-
-							// Clear the item graphic for this inventory slot
-							invItem.QueueFreeGraphic();
-							slot.InventoryItem = null;
-
-							// Clear the item count graphic
-							slot.ItemCountLabel.Text = "";
-						}
-					}
-				}
-
-				var counts = itemCursor.Count + otherItemCounts;
-				itemCursor.Count = counts;
-				ItemCursor.SetItem(itemCursor);
-			}
-		}
+		
 	}
 
 	private void HandleRightClick()
