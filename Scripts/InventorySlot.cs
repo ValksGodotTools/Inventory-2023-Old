@@ -41,6 +41,7 @@ public class InventorySlot
 		{
 			var cursorItem = ItemCursor.GetItem();
 
+			ContinuousLeftClickPickup(cursorItem);
 			ContinuousRightClickPlace(cursorItem);
 			ContinuousShiftClickTransfer();
 
@@ -73,6 +74,23 @@ public class InventorySlot
 		DebugLabel.AddThemeColorOverride("font_shadow_color", Colors.Black);
 
 		Panel.AddChild(DebugLabel);
+	}
+
+	private void ContinuousLeftClickPickup(Item cursorItem)
+	{
+		// Pickup items of the same type
+		if (!InputGame.HoldingLeftClick || cursorItem == null || InventoryItem == null)
+			return;
+
+		if (cursorItem.Type != InventoryItem.Item.Type)
+			return;
+
+		var item = InventoryItem.Item;
+		item.Count += cursorItem.Count;
+
+		ItemCursor.SetItem(item);
+
+		RemoveItem();
 	}
 
 	private void ContinuousShiftClickTransfer()
