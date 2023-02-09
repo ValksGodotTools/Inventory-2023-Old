@@ -23,18 +23,14 @@ public class InventorySlot
 
 		Panel.GuiInput += (inputEvent) =>
 		{
-			if (inputEvent is not InputEventMouseButton inputMouseButtonEvent)
+			if (inputEvent is not InputEventMouseButton eventMouseButton)
 				return;
 
-			if (inputMouseButtonEvent.IsLeftClickPressed())
-			{
+			if (eventMouseButton.IsLeftClickPressed())
 				HandleLeftClick();
-			}
 
-			if (inputMouseButtonEvent.IsRightClickPressed())
-			{
+			if (eventMouseButton.IsRightClickPressed())
 				HandleRightClick();
-			}
 		};
 
 		Panel.MouseEntered += () =>
