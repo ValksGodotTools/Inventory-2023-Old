@@ -34,6 +34,11 @@ public partial class Main : Node
 	{
 		InputGame.Handle(@event);
 
+		if (Input.IsKeyPressed(Key.Shift) && Input.IsKeyPressed(Key.W))
+		{
+			Inventory.OtherInventory.TakeAll();
+		}
+
 		if (Input.IsKeyPressed(Key.E))
 		{
 			for (int i = 0; i < ChestInv.InventorySlots.Length; i++)

@@ -52,6 +52,35 @@ public class Inventory
 	public void SetItem(int x, int y, Item item) =>
 		SetItem(x + y * Columns, item);
 
+	public void TakeAll()
+	{
+		for (int i = 0; i < InventorySlots.Length; i++) 
+		{
+			var invItem = InventorySlots[i].InventoryItem;
+
+			if (invItem != null)
+			{
+				var otherSlot = PlayerInventory.TryGetEmptyOrSameTypeSlot(invItem.Item.Type);
+				
+				var otherInvSlotItem = PlayerInventory.InventorySlots[otherSlot].InventoryItem;
+
+				if (otherInvSlotItem != null)
+				{
+					var item = otherInvSlotItem.Item;
+					item.Count += invItem.Item.Count;
+
+					PlayerInventory.InventorySlots[otherSlot].SetItem(item);
+				}
+				else
+				{
+					PlayerInventory.InventorySlots[otherSlot].SetItem(invItem.Item);
+				}
+
+				InventorySlots[i].RemoveItem();
+			}
+		}
+	}
+
 	public int TryGetEmptyOrSameTypeSlot(ItemType itemType)
 	{
 		var foundEmptySlot = false;
