@@ -39,9 +39,10 @@ public class Inventory
 		for (int i = 0; i < InventorySlots.Length; i++)
 			InventorySlots[i] = new InventorySlot(this, GridContainer);
 
-		SetAnchor(Control.LayoutPreset.CenterTop); // center top by default
-
 		Parent.AddChild(PanelContainer);
+
+		// Must set anchor after all children are added to the scene
+		SetAnchor(Control.LayoutPreset.CenterTop); // center top by default
 
 		// hide by default
 		PanelContainer.Hide();
