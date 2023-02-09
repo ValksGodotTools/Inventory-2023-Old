@@ -1,6 +1,4 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-
-namespace Inventory;
+﻿namespace Inventory;
 
 public class InventorySlot
 {
@@ -11,9 +9,11 @@ public class InventorySlot
 	public InventoryItem InventoryItem { get; set; }
 	public Inventory Inventory { get; set; }
 	private bool JustPickedUpItem { get; set; }
+	private int Index { get; set; }
 
-	public InventorySlot(Inventory inv, Node parent)
+	public InventorySlot(Inventory inv, Node parent, int index)
 	{
+		Index = index;
 		Inventory = inv;
 
 		Panel = new Panel
@@ -114,7 +114,7 @@ public class InventorySlot
 			// Pass 1 item from cursor to the inventory slot
 			var item = cursorItem.Clone();
 			item.Count = 1;
-			SetItem(item);
+			Inventory.SetItem(Index, item);
 		}
 		else
 		{
@@ -127,7 +127,7 @@ public class InventorySlot
 			// Pass 1 item from cursor to the inventory slot
 			var item = cursorItem.Clone();
 			item.Count = 1 + InventoryItem.Item.Count;
-			SetItem(item);
+			Inventory.SetItem(Index, item);
 		}
 	}
 
@@ -220,11 +220,11 @@ public class InventorySlot
 			var otherInvSlotItem = otherInvSlot.InventoryItem;
 
 			if (otherInvSlotItem == null)
-				targetInv.InventorySlots[emptySlot].SetItem(itemRef);
+				targetInv.SetItem(emptySlot, itemRef);
 			else
 			{
 				itemRef.Count += otherInvSlotItem.Item.Count;
-				targetInv.InventorySlots[emptySlot].SetItem(itemRef);
+				targetInv.SetItem(emptySlot, itemRef);
 			}
 		}
 	}
@@ -279,7 +279,7 @@ public class InventorySlot
 					ItemCursor.RemoveItem();
 
 					// Set the item in this inventory slot to the item from the cursor
-					SetItem(cursorItem);
+					Inventory.SetItem(Index, cursorItem);
 				}
 			}
 		}
@@ -305,7 +305,7 @@ public class InventorySlot
 
 					ItemCursor.RemoveItem();
 
-					SetItem(item);
+					Inventory.SetItem(Index, item);
 				}
 				// The cursor and inv slot items are of different types
 				else
@@ -325,7 +325,7 @@ public class InventorySlot
 					ItemCursor.RemoveItem();
 
 					// Set the item in this inventory slot to the item from the cursor
-					SetItem(cursorItem);
+					Inventory.SetItem(Index, cursorItem);
 
 					// Attach the item from the inventory slot to the cursor (pick up the item)
 					ItemCursor.SetItem(item);
@@ -368,7 +368,7 @@ public class InventorySlot
 				// Pass 1 item from cursor to the inventory slot
 				var item = cursorItem.Clone();
 				item.Count = 1;
-				SetItem(item);
+				Inventory.SetItem(Index, item);
 			}
 			// There is a item in this inventory slot
 			else
@@ -384,7 +384,7 @@ public class InventorySlot
 					item.Count = 1 + InventoryItem.Item.Count;
 
 					// Set all these items to the inv slot
-					SetItem(item);
+					Inventory.SetItem(Index, item);
 				}
 			}
 		}
@@ -411,7 +411,7 @@ public class InventorySlot
 					itemA.Count = half + remainder;
 					itemB.Count = half;
 
-					SetItem(itemA);
+					Inventory.SetItem(Index, itemA);
 					ItemCursor.SetItem(itemB);
 
 					return;
