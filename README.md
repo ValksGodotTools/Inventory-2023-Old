@@ -1,10 +1,11 @@
-https://user-images.githubusercontent.com/6277739/217766544-5394a45c-f7d7-4594-ae00-8784c3c317e7.mp4
+https://user-images.githubusercontent.com/6277739/217958511-d5182a65-60e9-464d-82d3-23a069720ae3.mp4
 
 ## A Game Inventory being made in Godot 4 C#
 
 ### Features
 - [x] Inventories of varying sizes can be defined
 - [x] Inventory slot size can be customized
+- [x] Player Inventory Hotbar
 
 ### Implemented Controls
 - [x] `Left Click` to pick up / place item stack
@@ -15,15 +16,14 @@ https://user-images.githubusercontent.com/6277739/217766544-5394a45c-f7d7-4594-a
 - [x] `Right Click` to pick up / place single item
 - [x] `Hold + Right Click` to continuously place a single item
 - [x] `Double Click` to pick up all items of the same type
-- [x] `Shift + W` to take all items from the 'other inventory' and put them in the players inventory
-- [x] `Shift + Q` to sort items in all open inventories by descending item count
+- [x] `Shift + R` to sort items in all open inventories by descending item count
+- [x] `Shift + T` to take all items from the 'other inventory' and put them in the players inventory
 - [x] `1` `2` `3` `4` `5` `6` `7` `8` `9` to move / swap items to player hotbar slots
 - [x] `I` to open the players inventory
 - [x] `E` to interact with objects in the world
 
 ### Todo
-- If a item is picked up, it will lerp to the cursors position then stop lerping when it gets there (might not do this)
-- Player inventory hotbar
+- Item movement animations / inventory open animations (might not do this)
 - Saving / loading inventory data
 - Allow items to define their own max stack sizes
 - Q = Drop Item (x1)
