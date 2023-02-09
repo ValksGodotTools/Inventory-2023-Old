@@ -52,32 +52,69 @@ public class Inventory
 	public void SetItem(int x, int y, Item item) =>
 		SetItem(x + y * Columns, item);
 
+	public void Sort()
+	{
+		var items = new Dictionary<ItemType, int>();
+
+		// Store all items in a dictionary
+		for (int i = 0; i < InventorySlots.Length; i++)
+		{
+			var invItem = InventorySlots[i].InventoryItem;
+
+			if (invItem == null)
+				continue;
+
+			if (items.ContainsKey(invItem.Item.Type))
+				items[invItem.Item.Type] += invItem.Item.Count;
+			else
+				items[invItem.Item.Type] = invItem.Item.Count;
+
+			InventorySlots[i].RemoveItem();
+		}
+
+		// Sort by item count (descending)
+		items = items.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+
+		// Place all items from the dictionary
+		var index = 0;
+
+		foreach (var item in items)
+		{
+			var itemType = item.Key;
+			var itemCount = item.Value;
+
+			var theItem = new Item(itemType, itemCount);
+
+			InventorySlots[index++].SetItem(theItem);
+		}
+	}
+
 	public void TakeAll()
 	{
 		for (int i = 0; i < InventorySlots.Length; i++) 
 		{
 			var invItem = InventorySlots[i].InventoryItem;
 
-			if (invItem != null)
+			if (invItem == null)
+				continue;
+
+			var otherSlot = PlayerInventory.TryGetEmptyOrSameTypeSlot(invItem.Item.Type);
+
+			var otherInvSlotItem = PlayerInventory.InventorySlots[otherSlot].InventoryItem;
+
+			if (otherInvSlotItem != null)
 			{
-				var otherSlot = PlayerInventory.TryGetEmptyOrSameTypeSlot(invItem.Item.Type);
-				
-				var otherInvSlotItem = PlayerInventory.InventorySlots[otherSlot].InventoryItem;
+				var item = otherInvSlotItem.Item;
+				item.Count += invItem.Item.Count;
 
-				if (otherInvSlotItem != null)
-				{
-					var item = otherInvSlotItem.Item;
-					item.Count += invItem.Item.Count;
-
-					PlayerInventory.InventorySlots[otherSlot].SetItem(item);
-				}
-				else
-				{
-					PlayerInventory.InventorySlots[otherSlot].SetItem(invItem.Item);
-				}
-
-				InventorySlots[i].RemoveItem();
+				PlayerInventory.InventorySlots[otherSlot].SetItem(item);
 			}
+			else
+			{
+				PlayerInventory.InventorySlots[otherSlot].SetItem(invItem.Item);
+			}
+
+			InventorySlots[i].RemoveItem();
 		}
 	}
 

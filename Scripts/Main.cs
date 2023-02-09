@@ -1,5 +1,6 @@
 global using Godot;
 global using System;
+global using System.Linq;
 global using System.Collections.Generic;
 
 namespace Inventory;
@@ -36,10 +37,20 @@ public partial class Main : Node
 
 		if (Input.IsKeyPressed(Key.Shift) && Input.IsKeyPressed(Key.W))
 		{
+			ItemPanelDescription.Clear();
+
 			Inventory.OtherInventory.TakeAll();
 		}
 
-		if (Input.IsKeyPressed(Key.E))
+		if (Input.IsKeyPressed(Key.Shift) && Input.IsKeyPressed(Key.Q))
+		{
+			ItemPanelDescription.Clear();
+
+			Inventory.OtherInventory.Sort();
+			Inventory.PlayerInventory.Sort();
+		}
+
+		/*if (Input.IsKeyPressed(Key.E))
 		{
 			for (int i = 0; i < ChestInv.InventorySlots.Length; i++)
 			{
@@ -54,6 +65,6 @@ public partial class Main : Node
 		{
 			for (int i = 0; i < ChestInv.InventorySlots.Length; i++)
 				ChestInv.InventorySlots[i].SetDebugLabel("");
-		}
+		}*/
 	}
 }
