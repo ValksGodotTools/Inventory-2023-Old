@@ -1,3 +1,5 @@
+https://user-images.githubusercontent.com/6277739/217766544-5394a45c-f7d7-4594-ae00-8784c3c317e7.mp4
+
 ## A Game Inventory being made in Godot 4 C#
 
 ### Features
