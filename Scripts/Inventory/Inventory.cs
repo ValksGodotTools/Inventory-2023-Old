@@ -48,6 +48,9 @@ public class Inventory
 		PanelContainer.Hide();
 	}
 
+	public void MakePanelInvisible() =>
+		PanelContainer.AddThemeStyleboxOverride("panel", new StyleBoxEmpty());
+
 	public void Show() => PanelContainer.Show();
 	public void Hide() => PanelContainer.Hide();
 	public void ToggleVisibility() => PanelContainer.Visible = !PanelContainer.Visible;

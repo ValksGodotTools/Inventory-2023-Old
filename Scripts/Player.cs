@@ -3,6 +3,7 @@ namespace Inventory;
 public partial class Player : CharacterBody2D
 {
 	public static Inventory Inventory { get; set; }
+	public static Inventory Hotbar { get; set; }
 
 	// The speed of the player
 	[Export] public float Speed { get; set; } = 500;
@@ -23,6 +24,11 @@ public partial class Player : CharacterBody2D
 
 		for (int i = 18; i < 27; i++)
 			Inventory.SetItem(i, new Item(Items.CoinPink));
+
+		Hotbar = new Inventory(this, 9, 1);
+		Hotbar.SetAnchor(Control.LayoutPreset.CenterBottom);
+		Hotbar.MakePanelInvisible();
+		Hotbar.Show();
 	}
 
 	public override void _PhysicsProcess(double delta)
