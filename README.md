@@ -16,6 +16,7 @@ https://user-images.githubusercontent.com/6277739/217415936-173f1cae-ed8c-4790-9
 - [x] `Hold + Right Click` to continuously place a single item
 - [x] `Double Click` to pick up all items of the same type
 - [x] `Shift + W` to take all items from the 'other inventory' and put them in the players inventory
+- [x] `Shift + Q` to sort items in all open inventories by descending item count
 
 ### Todo
 - If a item is picked up, it will lerp to the cursors position then stop lerping when it gets there (might not do this)
@@ -23,7 +24,6 @@ https://user-images.githubusercontent.com/6277739/217415936-173f1cae-ed8c-4790-9
 - Saving / loading inventory data
 - Allow items to define their own max stack sizes
 - Top down player controller + world with several containers to open
-- Shift + Q = Sort Inventory
 - Hotkeys 1, 2, ... , 8, 9 transfer item to corresponding hotbar slot
 - I = Open Inventory
 - Q = Drop Item (x1)
