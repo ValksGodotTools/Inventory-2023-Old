@@ -1,4 +1,10 @@
-https://user-images.githubusercontent.com/6277739/217415936-173f1cae-ed8c-4790-9be6-cfe970446f78.mp4
+https://user-images.githubusercontent.com/6277739/217701119-4f5dcf6e-3004-4f91-b966-8de9b8ba98c7.mp4
+
+https://user-images.githubusercontent.com/6277739/217701126-bbe38e2b-e962-4ad8-a6ce-28c29035e0d0.mp4
+
+https://user-images.githubusercontent.com/6277739/217701135-0271306f-b915-4006-b333-18eb170ac19b.mp4
+
+https://user-images.githubusercontent.com/6277739/217701142-748b222a-4f6d-46e3-bbc5-b333c83d628e.mp4
 
 ## A Game Inventory being made in Godot 4 Beta 17 C#
 
