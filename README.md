@@ -22,8 +22,6 @@
 - Player inventory hotbar
 - Saving / loading inventory data
 - Allow items to define their own max stack sizes
-- Top down player controller + world with several containers to open
-- I = Open Inventory
 - Q = Drop Item (x1)
 - Ctrl + Q = Drop Stack
 
