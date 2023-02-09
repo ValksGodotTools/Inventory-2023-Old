@@ -17,6 +17,7 @@ https://user-images.githubusercontent.com/6277739/217415936-173f1cae-ed8c-4790-9
 - [x] `Double Click` to pick up all items of the same type
 - [x] `Shift + W` to take all items from the 'other inventory' and put them in the players inventory
 - [x] `Shift + Q` to sort items in all open inventories by descending item count
+- [x] `1` `2` `3` `4` `5` `6` `7` `8` `9` to move / swap items to player hotbar slots
 
 ### Todo
 - If a item is picked up, it will lerp to the cursors position then stop lerping when it gets there (might not do this)
@@ -24,7 +25,6 @@ https://user-images.githubusercontent.com/6277739/217415936-173f1cae-ed8c-4790-9
 - Saving / loading inventory data
 - Allow items to define their own max stack sizes
 - Top down player controller + world with several containers to open
-- Hotkeys 1, 2, ... , 8, 9 transfer item to corresponding hotbar slot
 - I = Open Inventory
 - Q = Drop Item (x1)
 - Ctrl + Q = Drop Stack
@@ -32,13 +32,29 @@ https://user-images.githubusercontent.com/6277739/217415936-173f1cae-ed8c-4790-9
 ### Known Issues
 - Multiple description panels stack on top of each other and do not disappear until more mouse movements or other inputs are made
 
-### Setup a Inventory
+### Example Code
 ```cs
-Inventory = new Inventory(this);
+private Inventory ChestInv { get; set; }
+private Inventory PlayerInv { get; set; }
 
-for (int i = 0; i < 9; i++)
-    Inventory.SetItem(i, new Item(Items.Coin));
+public override void _Ready()
+{
+    ChestInv = new Inventory(this);
+    ChestInv.SetAnchor(Control.LayoutPreset.CenterTop);
 
-Inventory.SetItem(0, 2, new Item(Items.Coin, 3));
-Inventory.SetItem(1, 2, new Item(Items.CoinSnowy));
+    for (int i = 0; i < 9; i++)
+        ChestInv.SetItem(i, new Item(Items.Coin));
+
+    ChestInv.SetItem(0, 2, new Item(Items.Coin, 3));
+    ChestInv.SetItem(1, 2, new Item(Items.CoinSnowy));
+
+    PlayerInv = new Inventory(this);
+    PlayerInv.SetAnchor(Control.LayoutPreset.CenterBottom);
+
+    for (int i = 18; i < 27; i++)
+        PlayerInv.SetItem(i, new Item(Items.CoinPink));
+
+    Inventory.PlayerInventory = PlayerInv;
+    Inventory.OtherInventory = ChestInv;
+}
 ```
