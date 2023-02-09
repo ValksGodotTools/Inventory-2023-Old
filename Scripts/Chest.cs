@@ -32,6 +32,7 @@ public partial class Chest : Node2D
 		Inventory.Hide();
 		Player.Inventory.Hide();
 		AnimatedSprite2D.Play("close");
+		ItemPanelDescription.Clear();
 	}
 
 	private void _on_area_2d_body_entered(Node2D body)
