@@ -50,7 +50,30 @@ public partial class Main : Node
 			Inventory.PlayerInventory.Sort();
 		}
 
-		if (Input.IsActionJustPressed("inventory_hotbar_1"))
+		for (int i = 0; i < Inventory.PlayerInventory.Columns; i++)
+			InputHotbar(i);
+
+		/*if (Input.IsKeyPressed(Key.E))
+		{
+			for (int i = 0; i < ChestInv.InventorySlots.Length; i++)
+			{
+				var invSlot = ChestInv.InventorySlots[i];
+				var invItem = invSlot.InventoryItem;
+				invSlot.SetDebugLabel($"{(invItem == null ? "null" : "")}");
+			}
+				
+		}
+
+		if (Input.IsKeyPressed(Key.Q))
+		{
+			for (int i = 0; i < ChestInv.InventorySlots.Length; i++)
+				ChestInv.InventorySlots[i].SetDebugLabel("");
+		}*/
+	}
+
+	private static void InputHotbar(int hotbar)
+	{
+		if (Input.IsActionJustPressed($"inventory_hotbar_{hotbar + 1}"))
 		{
 			var activeInvSlot = Inventory.ActiveInventorySlot;
 
@@ -62,10 +85,10 @@ public partial class Main : Node
 			if (activeInvSlotItem == null)
 				return;
 
-			if (Inventory.PlayerInventory.Columns <= 1)
+			if (Inventory.PlayerInventory.Columns <= hotbar)
 				return;
 
-			var hotbarSlot = Inventory.PlayerInventory.InventorySlots[0];
+			var hotbarSlot = Inventory.PlayerInventory.InventorySlots[hotbar];
 
 			if (activeInvSlot == hotbarSlot)
 				return;
@@ -103,22 +126,5 @@ public partial class Main : Node
 				}
 			}
 		}
-
-		/*if (Input.IsKeyPressed(Key.E))
-		{
-			for (int i = 0; i < ChestInv.InventorySlots.Length; i++)
-			{
-				var invSlot = ChestInv.InventorySlots[i];
-				var invItem = invSlot.InventoryItem;
-				invSlot.SetDebugLabel($"{(invItem == null ? "null" : "")}");
-			}
-				
-		}
-
-		if (Input.IsKeyPressed(Key.Q))
-		{
-			for (int i = 0; i < ChestInv.InventorySlots.Length; i++)
-				ChestInv.InventorySlots[i].SetDebugLabel("");
-		}*/
 	}
 }
