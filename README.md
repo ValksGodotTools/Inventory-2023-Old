@@ -6,7 +6,7 @@ https://user-images.githubusercontent.com/6277739/217701135-0271306f-b915-4006-b
 
 https://user-images.githubusercontent.com/6277739/217701142-748b222a-4f6d-46e3-bbc5-b333c83d628e.mp4
 
-## A Game Inventory being made in Godot 4 Beta 17 C#
+## A Game Inventory being made in Godot 4 C#
 
 ### Features
 - [x] Inventories of varying sizes can be defined
