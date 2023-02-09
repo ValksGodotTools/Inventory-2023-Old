@@ -13,12 +13,12 @@ public class PlayerInventory : Inventory
 	public void SwitchToFullInventory()
 	{
 		MakePanelVisible();
-		SetSlotsVisibility(Columns, InventorySlots.Length, true);
+		SetSlotsVisibility(0, InventorySlots.Length - Columns, true);
 	}
 
 	public void SwitchToHotbar()
 	{
 		MakePanelInvisible();
-		SetSlotsVisibility(Columns, InventorySlots.Length, false);
+		SetSlotsVisibility(0, InventorySlots.Length - Columns, false);
 	}
 }

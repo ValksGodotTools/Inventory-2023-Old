@@ -46,13 +46,18 @@ public static class UtilsInventory
 			InputHotbar(i);
 
 		// DEBUG
+		var debugInv = Inventory.OtherInventory;
+
+		if (debugInv == null)
+			return;
+
 		if (Input.IsKeyPressed(Key.F1))
-			for (int i = 0; i < Player.Inventory.InventorySlots.Length; i++)
-				Player.Inventory.InventorySlots[i].SetDebugLabel(i + "");
+			for (int i = 0; i < debugInv.InventorySlots.Length; i++)
+				debugInv.InventorySlots[i].SetDebugLabel(debugInv.InventorySlots[i].InventoryItem == null ? "null" : "item" + "");
 
 		if (Input.IsKeyPressed(Key.F2))
-			for (int i = 0; i < Player.Inventory.InventorySlots.Length; i++)
-				Player.Inventory.InventorySlots[i].SetDebugLabel("");
+			for (int i = 0; i < debugInv.InventorySlots.Length; i++)
+				debugInv.InventorySlots[i].SetDebugLabel("");
 	}
 
 	private static void InputHotbar(int hotbar)
@@ -69,10 +74,14 @@ public static class UtilsInventory
 			if (activeInvSlotItem == null)
 				return;
 
-			if (Player.Inventory.Columns <= hotbar)
+			var playerInv = Player.Inventory;
+			var columns = playerInv.Columns;
+			var playerInvSlots = playerInv.InventorySlots;
+
+			if (columns <= hotbar)
 				return;
 
-			var hotbarSlot = Player.Inventory.InventorySlots[hotbar];
+			var hotbarSlot = playerInvSlots[playerInvSlots.Length - columns + hotbar];
 
 			if (activeInvSlot == hotbarSlot)
 				return;

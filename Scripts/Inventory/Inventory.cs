@@ -47,7 +47,7 @@ public class Inventory
 		InventorySlots = new InventorySlot[rows * columns];
 
 		for (int i = 0; i < InventorySlots.Length; i++)
-			InventorySlots[i] = new InventorySlot(this, GridContainer, i);
+			InventorySlots[i] = new InventorySlot(this, GridContainer);
 
 		Parent.AddChild(PanelContainer);
 

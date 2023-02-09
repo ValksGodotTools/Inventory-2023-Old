@@ -20,10 +20,10 @@ public partial class Player : CharacterBody2D
 
 		Inventory = new(this);
 
-		//Inventory.SetItem(1, new Item(Items.CoinRed));
+		Inventory.SetItem(1, new Item(Items.CoinRed));
 
-		//for (int i = 18; i < 27; i++)
-		//	Inventory.SetItem(i, new Item(Items.CoinPink));
+		for (int i = 18; i < 27; i++)
+			Inventory.SetItem(i, new Item(Items.CoinPink));
 	}
 
 	public override void _PhysicsProcess(double delta)

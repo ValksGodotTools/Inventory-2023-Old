@@ -130,6 +130,7 @@ animations = [{
 radius = 4.0
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_po44d")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 z_index = 1
@@ -148,11 +149,7 @@ shape = SubResource("CircleShape2D_peg1f")
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(4, 4)
 
-[node name="Chest" parent="." instance=ExtResource("6_efoe0")]
-position = Vector2(-53, -48)
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-script = ExtResource("1_po44d")
 
 [node name="ItemCursorParent" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -163,3 +160,6 @@ script = ExtResource("4_u3m4j")
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("5_40r8k")
+
+[node name="Chest" parent="." instance=ExtResource("6_efoe0")]
+position = Vector2(-53, -48)

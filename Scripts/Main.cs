@@ -10,17 +10,14 @@ public partial class Main : Node
 	public override void _Ready()
 	{
 		// Setup chest inventory
-		var chest = GetNode<Chest>("../Chest");
+		var chest = GetNode<Chest>("Chest");
 
-		chest.Ready += () =>
-		{
-			var inv = chest.Inventory;
+		var inv = chest.Inventory;
 
-			for (int i = 0; i < 9; i++)
-				inv.SetItem(i, new Item(Items.Coin));
+		for (int i = 0; i < 9; i++)
+			inv.SetItem(i, new Item(Items.Coin));
 
-			inv.SetItem(0, 2, new Item(Items.Coin, 3));
-			inv.SetItem(1, 2, new Item(Items.CoinSnowy));
-		};
+		inv.SetItem(0, 2, new Item(Items.Coin, 3));
+		inv.SetItem(1, 2, new Item(Items.CoinSnowy));
 	}
 }
