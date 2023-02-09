@@ -35,19 +35,24 @@ public partial class Main : Node
 	{
 		InputGame.Handle(@event);
 
-		if (Input.IsKeyPressed(Key.Shift) && Input.IsKeyPressed(Key.W))
+		if (Input.IsActionJustPressed("inventory_take_all"))
 		{
 			ItemPanelDescription.Clear();
 
 			Inventory.OtherInventory.TakeAll();
 		}
 
-		if (Input.IsKeyPressed(Key.Shift) && Input.IsKeyPressed(Key.Q))
+		if (Input.IsActionJustPressed("inventory_sort"))
 		{
 			ItemPanelDescription.Clear();
 
 			Inventory.OtherInventory.Sort();
 			Inventory.PlayerInventory.Sort();
+		}
+
+		if (Input.IsActionJustPressed("inventory_hotbar_1"))
+		{
+			GD.Print("one");
 		}
 
 		/*if (Input.IsKeyPressed(Key.E))
