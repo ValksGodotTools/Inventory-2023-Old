@@ -3,8 +3,8 @@
 public class Inventory
 {
 	public static Inventory OtherInventory { get; set; } // a container the player opened
-	public static Inventory PlayerInventory { get; set; }
 	public static InventorySlot ActiveInventorySlot { get; set; } // mouse is currently hovering over this slot
+	public static Chest ActiveChest { get; set; }
 
 	public InventorySlot[] InventorySlots { get; set; }
 	public int SlotSize { get; set; } = 50;
@@ -16,9 +16,9 @@ public class Inventory
 	private Node Parent { get; set; }
 	private PanelContainer PanelContainer { get; set; }
 
-	public Inventory(Node parent, int columns = 9, int rows = 5, int slotSize = 50)
+	public Inventory(Node node, int columns = 9, int rows = 5, int slotSize = 50)
 	{
-		Parent = parent;
+		Parent = node.GetTree().Root.GetNode("Main/CanvasLayer");
 		Columns = columns;
 		Rows = rows;
 		SlotSize = slotSize;
@@ -39,10 +39,17 @@ public class Inventory
 		for (int i = 0; i < InventorySlots.Length; i++)
 			InventorySlots[i] = new InventorySlot(this, GridContainer);
 
-		SetAnchor(Control.LayoutPreset.Center);
+		SetAnchor(Control.LayoutPreset.CenterTop); // center top by default
 
 		Parent.AddChild(PanelContainer);
+
+		// hide by default
+		PanelContainer.Hide();
 	}
+
+	public void Show() => PanelContainer.Show();
+	public void Hide() => PanelContainer.Hide();
+	public void ToggleVisibility() => PanelContainer.Visible = !PanelContainer.Visible;
 
 	public void SetAnchor(Control.LayoutPreset preset) =>
 		PanelContainer.SetAnchorsAndOffsetsPreset(preset);
@@ -99,20 +106,20 @@ public class Inventory
 			if (invItem == null)
 				continue;
 
-			var otherSlot = PlayerInventory.TryGetEmptyOrSameTypeSlot(invItem.Item.Type);
+			var otherSlot = Player.Inventory.TryGetEmptyOrSameTypeSlot(invItem.Item.Type);
 
-			var otherInvSlotItem = PlayerInventory.InventorySlots[otherSlot].InventoryItem;
+			var otherInvSlotItem = Player.Inventory.InventorySlots[otherSlot].InventoryItem;
 
 			if (otherInvSlotItem != null)
 			{
 				var item = otherInvSlotItem.Item;
 				item.Count += invItem.Item.Count;
 
-				PlayerInventory.InventorySlots[otherSlot].SetItem(item);
+				Player.Inventory.InventorySlots[otherSlot].SetItem(item);
 			}
 			else
 			{
-				PlayerInventory.InventorySlots[otherSlot].SetItem(invItem.Item);
+				Player.Inventory.InventorySlots[otherSlot].SetItem(invItem.Item);
 			}
 
 			InventorySlots[i].RemoveItem();

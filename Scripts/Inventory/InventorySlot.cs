@@ -153,8 +153,8 @@ public class InventorySlot
 		UpdateItemCountLabel(0);
 	}
 
-	public Inventory GetOtherInventory() => this.Inventory == Inventory.PlayerInventory ?
-		Inventory.OtherInventory : Inventory.PlayerInventory;
+	public Inventory GetOtherInventory() => this.Inventory == Player.Inventory ?
+		Inventory.OtherInventory : Player.Inventory;
 
 	private void UpdateItemCountLabel(int count)
 	{
@@ -202,6 +202,10 @@ public class InventorySlot
 			return;
 
 		var targetInv = GetOtherInventory();
+
+		if (targetInv == null)
+			targetInv = Player.Inventory;
+
 		var emptySlot = targetInv.TryGetEmptyOrSameTypeSlot(InventoryItem.Item.Type);
 
 		if (emptySlot != -1)
