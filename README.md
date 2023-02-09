@@ -16,6 +16,8 @@
 - [x] `Shift + W` to take all items from the 'other inventory' and put them in the players inventory
 - [x] `Shift + Q` to sort items in all open inventories by descending item count
 - [x] `1` `2` `3` `4` `5` `6` `7` `8` `9` to move / swap items to player hotbar slots
+- [x] `I` to open the players inventory
+- [x] `E` to interact with objects in the world
 
 ### Todo
 - If a item is picked up, it will lerp to the cursors position then stop lerping when it gets there (might not do this)
