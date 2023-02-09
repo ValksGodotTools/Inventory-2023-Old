@@ -4,13 +4,14 @@ public class Inventory
 {
 	public static Inventory OtherInventory { get; set; } // a container the player opened
 	public static Inventory PlayerInventory { get; set; }
+	public static InventorySlot ActiveInventorySlot { get; set; } // mouse is currently hovering over this slot
 
 	public InventorySlot[] InventorySlots { get; set; }
 	public int SlotSize { get; set; } = 50;
 
 	private GridContainer GridContainer { get; set; }
 	private int Padding { get; set; } = 10;
-	private int Columns { get; set; }
+	public int Columns { get; set; }
 	private int Rows { get; set; }
 	private Node Parent { get; set; }
 	private PanelContainer PanelContainer { get; set; }

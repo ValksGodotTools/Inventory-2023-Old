@@ -9,7 +9,7 @@ public class InventorySlot
 
 	private Panel Panel { get; set; }
 	public InventoryItem InventoryItem { get; set; }
-	private Inventory Inventory { get; set; }
+	public Inventory Inventory { get; set; }
 	private bool JustPickedUpItem { get; set; }
 
 	public InventorySlot(Inventory inv, Node parent)
@@ -35,6 +35,8 @@ public class InventorySlot
 
 		Panel.MouseEntered += () =>
 		{
+			Inventory.ActiveInventorySlot = this;
+
 			var cursorItem = ItemCursor.GetItem();
 
 			ContinuousLeftClickPickup(cursorItem);
@@ -47,6 +49,8 @@ public class InventorySlot
 
 		Panel.MouseExited += () =>
 		{
+			Inventory.ActiveInventorySlot = null;
+
 			if (InventoryItem == null)
 				return;
 
