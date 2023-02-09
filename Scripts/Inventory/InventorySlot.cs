@@ -76,6 +76,8 @@ public class InventorySlot
 		Panel.AddChild(DebugLabel);
 	}
 
+	public void SetVisible(bool v) => Panel.Visible = v;
+
 	private void ContinuousLeftClickPickup(Item cursorItem)
 	{
 		// Pickup items of the same type
@@ -90,7 +92,7 @@ public class InventorySlot
 
 		ItemCursor.SetItem(item);
 
-		RemoveItem();
+		RemoveItem();//
 	}
 
 	private void ContinuousShiftClickTransfer()

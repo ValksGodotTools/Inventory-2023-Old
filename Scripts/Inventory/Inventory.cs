@@ -1,4 +1,6 @@
-﻿namespace Inventory;
+﻿using static Godot.Control;
+
+namespace Inventory;
 
 public class Inventory
 {
@@ -8,6 +10,11 @@ public class Inventory
 
 	public InventorySlot[] InventorySlots { get; set; }
 	public int SlotSize { get; set; } = 50;
+	public bool Visible 
+	{ 
+		get => PanelContainer.Visible;
+		set => PanelContainer.Visible = value;
+	}
 
 	private GridContainer GridContainer { get; set; }
 	private int Padding { get; set; } = 10;
@@ -15,6 +22,8 @@ public class Inventory
 	private int Rows { get; set; }
 	private Node Parent { get; set; }
 	private PanelContainer PanelContainer { get; set; }
+	private LayoutPreset LayoutPreset { get; set; }
+	private StyleBox PanelStyleBoxVisible { get; set; }
 
 	public Inventory(Node node, int columns = 9, int rows = 5, int slotSize = 50)
 	{
@@ -24,6 +33,7 @@ public class Inventory
 		SlotSize = slotSize;
 
 		PanelContainer = new PanelContainer();
+		PanelStyleBoxVisible = PanelContainer.GetThemeStylebox("panel");
 
 		var marginContainer = new MarginContainer();
 		marginContainer.AddMargin(Padding);
@@ -42,7 +52,8 @@ public class Inventory
 		Parent.AddChild(PanelContainer);
 
 		// Must set anchor after all children are added to the scene
-		SetAnchor(Control.LayoutPreset.CenterTop); // center top by default
+		LayoutPreset = LayoutPreset.CenterTop;
+		SetAnchor(LayoutPreset); // center top by default
 
 		// hide by default
 		PanelContainer.Hide();
@@ -51,12 +62,26 @@ public class Inventory
 	public void MakePanelInvisible() =>
 		PanelContainer.AddThemeStyleboxOverride("panel", new StyleBoxEmpty());
 
+	public void MakePanelVisible() =>
+		PanelContainer.AddThemeStyleboxOverride("panel", PanelStyleBoxVisible);
+
 	public void Show() => PanelContainer.Show();
 	public void Hide() => PanelContainer.Hide();
 	public void ToggleVisibility() => PanelContainer.Visible = !PanelContainer.Visible;
 
-	public void SetAnchor(Control.LayoutPreset preset) =>
+	public void SetSlotsVisibility(int a, int b, bool visible)
+	{
+		for (int i = a; i < b; i++)
+			InventorySlots[i].SetVisible(visible);
+
+		SetAnchor(LayoutPreset);
+	}
+
+	public void SetAnchor(LayoutPreset preset)
+	{
+		LayoutPreset = preset;
 		PanelContainer.SetAnchorsAndOffsetsPreset(preset);
+	}
 
 	public virtual void SetItem(int i, Item item) =>
 		InventorySlots[i].SetItem(item);

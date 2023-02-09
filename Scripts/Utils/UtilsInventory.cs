@@ -2,6 +2,8 @@
 
 public static class UtilsInventory
 {
+	private static bool PlayerInventoryVisible { get; set; }
+
 	public static void HandleInput(InputEvent @event)
 	{
 		InputGame.Handle(@event);
@@ -13,7 +15,16 @@ public static class UtilsInventory
 
 		if (Input.IsActionJustPressed("inventory"))
 		{
-			Player.Inventory.ToggleVisibility();
+			if (PlayerInventoryVisible)
+			{
+				Player.Inventory.SwitchToHotbar();
+			}
+			else
+			{
+				Player.Inventory.SwitchToFullInventory();
+			}
+
+			PlayerInventoryVisible = !PlayerInventoryVisible;
 		}
 
 		if (Input.IsActionJustPressed("inventory_take_all"))
@@ -33,6 +44,15 @@ public static class UtilsInventory
 
 		for (int i = 0; i < Player.Inventory.Columns; i++)
 			InputHotbar(i);
+
+		// DEBUG
+		if (Input.IsKeyPressed(Key.F1))
+			for (int i = 0; i < Player.Inventory.InventorySlots.Length; i++)
+				Player.Inventory.InventorySlots[i].SetDebugLabel(i + "");
+
+		if (Input.IsKeyPressed(Key.F2))
+			for (int i = 0; i < Player.Inventory.InventorySlots.Length; i++)
+				Player.Inventory.InventorySlots[i].SetDebugLabel("");
 	}
 
 	private static void InputHotbar(int hotbar)

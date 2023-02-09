@@ -148,6 +148,9 @@ shape = SubResource("CircleShape2D_peg1f")
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(4, 4)
 
+[node name="Chest" parent="." instance=ExtResource("6_efoe0")]
+position = Vector2(-53, -48)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource("1_po44d")
 
@@ -160,6 +163,3 @@ script = ExtResource("4_u3m4j")
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("5_40r8k")
-
-[node name="Chest" parent="." instance=ExtResource("6_efoe0")]
-position = Vector2(-53, -48)

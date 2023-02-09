@@ -19,7 +19,6 @@ public partial class Player : CharacterBody2D
 		AnimatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		Inventory = new(this);
-		Inventory.SetAnchor(Control.LayoutPreset.CenterBottom);
 
 		//Inventory.SetItem(1, new Item(Items.CoinRed));
 

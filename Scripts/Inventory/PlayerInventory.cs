@@ -2,34 +2,23 @@
 
 public class PlayerInventory : Inventory
 {
-	public Inventory Hotbar { get; set; }
-
 	public PlayerInventory(Node node, int columns = 9, int rows = 5, int slotSize = 50) 
 		: base(node, columns, rows, slotSize)
 	{
-		Hotbar = new Inventory(node, 9, 1);
-		Hotbar.SetAnchor(Control.LayoutPreset.CenterBottom);
-		Hotbar.MakePanelInvisible();
-		Hotbar.Show();
+		SetAnchor(Control.LayoutPreset.CenterBottom);
+		SwitchToHotbar();
+		Show();
 	}
 
-	public override void SetItem(int i, Item item)
+	public void SwitchToFullInventory()
 	{
-		base.SetItem(i, item);
-
-		GD.Print(i);
-
-		if (i <= Columns)
-			Hotbar.InventorySlots[i].SetItem(item);
+		MakePanelVisible();
+		SetSlotsVisibility(Columns, InventorySlots.Length, true);
 	}
 
-	public override void SetItem(int x, int y, Item item)
+	public void SwitchToHotbar()
 	{
-		base.SetItem(x, y, item);
-
-		var i = x + y * Columns;
-
-		if (i <= Columns)
-			Hotbar.InventorySlots[i].SetItem(item);
+		MakePanelInvisible();
+		SetSlotsVisibility(Columns, InventorySlots.Length, false);
 	}
 }
