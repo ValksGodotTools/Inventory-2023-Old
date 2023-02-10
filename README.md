@@ -24,6 +24,7 @@ https://user-images.githubusercontent.com/6277739/217958511-d5182a65-60e9-464d-8
 
 ### Todo
 - Item movement animations / inventory open animations (might not do this)
+- Abstract the code so the player inventory and hotbar appear at the top instead of the bottom (so can easily switch between if you want the player inventory to be at the bottom or top for your specific game)
 - Saving / loading inventory data
 - Allow items to define their own max stack sizes
 - Q = Drop Item (x1)
@@ -58,6 +59,9 @@ public override void _Ready()
     Inventory.OtherInventory = ChestInv;
 }
 ```
+
+### Contributing
+Please follow [this code style](https://github.com/Valks-Games/sankari/wiki/Code-Style) and talk to me over Discord `va#9904` before you do anything. Have a look at the to do list above and the projects issues for things to do. On top of all that, I'm always trying to find ways to clean up the code and make it more humanly readable.
 
 ### Previews
 https://user-images.githubusercontent.com/6277739/217701119-4f5dcf6e-3004-4f91-b966-8de9b8ba98c7.mp4
