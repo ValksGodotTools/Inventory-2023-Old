@@ -8,6 +8,8 @@ public class PlayerInventory : Inventory
 	public bool IsHotbar { get; set; } = true;
 
 	private Node Node { get; set; }
+	private Tween TweenExit { get; set; }
+	private Tween TweenReEntry { get; set; }
 
 	public PlayerInventory(Node node, int columns = 9, int rows = 5, int slotSize = 50) 
 		: base(node, columns, rows, slotSize)
@@ -15,70 +17,71 @@ public class PlayerInventory : Inventory
 		Node = node;
 
 		SetAnchor(Control.LayoutPreset.CenterBottom);
-		SwitchToHotbar(true);
+		SwitchToHotbar();
 		Show();
+	}
+
+	// Instantly switch
+	public void SwitchToHotbar()
+	{
+		// ensure animation tweens are dead
+		TweenExit?.Kill();
+		TweenReEntry?.Kill();
+
+		MakePanelInvisible();
+		SetSlotsVisibility(0, InventorySlots.Length - Columns, false, true);
+	}
+
+	// Instantly switch
+	public void SwitchToFullInventory()
+	{
+		// ensure animation tweens are dead
+		TweenExit?.Kill();
+		TweenReEntry?.Kill();
+
+		MakePanelVisible();
+		SetSlotsVisibility(0, InventorySlots.Length - Columns, true, true);
 	}
 
 	public void SwitchToHotbarAnimated()
 	{
-		if (CurrentlyAnimating)
-			return;
-
-		IsHotbar = true;
-		CurrentlyAnimating = true;
-
-		var tween = Node.GetTree().CreateTween();
-		var container = PanelContainer;
-
-		// Move the full inv out of the game view by moving down by its own height
-		tween.TweenProperty(container, "position:y", container.Size.Y, 0.3);
-		tween.TweenCallback(Callable.From(() =>
+		Transition(true, () =>
 		{
-
-			// Transform the full inv into a hotbar
 			MakePanelInvisible();
 			SetSlotsVisibility(0, InventorySlots.Length - Columns, false, true);
-			// Reset the full inv y position
-			container.Position = new Vector2(container.Position.X, 0);
-		}));
-
-		// Since the hotbar was transformed to a full inventory, its container size has changed
-		// But container.Size.Y will not be updated until SortChildren has fired
-		// So lets subscribe to SortChildren
-		container.SortChildren += animateUp;
-
-		void animateUp()
-		{
-			// SortChildren is called multiple times and we only need it for one time
-			container.SortChildren -= animateUp;
-
-			// The previous tween is no longer any good, so lets make another
-			var tween = Node.GetTree().CreateTween();
-
-			// Move the full inventory into the games view by moving up by its own height
-			tween.TweenProperty(container, "position:y", -PanelContainer.Size.Y, 0.3);
-			tween.TweenCallback(Callable.From(() => CurrentlyAnimating = false));
-		}
+		}, 1, 1, Tween.TransitionType.Back);
 	}
 
 	public void SwitchToFullInventoryAnimated()
 	{
+		Transition(false, () =>
+		{
+			MakePanelVisible();
+			SetSlotsVisibility(0, InventorySlots.Length - Columns, true, true);
+		}, 1, 0.5, Tween.TransitionType.Sine);
+	}
+
+	private void Transition(bool isHotbar, Action action, double exitTime, double reEntryTime,
+		Tween.TransitionType reEntryTransType)
+	{
 		if (CurrentlyAnimating)
 			return;
 
-		IsHotbar = false;
+		IsHotbar = isHotbar;
 		CurrentlyAnimating = true;
 
-		var tween = Node.GetTree().CreateTween();
+		TweenExit = Node.GetTree().CreateTween();
 		var container = PanelContainer;
 
 		// Move the hotbar out of the game view by moving down by its own height
-		tween.TweenProperty(container, "position:y", container.Size.Y, 0.2);
-		tween.TweenCallback(Callable.From(() =>
+		TweenExit.TweenProperty(container, "position:y", container.Size.Y, exitTime)
+			.SetTrans(Tween.TransitionType.Cubic)
+			.SetEase(Tween.EaseType.InOut);
+
+		TweenExit.TweenCallback(Callable.From(() =>
 		{
 			// Transform the hotbar into a full inventory
-			MakePanelVisible();
-			SetSlotsVisibility(0, InventorySlots.Length - Columns, true, true);
+			action();
 
 			// Reset the hotbar y position
 			// Make sure to reset the y position after SetSlotsVisibility(...) because
@@ -98,27 +101,14 @@ public class PlayerInventory : Inventory
 			container.SortChildren -= animateUp;
 
 			// The previous tween is no longer any good, so lets make another
-			var tween = Node.GetTree().CreateTween();
-			
+			TweenReEntry = Node.GetTree().CreateTween();
+
 			// Move the full inventory into the games view by moving up by its own height
-			tween.TweenProperty(container, "position:y", -PanelContainer.Size.Y, 0.3);
-			tween.TweenCallback(Callable.From(() => CurrentlyAnimating = false));
+			TweenReEntry.TweenProperty(container, "position:y", -PanelContainer.Size.Y, reEntryTime)
+				.SetTrans(reEntryTransType)
+				.SetEase(Tween.EaseType.Out);
+
+			TweenReEntry.TweenCallback(Callable.From(() => CurrentlyAnimating = false));
 		}
-	}
-
-	private void Animate(bool isHotbar, Action action)
-	{
-
-	}
-
-	public void SwitchToHotbar(bool updateAnchor)
-	{
-		if (CurrentlyAnimating)
-			return;
-
-		//CurrentlyAnimating = true;
-		IsHotbar = true;
-		MakePanelInvisible();
-		SetSlotsVisibility(0, InventorySlots.Length - Columns, false, updateAnchor);
 	}
 }
