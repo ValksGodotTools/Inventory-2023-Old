@@ -12,15 +12,7 @@ public class InventoryAnimatedItem : InventoryItem
 		Item = item;
 		Inv = inv;
 		ItemAnimated = itemAnimated;
-		AnimatedSprite2D = new AnimatedSprite2D
-		{
-			SpriteFrames = itemAnimated.SpriteFrames,
-			Position = Vector2.One * (inv.SlotSize / 2),
-			Scale = Vector2.One * (inv.SlotSize / 25)
-		};
-
-		AnimatedSprite2D.Frame = GD.RandRange(0, AnimatedSprite2D.SpriteFrames.GetFrameCount("default") - 1);
-		AnimatedSprite2D.Play();
+		AnimatedSprite2D = (AnimatedSprite2D)GenerateGraphic();
 
 		parent.AddChild(AnimatedSprite2D);
 	}

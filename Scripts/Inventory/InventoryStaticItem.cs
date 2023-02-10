@@ -12,12 +12,7 @@ public class InventoryStaticItem : InventoryItem
 		Inv = inv;
 		ItemStatic = itemStatic;
 		Item = item;
-		Sprite2D = new Sprite2D
-		{
-			Texture = itemStatic.Texture,
-			Position = Vector2.One * (inv.SlotSize / 2),
-			Scale = Vector2.One * (inv.SlotSize / 25)
-		};
+		Sprite2D = (Sprite2D)GenerateGraphic();
 
 		parent.AddChild(Sprite2D);
 	}
