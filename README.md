@@ -16,6 +16,7 @@ The goal of this project is to attempt to perfect a game inventory system so it 
 - [x] Inventories of varying sizes can be defined
 - [x] Inventory slot size can be customized
 - [x] Player Inventory Hotbar
+- [x] Smooth player inventory open / close animations
 
 ### Implemented Controls
 - [x] `Left Click` to pick up / place item stack
@@ -33,7 +34,8 @@ The goal of this project is to attempt to perfect a game inventory system so it 
 - [x] `E` to interact with objects in the world
 
 ### Todo
-- Item movement animations / inventory open animations (might not do this)
+- Item movement animations (might not do this)
+- Hotkey to deposit all items from player inventory to 'other inventory'
 - Abstract the code so the player inventory and hotbar appear at the top instead of the bottom (so can easily switch between if you want the player inventory to be at the bottom or top for your specific game)
 - Saving / loading inventory data
 - Allow items to define their own max stack sizes
