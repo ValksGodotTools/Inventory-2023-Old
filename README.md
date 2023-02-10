@@ -2,6 +2,15 @@ https://user-images.githubusercontent.com/6277739/217958511-d5182a65-60e9-464d-8
 
 ## A Game Inventory being made in Godot 4 C#
 
+#### Table of Contents
+1. [Features](#features)
+2. [Implemented Controls](#implemented-controls)
+3. [Todo](#todo)
+4. [Known Issues](#known-issues)
+5. [Example Code](#example-code)
+6. [Contributing](#contributing)
+7. [Previews](#previews)
+
 ### Features
 - [x] Inventories of varying sizes can be defined
 - [x] Inventory slot size can be customized
@@ -61,7 +70,11 @@ public override void _Ready()
 ```
 
 ### Contributing
-Please follow [this code style](https://github.com/Valks-Games/sankari/wiki/Code-Style) and talk to me over Discord `va#9904` before you do anything. Have a look at the to do list above and the projects issues for things to do. On top of all that, I'm always trying to find ways to clean up the code and make it more humanly readable.
+Please talk to me over Discord `va#9904` before you do anything. 
+
+Have a look at the to do list above and the [projects issues](https://github.com/Valks-Games/Inventory/issues) for things to do. On top of all that, I'm always trying to find ways to clean up the code and make it more humanly readable.
+
+Please follow [this code style](https://github.com/Valks-Games/sankari/wiki/Code-Style)
 
 ### Previews
 https://user-images.githubusercontent.com/6277739/217701119-4f5dcf6e-3004-4f91-b966-8de9b8ba98c7.mp4
