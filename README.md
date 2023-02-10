@@ -34,9 +34,7 @@ The goal of this project is to attempt to perfect a game inventory system so it 
 - [x] `E` to interact with objects in the world
 
 ### Todo
-- Item movement animations (might not do this)
 - Hotkey to deposit all items from player inventory to 'other inventory'
-- Abstract the code so the player inventory and hotbar appear at the top instead of the bottom (so can easily switch between if you want the player inventory to be at the bottom or top for your specific game)
 - Saving / loading inventory data
 - Allow items to define their own max stack sizes
 - Q = Drop Item (x1)
@@ -44,9 +42,6 @@ The goal of this project is to attempt to perfect a game inventory system so it 
 - Maybe implementing ENet-CSharp and syncing all of this inventory stuff over the network. (There would be a demo where 2 players would see each other walking around and see the inventory update when the other player interacts with it)
 - Giving items a category property so the sorting hotkey can sort by category or any other item property for that matter
 - Add item rarities (maybe rare items have a glowing outline achieved used Godot Shaders)
-
-### Known Issues
-- Multiple description panels stack on top of each other and do not disappear until more mouse movements or other inputs are made
 
 ### Example Code
 ```cs
