@@ -70,8 +70,11 @@ public class Inventory
 	public void MakePanelVisible() =>
 		PanelContainer.AddThemeStyleboxOverride("panel", PanelStyleBoxVisible);
 
-	public void Show() => ControlPivot.Show();
-	public void Hide() => ControlPivot.Hide();
+	public void Open() => ControlPivot.Show();
+	public void Close()
+	{
+		ControlPivot.Hide();
+	}
 	public void ToggleVisibility() => ControlPivot.Visible = !ControlPivot.Visible;
 
 	public void SetSlotsVisibility(int a, int b, bool visible, bool updateAnchor)

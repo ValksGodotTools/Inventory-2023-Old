@@ -18,7 +18,7 @@ public class PlayerInventory : Inventory
 
 		SetAnchor(Control.LayoutPreset.CenterBottom);
 		SwitchToHotbar();
-		Show();
+		Open();
 	}
 
 	// Instantly switch

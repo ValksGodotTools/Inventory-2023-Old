@@ -20,7 +20,7 @@ public partial class Chest : Node2D
 
 		IsOpen = true;
 		Inventory.OtherInventory = Inventory;
-		Inventory.Show();
+		Inventory.Open();
 
 		if (Player.Inventory.IsHotbar)
 			Player.Inventory.SwitchToFullInventory();
@@ -31,11 +31,20 @@ public partial class Chest : Node2D
 	public void Close()
 	{
 		IsOpen = false;
+
+		// Clean up item animations
+		foreach (var slot in Inventory.OtherInventory.InventorySlots)
+			slot.ResetCleanUpAnimations();
+
+		foreach (var slot in Player.Inventory.InventorySlots)
+			slot.ResetCleanUpAnimations();
+
 		Inventory.OtherInventory = null;
-		Inventory.Hide();
+		Inventory.Close();
 
 		if (!Player.Inventory.IsHotbar)
 			Player.Inventory.SwitchToHotbarAnimated();
+
 		AnimatedSprite2D.Play("close");
 		ItemPanelDescription.Clear();
 	}

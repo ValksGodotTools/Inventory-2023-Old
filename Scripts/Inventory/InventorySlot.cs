@@ -2,15 +2,19 @@
 
 public class InventorySlot
 {
-	public Vector2 Position { get => Panel.GlobalPosition + Vector2.One * (Inventory.SlotSize / 2); }
-	public bool CurrentlyAnimating { get; set; }
+	public InventoryItem InventoryItem { get; set; }
 
-	public Label ItemCountLabel { get; set; }
+	private Vector2 Position { get => Panel.GlobalPosition + Vector2.One * (Inventory.SlotSize / 2); }
+	private bool CurrentlyAnimating { get; set; }
+	private Node2D Graphic { get; set; }
+	private Tween Tween { get; set; }
+	private InventorySlot OtherInventorySlot { get; set; }
+
+	private Label ItemCountLabel { get; set; }
 	private Label DebugLabel { get; set; }
 
 	private Panel Panel { get; set; }
-	public InventoryItem InventoryItem { get; set; }
-	public Inventory Inventory { get; set; }
+	private Inventory Inventory { get; set; }
 	private bool JustPickedUpItem { get; set; }
 
 	public InventorySlot(Inventory inv, Node parent)
@@ -75,6 +79,25 @@ public class InventorySlot
 		DebugLabel.AddThemeColorOverride("font_shadow_color", Colors.Black);
 
 		Panel.AddChild(DebugLabel);
+	}
+
+	public void ResetCleanUpAnimations()
+	{
+		if (!CurrentlyAnimating)
+			return;
+
+		Tween.Kill();
+
+		if (OtherInventorySlot != null)
+		{
+			OtherInventorySlot.CurrentlyAnimating = false;
+			OtherInventorySlot.InventoryItem?.Show();
+		}
+
+		CurrentlyAnimating = false;
+
+		if (GodotObject.IsInstanceValid(Graphic))
+			Graphic.QueueFree();
 	}
 
 	public void SetVisible(bool v) => Panel.Visible = v;
@@ -229,8 +252,8 @@ public class InventorySlot
 
 		// Get a copy of the item sprite that is being transfered
 		// This is purely for visuals and does not effect the item logic
-		var graphic = InventoryItem.GenerateGraphic();
-		graphic.GlobalPosition = Position;
+		Graphic = InventoryItem.GenerateGraphic();
+		Graphic.GlobalPosition = Position;
 
 		// Get the other slot this item is being transfered to
 		var otherInvSlot = targetInv.InventorySlots[emptySlot];
@@ -263,6 +286,8 @@ public class InventorySlot
 			otherInvSlot.SetItem(itemRef);
 		}
 
+		OtherInventorySlot = otherInvSlot;
+
 		// Hide the other item
 		if (hide)
 			otherInvSlot.InventoryItem.Hide();
@@ -272,14 +297,14 @@ public class InventorySlot
 		otherInvSlot.CurrentlyAnimating = true;
 
 		// Add graphic to the world
-		Main.AddToCanvasLayer(graphic);
+		Main.AddToCanvasLayer(Graphic);
 
-		var tween = Panel.GetTree().CreateTween();
-		tween.TweenProperty(graphic, "global_position", otherInvSlot.Position, 1)
+		Tween = Panel.GetTree().CreateTween();
+		Tween.TweenProperty(Graphic, "global_position", otherInvSlot.Position, 1)
 			.SetEase(Tween.EaseType.Out)
 			.SetTrans(Tween.TransitionType.Cubic);
 
-		tween.TweenCallback(Callable.From(() =>
+		Tween.TweenCallback(Callable.From(() =>
 		{
 			// Sprite graphic reached its destination, lets show the other inventory slot item now
 			
@@ -295,7 +320,7 @@ public class InventorySlot
 
 			CurrentlyAnimating = false;
 			otherInvSlot.CurrentlyAnimating = false;
-			graphic.QueueFree();
+			Graphic.QueueFree();
 		}));
 	}
 	
