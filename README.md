@@ -1,6 +1,7 @@
 https://user-images.githubusercontent.com/6277739/217958511-d5182a65-60e9-464d-82d3-23a069720ae3.mp4
 
 ## A Game Inventory being made in Godot 4 C#
+The goal of this project is to attempt to perfect a game inventory system so it can be used across all games that make use of inventories.
 
 #### Table of Contents
 1. [Features](#features)
