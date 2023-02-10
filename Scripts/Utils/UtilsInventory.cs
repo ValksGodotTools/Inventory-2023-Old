@@ -2,9 +2,7 @@
 
 public static class UtilsInventory
 {
-	private static bool PlayerInventoryVisible { get; set; }
-
-	public static void HandleInput(InputEvent @event)
+	public static void HandleInput(Node node, InputEvent @event)
 	{
 		InputGame.Handle(@event);
 
@@ -15,16 +13,15 @@ public static class UtilsInventory
 
 		if (Input.IsActionJustPressed("inventory"))
 		{
-			if (PlayerInventoryVisible)
+			if (!Player.Inventory.IsHotbar)
 			{
-				Player.Inventory.SwitchToHotbar();
+				//Player.Inventory.SwitchToHotbar(true);
+				Player.Inventory.SwitchToHotbarAnimated();
 			}
 			else
 			{
-				Player.Inventory.SwitchToFullInventory();
+				Player.Inventory.SwitchToFullInventoryAnimated();
 			}
-
-			PlayerInventoryVisible = !PlayerInventoryVisible;
 		}
 
 		if (Input.IsActionJustPressed("inventory_take_all"))

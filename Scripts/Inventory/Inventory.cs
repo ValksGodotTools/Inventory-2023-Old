@@ -21,9 +21,10 @@ public class Inventory
 	public int Columns { get; set; }
 	private int Rows { get; set; }
 	private Node Parent { get; set; }
-	private PanelContainer PanelContainer { get; set; }
+	public PanelContainer PanelContainer { get; set; }
 	private LayoutPreset LayoutPreset { get; set; }
 	private StyleBox PanelStyleBoxVisible { get; set; }
+	private Control ControlPivot { get; set; }
 
 	public Inventory(Node node, int columns = 9, int rows = 5, int slotSize = 50)
 	{
@@ -31,6 +32,8 @@ public class Inventory
 		Columns = columns;
 		Rows = rows;
 		SlotSize = slotSize;
+
+		ControlPivot = new Control();
 
 		PanelContainer = new PanelContainer();
 		PanelStyleBoxVisible = PanelContainer.GetThemeStylebox("panel");
@@ -49,14 +52,16 @@ public class Inventory
 		for (int i = 0; i < InventorySlots.Length; i++)
 			InventorySlots[i] = new InventorySlot(this, GridContainer);
 
-		Parent.AddChild(PanelContainer);
+		ControlPivot.AddChild(PanelContainer);
+
+		Parent.AddChild(ControlPivot);
 
 		// Must set anchor after all children are added to the scene
 		LayoutPreset = LayoutPreset.CenterTop;
 		SetAnchor(LayoutPreset); // center top by default
 
 		// hide by default
-		PanelContainer.Hide();
+		ControlPivot.Hide();
 	}
 
 	public void MakePanelInvisible() =>
@@ -65,21 +70,23 @@ public class Inventory
 	public void MakePanelVisible() =>
 		PanelContainer.AddThemeStyleboxOverride("panel", PanelStyleBoxVisible);
 
-	public void Show() => PanelContainer.Show();
-	public void Hide() => PanelContainer.Hide();
-	public void ToggleVisibility() => PanelContainer.Visible = !PanelContainer.Visible;
+	public void Show() => ControlPivot.Show();
+	public void Hide() => ControlPivot.Hide();
+	public void ToggleVisibility() => ControlPivot.Visible = !ControlPivot.Visible;
 
-	public void SetSlotsVisibility(int a, int b, bool visible)
+	public void SetSlotsVisibility(int a, int b, bool visible, bool updateAnchor)
 	{
 		for (int i = a; i < b; i++)
 			InventorySlots[i].SetVisible(visible);
-
-		SetAnchor(LayoutPreset);
+		
+		if (updateAnchor)
+			SetAnchor(LayoutPreset);
 	}
 
 	public void SetAnchor(LayoutPreset preset)
 	{
 		LayoutPreset = preset;
+		ControlPivot.SetAnchorsAndOffsetsPreset(preset);
 		PanelContainer.SetAnchorsAndOffsetsPreset(preset);
 	}
 
