@@ -72,7 +72,7 @@ public override void _Ready()
 ### Contributing
 Please talk to me over Discord `va#9904` before you do anything. 
 
-Have a look at the to do list above and the [projects issues](https://github.com/Valks-Games/Inventory/issues) for things to do. On top of all that, I'm always trying to find ways to clean up the code and make it more humanly readable.
+Have a look at the [todo list](#todo) and the [projects issues](https://github.com/Valks-Games/Inventory/issues) for things to do. On top of all that, I'm always trying to find ways to clean up the code and make it more humanly readable.
 
 Please follow [this code style](https://github.com/Valks-Games/sankari/wiki/Code-Style)
 
