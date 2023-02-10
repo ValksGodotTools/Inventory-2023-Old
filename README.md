@@ -34,9 +34,7 @@ The goal of this project is to attempt to perfect a game inventory system so it 
 - [x] `E` to interact with objects in the world
 
 ### Todo
-- Item movement animations (might not do this)
 - Hotkey to deposit all items from player inventory to 'other inventory'
-- Abstract the code so the player inventory and hotbar appear at the top instead of the bottom (so can easily switch between if you want the player inventory to be at the bottom or top for your specific game)
 - Saving / loading inventory data
 - Allow items to define their own max stack sizes
 - Q = Drop Item (x1)
@@ -44,9 +42,6 @@ The goal of this project is to attempt to perfect a game inventory system so it 
 - Maybe implementing ENet-CSharp and syncing all of this inventory stuff over the network. (There would be a demo where 2 players would see each other walking around and see the inventory update when the other player interacts with it)
 - Giving items a category property so the sorting hotkey can sort by category or any other item property for that matter
 - Add item rarities (maybe rare items have a glowing outline achieved used Godot Shaders)
-
-### Known Issues
-- Multiple description panels stack on top of each other and do not disappear until more mouse movements or other inputs are made
 
 ### Example Code
 ```cs
@@ -83,6 +78,10 @@ Have a look at the [todo list](#todo) and the [projects issues](https://github.c
 Please follow [this code style](https://github.com/Valks-Games/sankari/wiki/Code-Style)
 
 ### Previews
+https://user-images.githubusercontent.com/6277739/218189596-f6c9edb2-67ca-4aca-9c7d-214f145699e3.mp4
+
+https://user-images.githubusercontent.com/6277739/218189290-9169f504-fc31-4cd6-99f3-4ba92eb4ff75.mp4
+
 https://user-images.githubusercontent.com/6277739/217701119-4f5dcf6e-3004-4f91-b966-8de9b8ba98c7.mp4
 
 https://user-images.githubusercontent.com/6277739/217701126-bbe38e2b-e962-4ad8-a6ce-28c29035e0d0.mp4
