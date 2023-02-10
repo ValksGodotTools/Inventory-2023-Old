@@ -58,61 +58,116 @@ public static class UtilsInventory
 
 	private static void InputHotbar(int hotbar)
 	{
-		if (Input.IsActionJustPressed($"inventory_hotbar_{hotbar + 1}"))
+		if (!Input.IsActionJustPressed($"inventory_hotbar_{hotbar + 1}"))
+			return;
+
+		var cursorItem = ItemCursor.GetItem();
+
+		if (cursorItem == null)
+			HotbarInvSlot(hotbar);
+		else
+			HotbarCursor(hotbar, cursorItem);
+	}
+
+	private static void HotbarCursor(int hotbar, Item cursorItem)
+	{
+		var playerInv = Player.Inventory;
+		var playerInvSlots = playerInv.InventorySlots;
+		var columns = playerInv.Columns;
+
+		if (columns <= hotbar)
+			return;
+
+		var hotbarSlot = playerInvSlots[playerInvSlots.Length - columns + hotbar];
+
+		ItemPanelDescription.Clear();
+
+		if (hotbarSlot.InventoryItem == null)
 		{
-			var activeInvSlot = Inventory.ActiveInventorySlot;
-
-			if (activeInvSlot == null)
-				return;
-
-			var activeInvSlotItem = activeInvSlot.InventoryItem;
-
-			if (activeInvSlotItem == null)
-				return;
-
-			var playerInv = Player.Inventory;
-			var columns = playerInv.Columns;
-			var playerInvSlots = playerInv.InventorySlots;
-
-			if (columns <= hotbar)
-				return;
-
-			var hotbarSlot = playerInvSlots[playerInvSlots.Length - columns + hotbar];
-
-			if (activeInvSlot == hotbarSlot)
-				return;
-
-			ItemPanelDescription.Clear();
-
-			if (hotbarSlot.InventoryItem == null)
+			// Just move the item over
+			hotbarSlot.SetItem(cursorItem);
+			ItemCursor.RemoveItem();
+		}
+		else
+		{
+			if (hotbarSlot.InventoryItem.Item.Type == cursorItem.Type)
 			{
+				// Same type of item
+
+				// Add the item counts together
+				cursorItem.Count += hotbarSlot.InventoryItem.Item.Count;
+
+				// Just move the item over
+				hotbarSlot.SetItem(cursorItem);
+				ItemCursor.RemoveItem();
+			}
+			else
+			{
+				// Different type of item
+
+				// Swap the items
+				var hotbarItem = hotbarSlot.InventoryItem.Item;
+
+				hotbarSlot.SetItem(cursorItem);
+				ItemCursor.SetItem(hotbarItem);
+			}
+		}
+	}
+
+	private static void HotbarInvSlot(int hotbar)
+	{
+		var activeInvSlot = Inventory.ActiveInventorySlot;
+
+		if (activeInvSlot == null)
+			return;
+
+		var activeInvSlotItem = activeInvSlot.InventoryItem;
+
+		if (activeInvSlotItem == null)
+			return;
+
+		var playerInv = Player.Inventory;
+		var columns = playerInv.Columns;
+		var playerInvSlots = playerInv.InventorySlots;
+
+		if (columns <= hotbar)
+			return;
+
+		var hotbarSlot = playerInvSlots[playerInvSlots.Length - columns + hotbar];
+
+		if (activeInvSlot == hotbarSlot)
+			return;
+
+		ItemPanelDescription.Clear();
+
+		if (hotbarSlot.InventoryItem == null)
+		{
+			// Just move the item over
+			hotbarSlot.SetItem(activeInvSlotItem.Item);
+			activeInvSlot.RemoveItem();
+		}
+		else
+		{
+			if (hotbarSlot.InventoryItem.Item.Type == activeInvSlotItem.Item.Type)
+			{
+				// Same type of item
+
+				// Add the item counts together
+				activeInvSlotItem.Item.Count += hotbarSlot.InventoryItem.Item.Count;
+
 				// Just move the item over
 				hotbarSlot.SetItem(activeInvSlotItem.Item);
 				activeInvSlot.RemoveItem();
 			}
 			else
 			{
-				if (hotbarSlot.InventoryItem.Item.Type == activeInvSlotItem.Item.Type)
-				{
-					// Same type of item
+				// Different type of item
 
-					// Add the item counts together
-					activeInvSlotItem.Item.Count += hotbarSlot.InventoryItem.Item.Count;
+				// Swap the items
+				var hotbarItem = hotbarSlot.InventoryItem.Item;
 
-					// Just move the item over
-					hotbarSlot.SetItem(activeInvSlotItem.Item);
-					activeInvSlot.RemoveItem();
-				}
-				else
-				{
-					// Different type of item
-
-					// Swap the items
-					var hotbarItem = hotbarSlot.InventoryItem.Item;
-
-					hotbarSlot.SetItem(activeInvSlotItem.Item);
-					activeInvSlot.SetItem(hotbarItem);
-				}
+				hotbarSlot.SetItem(activeInvSlotItem.Item);
+				activeInvSlot.SetItem(hotbarItem);
 			}
 		}
 	}
