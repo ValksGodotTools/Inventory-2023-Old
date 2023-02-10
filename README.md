@@ -78,6 +78,8 @@ Have a look at the [todo list](#todo) and the [projects issues](https://github.c
 Please follow [this code style](https://github.com/Valks-Games/sankari/wiki/Code-Style)
 
 ### Previews
+https://user-images.githubusercontent.com/6277739/218189290-9169f504-fc31-4cd6-99f3-4ba92eb4ff75.mp4
+
 https://user-images.githubusercontent.com/6277739/217701119-4f5dcf6e-3004-4f91-b966-8de9b8ba98c7.mp4
 
 https://user-images.githubusercontent.com/6277739/217701126-bbe38e2b-e962-4ad8-a6ce-28c29035e0d0.mp4
