@@ -1,9 +1,10 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-
-namespace Inventory;
+﻿namespace Inventory;
 
 public class InventorySlot
 {
+	public Vector2 Position { get => Panel.GlobalPosition + Vector2.One * (Inventory.SlotSize / 2); }
+	public bool CurrentlyAnimating { get; set; }
+
 	public Label ItemCountLabel { get; set; }
 	private Label DebugLabel { get; set; }
 
@@ -200,35 +201,102 @@ public class InventorySlot
 	// Transfer the item in the inventory slot we are currently hovering over
 	private void TransferItem()
 	{
+		// Do not transfer item if this item is currently being animated
+		if (CurrentlyAnimating)
+			return;
+
+		// There is no item here thus no item to transfer
 		if (InventoryItem == null)
 			return;
 
+		// Get the 'other inventory'
 		var targetInv = GetOtherInventory();
 
+		// No 'other inventory' is open, lets use the player inventory so the
+		// item gets transfered to the same inventory instead of doing nothing
 		if (targetInv == null)
 			targetInv = Player.Inventory;
 
+		// Try to find a empty slot in the target inventory
 		var emptySlot = targetInv.TryGetEmptyOrSameTypeSlot(InventoryItem.Item.Type);
 
-		if (emptySlot != -1)
+		// No empty slot was found!
+		if (emptySlot == -1)
+			return;
+
+		// Store temporary reference to the item in this inventory slot
+		var itemRef = InventoryItem.Item;
+
+		// Get a copy of the item sprite that is being transfered
+		// This is purely for visuals and does not effect the item logic
+		var graphic = InventoryItem.GenerateGraphic();
+		graphic.GlobalPosition = Position;
+
+		// Get the other slot this item is being transfered to
+		var otherInvSlot = targetInv.InventorySlots[emptySlot];
+
+		//if (otherInvSlot.CurrentlyAnimating)
+		//	return;
+
+		// Remove the item before it gets transfered
+		this.RemoveItem();
+
+		var otherInvSlotItem = otherInvSlot.InventoryItem;
+
+		var hide = false;
+
+		// If the other inventory slot has no item in it, then hide the item that
+		// gets transfered over. So it does not look like there is a duplicate
+		// when the graphic sprite is animated over
+		if (otherInvSlot.InventoryItem == null)
+			hide = true;
+
+		// Set the other inventory slot item to the item that is being transfered over
+		if (otherInvSlotItem == null)
 		{
-			// Store temporary reference to the item in this inventory slot
-			var itemRef = InventoryItem.Item;
-
-			this.RemoveItem();
-
-			var otherInvSlot = targetInv.InventorySlots[emptySlot];
-
-			var otherInvSlotItem = otherInvSlot.InventoryItem;
-
-			if (otherInvSlotItem == null)
-				targetInv.InventorySlots[emptySlot].SetItem(itemRef);
-			else
-			{
-				itemRef.Count += otherInvSlotItem.Item.Count;
-				targetInv.InventorySlots[emptySlot].SetItem(itemRef);
-			}
+			otherInvSlot.SetItem(itemRef);
 		}
+		else
+		// If the item transfered has more than one than add that
+		{
+			itemRef.Count += otherInvSlotItem.Item.Count;
+			otherInvSlot.SetItem(itemRef);
+		}
+
+		// Hide the other item
+		if (hide)
+			otherInvSlot.InventoryItem.Hide();
+
+		// Start animation
+		CurrentlyAnimating = true;
+		otherInvSlot.CurrentlyAnimating = true;
+
+		// Add graphic to the world
+		Main.AddToCanvasLayer(graphic);
+
+		var tween = Panel.GetTree().CreateTween();
+		tween.TweenProperty(graphic, "global_position", otherInvSlot.Position, 1)
+			.SetEase(Tween.EaseType.Out)
+			.SetTrans(Tween.TransitionType.Cubic);
+
+		tween.TweenCallback(Callable.From(() =>
+		{
+			// Sprite graphic reached its destination, lets show the other inventory slot item now
+			
+			// For the love of god I have no fucking idea why I need a
+			// null check here. I spent 2 hours trying to figure out
+			// why InventoryItem becomes null. And with the null check
+			// earlier it was just hiding items. But now it all magically
+			// works all of a sudden wtf?
+			// Please just stay working okay?
+			// Thank you code
+			// I love you code
+			otherInvSlot.InventoryItem?.Show();
+
+			CurrentlyAnimating = false;
+			otherInvSlot.CurrentlyAnimating = false;
+			graphic.QueueFree();
+		}));
 	}
 	
 	private void HandleLeftClick()

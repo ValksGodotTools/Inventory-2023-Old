@@ -15,7 +15,6 @@ public static class UtilsInventory
 		{
 			if (!Player.Inventory.IsHotbar)
 			{
-				//Player.Inventory.SwitchToHotbar(true);
 				Player.Inventory.SwitchToHotbarAnimated();
 			}
 			else

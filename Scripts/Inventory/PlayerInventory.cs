@@ -28,6 +28,9 @@ public class PlayerInventory : Inventory
 		TweenExit?.Kill();
 		TweenReEntry?.Kill();
 
+		IsHotbar = true;
+		CurrentlyAnimating = false;
+
 		MakePanelInvisible();
 		SetSlotsVisibility(0, InventorySlots.Length - Columns, false, true);
 	}
@@ -38,6 +41,9 @@ public class PlayerInventory : Inventory
 		// ensure animation tweens are dead
 		TweenExit?.Kill();
 		TweenReEntry?.Kill();
+
+		IsHotbar = false;
+		CurrentlyAnimating = false;
 
 		MakePanelVisible();
 		SetSlotsVisibility(0, InventorySlots.Length - Columns, true, true);
