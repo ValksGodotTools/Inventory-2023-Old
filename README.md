@@ -39,6 +39,9 @@ The goal of this project is to attempt to perfect a game inventory system so it 
 - Allow items to define their own max stack sizes
 - Q = Drop Item (x1)
 - Ctrl + Q = Drop Stack
+- Maybe implementing ENet-CSharp and syncing all of this inventory stuff over the network. (There would be a demo where 2 players would see each other walking around and see the inventory update when the other player interacts with it)
+- Giving items a category property so the sorting hotkey can sort by category or any other item property for that matter
+- Add item rarities (maybe rare items have a glowing outline achieved used Godot Shaders)
 
 ### Known Issues
 - Multiple description panels stack on top of each other and do not disappear until more mouse movements or other inputs are made
