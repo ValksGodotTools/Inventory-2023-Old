@@ -3,6 +3,8 @@
 public class InventoryStaticItem : InventoryItem
 {
 	public override bool Visible { get => Sprite2D.Visible; set => Sprite2D.Visible = value; }
+	public override Node2D Node { get => Sprite2D; }
+
 	private Sprite2D Sprite2D { get; set; }
 	private ItemStatic ItemStatic { get; set; }
 	private Inventory Inv { get; set; }
@@ -28,8 +30,4 @@ public class InventoryStaticItem : InventoryItem
 
 		return sprite;
 	}
-
-	public override void QueueFreeGraphic() => Sprite2D.QueueFree();
-	public override void Hide() => Sprite2D.Hide();
-	public override void Show() => Sprite2D.Show();
 }

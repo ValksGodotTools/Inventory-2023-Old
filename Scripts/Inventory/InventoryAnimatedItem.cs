@@ -3,6 +3,8 @@
 public class InventoryAnimatedItem : InventoryItem
 {
 	public override bool Visible { get => AnimatedSprite2D.Visible; set => AnimatedSprite2D.Visible = value; }
+	public override Node2D Node { get => AnimatedSprite2D; }
+
 	private AnimatedSprite2D AnimatedSprite2D { get; set; }
 	private ItemAnimated ItemAnimated { get; set; }
 	private Inventory Inv { get; set; }
@@ -31,8 +33,4 @@ public class InventoryAnimatedItem : InventoryItem
 
 		return sprite;
 	}
-
-	public override void QueueFreeGraphic() => AnimatedSprite2D.QueueFree();
-	public override void Hide() => AnimatedSprite2D.Hide();
-	public override void Show() => AnimatedSprite2D.Show();
 }
