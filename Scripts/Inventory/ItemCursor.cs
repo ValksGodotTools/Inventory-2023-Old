@@ -1,40 +1,23 @@
 ﻿namespace Inventory;
 
-public partial class ItemCursor : Control
+public partial class ItemCursor : Control, IItemHolder
 {
-	private static Node ItemCursorParent { get; set; }
-	private static Item Item { get; set; }
-	private static Label LabelItemCount { get; set; }
+	private Node ItemCursorParent { get; set; }
+	public Item Item { get; set; }
+	private Label LabelItemCount { get; set; }
 
-	public static void RemoveItem()
+	public override void _Ready()
 	{
-		ItemPanelDescription.ToggleVisiblity(true);
-
-		// Only move the parent when there is an item in this cursor
-		ItemCursorParent.SetPhysicsProcess(false);
-		ItemCursorParent.QueueFreeChildren();
+		SetPhysicsProcess(false);
+		ItemCursorParent = this;
 	}
 
-	public static Item GetItem()
+	public override void _PhysicsProcess(double delta)
 	{
-		if (ItemCursorParent.GetChildren().Count == 0)
-			return null;
-
-		return Item;
+		Position = GetViewport().GetMousePosition();
 	}
 
-	public static void TakeItem()
-	{
-		if (Item.Count - 1 <= 0)
-		{
-			RemoveItem();
-		}
-
-		Item.Count -= 1;
-		LabelItemCount.Text = Item.Count + "";
-	}
-
-	public static void SetItem(Item item)
+	public void SetItem(Item item)
 	{
 		ItemPanelDescription.ToggleVisiblity(false);
 
@@ -49,7 +32,7 @@ public partial class ItemCursor : Control
 
 		if (item.Count > 1)
 			LabelItemCount.Text = item.Count + "";
-		
+
 		ItemCursorParent.AddChild(LabelItemCount);
 
 		if (item.Type is ItemStatic itemStatic)
@@ -63,7 +46,7 @@ public partial class ItemCursor : Control
 
 			ItemCursorParent.AddChild(staticSprite);
 		}
-		
+
 		if (item.Type is ItemAnimated itemAnimated)
 		{
 			var animatedSprite = new AnimatedSprite2D
@@ -83,14 +66,31 @@ public partial class ItemCursor : Control
 		LabelItemCount.Position = -LabelItemCount.Size / 2 + new Vector2(4, 0);
 	}
 
-	public override void _Ready()
+	public Item GetItem()
 	{
-		SetPhysicsProcess(false);
-		ItemCursorParent = this;
+		if (ItemCursorParent.GetChildren().Count == 0)
+			return null;
+
+		return Item;
 	}
 
-	public override void _PhysicsProcess(double delta)
+	public void TakeItem()
 	{
-		Position = GetViewport().GetMousePosition();
+		if (Item.Count - 1 <= 0)
+		{
+			RemoveItem();
+		}
+
+		Item.Count -= 1;
+		LabelItemCount.Text = Item.Count + "";
+	}
+
+	public void RemoveItem()
+	{
+		ItemPanelDescription.ToggleVisiblity(true);
+
+		// Only move the parent when there is an item in this cursor
+		ItemCursorParent.SetPhysicsProcess(false);
+		ItemCursorParent.QueueFreeChildren();
 	}
 }

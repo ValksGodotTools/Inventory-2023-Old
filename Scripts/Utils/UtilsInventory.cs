@@ -2,7 +2,7 @@
 
 public static class UtilsInventory
 {
-	public static void HandleInput(Node node, InputEvent @event)
+	public static void HandleInput(InputEvent @event)
 	{
 		InputGame.Handle(@event);
 
@@ -61,113 +61,69 @@ public static class UtilsInventory
 		if (!Input.IsActionJustPressed($"inventory_hotbar_{hotbar + 1}"))
 			return;
 
-		var cursorItem = ItemCursor.GetItem();
+		var cursorItem = Main.ItemCursor;
 
-		if (cursorItem == null)
-			HotbarInvSlot(hotbar);
-		else
-			HotbarCursor(hotbar, cursorItem);
-	}
-
-	private static void HotbarCursor(int hotbar, Item cursorItem)
-	{
-		var playerInv = Player.Inventory;
-		var playerInvSlots = playerInv.InventorySlots;
-		var columns = playerInv.Columns;
-
-		if (columns <= hotbar)
+		if (cursorItem.GetItem() != null)
+		{
+			HotbarInv(cursorItem, hotbar);
 			return;
-
-		var hotbarSlot = playerInvSlots[playerInvSlots.Length - columns + hotbar];
-
-		ItemPanelDescription.Clear();
-
-		if (hotbarSlot.InventoryItem == null)
-		{
-			// Just move the item over
-			hotbarSlot.SetItem(cursorItem);
-			ItemCursor.RemoveItem();
 		}
-		else
-		{
-			if (hotbarSlot.InventoryItem.Item.Type == cursorItem.Type)
-			{
-				// Same type of item
 
-				// Add the item counts together
-				cursorItem.Count += hotbarSlot.InventoryItem.Item.Count;
-
-				// Just move the item over
-				hotbarSlot.SetItem(cursorItem);
-				ItemCursor.RemoveItem();
-			}
-			else
-			{
-				// Different type of item
-
-				// Swap the items
-				var hotbarItem = hotbarSlot.InventoryItem.Item;
-
-				hotbarSlot.SetItem(cursorItem);
-				ItemCursor.SetItem(hotbarItem);
-			}
-		}
-	}
-
-	private static void HotbarInvSlot(int hotbar)
-	{
 		var activeInvSlot = Inventory.ActiveInventorySlot;
 
-		if (activeInvSlot == null)
-			return;
+		if (activeInvSlot != null && activeInvSlot.InventoryItem != null)
+			HotbarInv(activeInvSlot, hotbar);
+	}
 
-		var activeInvSlotItem = activeInvSlot.InventoryItem;
-
-		if (activeInvSlotItem == null)
-			return;
-
+	private static void HotbarInv(IItemHolder itemHolder, int hotbar)
+	{
 		var playerInv = Player.Inventory;
-		var columns = playerInv.Columns;
 		var playerInvSlots = playerInv.InventorySlots;
+		var columns = playerInv.Columns;
 
+		// If for example there are only 5 columns and hotbar is 6 then this
+		// hotbar does not exist because there are only 5 columns
 		if (columns <= hotbar)
 			return;
 
+		// Get the hotbar slot this item is being transfered to
 		var hotbarSlot = playerInvSlots[playerInvSlots.Length - columns + hotbar];
 
-		if (activeInvSlot == hotbarSlot)
+		// If the hotbar slot is the same slot as the slot we are hovering over then dont do anything
+		if (itemHolder == hotbarSlot)
 			return;
 
+		// Prevent item panel description from lingering around when the item disappears from the cursor or inv slot
 		ItemPanelDescription.Clear();
 
+		// There is no item in the hotbar slot
 		if (hotbarSlot.InventoryItem == null)
 		{
 			// Just move the item over
-			hotbarSlot.SetItem(activeInvSlotItem.Item);
-			activeInvSlot.RemoveItem();
+			hotbarSlot.SetItem(itemHolder.Item);
+			itemHolder.RemoveItem();
 		}
+		// There is a item in the hotbar slot
 		else
 		{
-			if (hotbarSlot.InventoryItem.Item.Type == activeInvSlotItem.Item.Type)
+			// The item in the hotbar slot and the item being transfered are of the same type
+			if (hotbarSlot.InventoryItem.Item.Type == itemHolder.Item.Type)
 			{
-				// Same type of item
-
 				// Add the item counts together
-				activeInvSlotItem.Item.Count += hotbarSlot.InventoryItem.Item.Count;
+				itemHolder.Item.Count += hotbarSlot.InventoryItem.Item.Count;
 
-				// Just move the item over
-				hotbarSlot.SetItem(activeInvSlotItem.Item);
-				activeInvSlot.RemoveItem();
+				// Then move the item over
+				hotbarSlot.SetItem(itemHolder.Item);
+				itemHolder.RemoveItem();
 			}
+			// Hotbar slot item and item being transfered are not the same type
 			else
 			{
-				// Different type of item
-
 				// Swap the items
 				var hotbarItem = hotbarSlot.InventoryItem.Item;
 
-				hotbarSlot.SetItem(activeInvSlotItem.Item);
-				activeInvSlot.SetItem(hotbarItem);
+				hotbarSlot.SetItem(itemHolder.Item);
+				itemHolder.SetItem(hotbarItem);
 			}
 		}
 	}

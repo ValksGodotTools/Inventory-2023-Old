@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c0vj3778ng7uy"]
+[gd_scene load_steps=22 format=3 uid="uid://c0jqnfviolsc"]
 
 [ext_resource type="Texture2D" uid="uid://c23tlhfrtu1sh" path="res://Sprites/fumiko.png" id="1_il8g5"]
 [ext_resource type="Script" path="res://Scripts/Main.cs" id="1_po44d"]

@@ -34,7 +34,7 @@ public partial class Player : CharacterBody2D
 
 	public override void _Input(InputEvent @event)
 	{
-		UtilsInventory.HandleInput(this, @event);
+		UtilsInventory.HandleInput(@event);
 	}
 
 	private void Animate()

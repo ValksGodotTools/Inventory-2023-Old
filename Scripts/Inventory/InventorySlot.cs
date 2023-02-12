@@ -1,8 +1,9 @@
 ﻿namespace Inventory;
 
-public class InventorySlot
+public class InventorySlot : IItemHolder
 {
 	public InventoryItem InventoryItem { get; set; }
+	public Item Item { get => InventoryItem.Item; set => InventoryItem.Item = value; }
 
 	private Vector2 Position { get => Panel.GlobalPosition + Vector2.One * (Inventory.SlotSize / 2); }
 	private bool CurrentlyAnimating { get; set; }
@@ -42,7 +43,7 @@ public class InventorySlot
 		{
 			Inventory.ActiveInventorySlot = this;
 
-			var cursorItem = ItemCursor.GetItem();
+			var cursorItem = Main.ItemCursor.GetItem();
 
 			ContinuousLeftClickPickup(cursorItem);
 			ContinuousRightClickPlace(cursorItem);
@@ -114,7 +115,7 @@ public class InventorySlot
 		var item = InventoryItem.Item;
 		item.Count += cursorItem.Count;
 
-		ItemCursor.SetItem(item);
+		Main.ItemCursor.SetItem(item);
 
 		RemoveItem();//
 	}
@@ -135,7 +136,7 @@ public class InventorySlot
 		if (InventoryItem == null)
 		{
 			// Take 1 item from the cursor
-			ItemCursor.TakeItem();
+			Main.ItemCursor.TakeItem();
 
 			// Pass 1 item from cursor to the inventory slot
 			var item = cursorItem.Clone();
@@ -148,7 +149,7 @@ public class InventorySlot
 				return;
 
 			// Take 1 item from the cursor
-			ItemCursor.TakeItem();
+			Main.ItemCursor.TakeItem();
 
 			// Pass 1 item from cursor to the inventory slot
 			var item = cursorItem.Clone();
@@ -218,7 +219,7 @@ public class InventorySlot
 
 		var counts = itemToMergeTo.Count + otherItemCounts;
 		itemToMergeTo.Count = counts;
-		ItemCursor.SetItem(itemToMergeTo);
+		Main.ItemCursor.SetItem(itemToMergeTo);
 	}
 
 	// Transfer the item in the inventory slot we are currently hovering over
@@ -326,7 +327,7 @@ public class InventorySlot
 	
 	private void HandleLeftClick()
 	{
-		var cursorItem = ItemCursor.GetItem();
+		var cursorItem = Main.ItemCursor.GetItem();
 
 		// If were double clicking and not holding shift and
 		// we are holding a item in our cursor [and the inventory
@@ -371,7 +372,7 @@ public class InventorySlot
 				if (cursorItem != null)
 				{
 					// Remove the item from the cursor
-					ItemCursor.RemoveItem();
+					Main.ItemCursor.RemoveItem();
 
 					// Set the item in this inventory slot to the item from the cursor
 					SetItem(cursorItem);
@@ -398,7 +399,7 @@ public class InventorySlot
 					var item = cursorItem.Clone();
 					item.Count += InventoryItem.Item.Count;
 
-					ItemCursor.RemoveItem();
+					Main.ItemCursor.RemoveItem();
 
 					SetItem(item);
 				}
@@ -417,13 +418,13 @@ public class InventorySlot
 
 					this.RemoveItem();
 
-					ItemCursor.RemoveItem();
+					Main.ItemCursor.RemoveItem();
 
 					// Set the item in this inventory slot to the item from the cursor
 					SetItem(cursorItem);
 
 					// Attach the item from the inventory slot to the cursor (pick up the item)
-					ItemCursor.SetItem(item);
+					Main.ItemCursor.SetItem(item);
 				}
 			}
 			// There is no item attached to the cursor
@@ -442,14 +443,14 @@ public class InventorySlot
 				this.RemoveItem();
 
 				// Set the item in this inventory slot to the item from the cursor
-				ItemCursor.SetItem(item);
+				Main.ItemCursor.SetItem(item);
 			}
 		}
 	}
 
 	private void HandleRightClick()
 	{
-		var cursorItem = ItemCursor.GetItem();
+		var cursorItem = Main.ItemCursor.GetItem();
 
 		// Is there a item attached to the cursor?
 		if (cursorItem != null)
@@ -458,7 +459,7 @@ public class InventorySlot
 			if (InventoryItem == null)
 			{
 				// Take 1 item from the cursor
-				ItemCursor.TakeItem();
+				Main.ItemCursor.TakeItem();
 
 				// Pass 1 item from cursor to the inventory slot
 				var item = cursorItem.Clone();
@@ -471,7 +472,7 @@ public class InventorySlot
 				// Is the cursor item being held of the same type for the item in the inventory slot?
 				if (cursorItem.Type == InventoryItem.Item.Type)
 				{
-					ItemCursor.TakeItem();
+					Main.ItemCursor.TakeItem();
 
 					var item = cursorItem.Clone();
 
@@ -507,7 +508,7 @@ public class InventorySlot
 					itemB.Count = half;
 
 					SetItem(itemA);
-					ItemCursor.SetItem(itemB);
+					Main.ItemCursor.SetItem(itemB);
 
 					return;
 				}
@@ -517,7 +518,7 @@ public class InventorySlot
 				// Is this the last item in the stack?
 				if (invSlotItemCount - 1 == 0)
 				{
-					ItemCursor.SetItem(InventoryItem.Item);
+					Main.ItemCursor.SetItem(InventoryItem.Item);
 
 					RemoveItem();
 				}
@@ -536,7 +537,7 @@ public class InventorySlot
 					
 					var item = InventoryItem.Item.Clone();
 					item.Count = 1;
-					ItemCursor.SetItem(item);
+					Main.ItemCursor.SetItem(item);
 				}
 			}
 		}

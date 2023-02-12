@@ -7,12 +7,15 @@ namespace Inventory;
 
 public partial class Main : Node
 {
-	public static void AddToCanvasLayer(Node node) => CanvasLayer.AddChild(node);
+	public static ItemCursor ItemCursor { get; set; }
 	private static Node CanvasLayer { get; set; }
+
+	public static void AddToCanvasLayer(Node node) => CanvasLayer.AddChild(node);
 
 	public override void _Ready()
 	{
 		CanvasLayer = GetNode<Node>("CanvasLayer");
+		ItemCursor = CanvasLayer.GetNode<ItemCursor>("ItemCursorParent");
 
 		// Setup chest inventory
 		var chest = GetNode<Chest>("Chest");
