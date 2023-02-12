@@ -31,6 +31,11 @@ public class InventorySlot : ItemHolder
 			if (inputEvent is not InputEventMouseButton eventMouseButton)
 				return;
 
+			if (UtilsInventory.IsHotbarHotkeyPressed() != -1)
+			{
+				return;
+			}
+
 			if (eventMouseButton.IsLeftClickPressed())
 			{
 				HandleLeftClick();
@@ -49,6 +54,9 @@ public class InventorySlot : ItemHolder
 			Inventory.ActiveInventorySlot = this;
 
 			var cursorItem = Main.ItemCursor.GetItem();
+
+			if (UtilsInventory.IsHotbarHotkeyPressed() != -1)
+				return;
 
 			// Continuous left click pickup
 			if (InputGame.HoldingLeftClick && cursorItem != null && InventoryItem != null)

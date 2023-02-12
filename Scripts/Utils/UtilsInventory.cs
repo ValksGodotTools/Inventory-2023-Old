@@ -2,6 +2,24 @@
 
 public static class UtilsInventory
 {
+	public static int IsHotbarHotkeyJustPressed()
+	{
+		for (int i = 0; i < Player.Inventory.Columns; i++)
+			if (Input.IsActionJustPressed($"inventory_hotbar_{i + 1}"))
+				return i;
+
+		return -1;
+	}
+
+	public static int IsHotbarHotkeyPressed()
+	{
+		for (int i = 0; i < Player.Inventory.Columns; i++)
+			if (Input.IsActionPressed($"inventory_hotbar_{i + 1}"))
+				return i;
+
+		return -1;
+	}
+
 	public static void HandleInput(InputEvent @event)
 	{
 		InputGame.Handle(@event);
@@ -38,8 +56,9 @@ public static class UtilsInventory
 			Player.Inventory.Sort();
 		}
 
-		for (int i = 0; i < Player.Inventory.Columns; i++)
-			InputHotbar(i);
+		var hotbar = IsHotbarHotkeyJustPressed();
+		if (hotbar != -1)
+			InputHotbar(hotbar);
 
 		// DEBUG
 		var debugInv = Inventory.OtherInventory;
@@ -58,9 +77,6 @@ public static class UtilsInventory
 
 	private static void InputHotbar(int hotbar)
 	{
-		if (!Input.IsActionJustPressed($"inventory_hotbar_{hotbar + 1}"))
-			return;
-
 		var cursorItem = Main.ItemCursor;
 
 		if (cursorItem.GetItem() != null)
