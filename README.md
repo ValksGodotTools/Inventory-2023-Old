@@ -9,10 +9,9 @@ The goal of this project is to attempt to perfect a game inventory system so it 
 1. [Features](#features)
 2. [Implemented Controls](#implemented-controls)
 3. [Todo](#todo)
-4. [Known Issues](#known-issues)
-5. [Example Code](#example-code)
-6. [Contributing](#contributing)
-7. [Previews](#previews)
+4. [Example Code](#example-code)
+5. [Contributing](#contributing)
+6. [Previews](#previews)
 
 ### Features
 - [x] Inventories of varying sizes can be defined
