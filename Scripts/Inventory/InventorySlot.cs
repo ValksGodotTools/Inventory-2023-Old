@@ -52,16 +52,26 @@ public class InventorySlot : ItemHolder
 
 			// Continuous left click pickup
 			if (InputGame.HoldingLeftClick && cursorItem != null && InventoryItem != null)
+			{
 				PickupSameType(Main.ItemCursor);
+				return;
+			}
 
 			// Continuous right click place
 			if (InputGame.HoldingRightClick && cursorItem != null)
+			{
 				PlaceOne(Main.ItemCursor);
+				return;
+			}
 
 			// Continuous shift click transfer
 			if (InputGame.HoldingLeftClick && Input.IsKeyPressed(Key.Shift))
+			{
 				TransferItem();
+				return;
+			}
 
+			// Display item panel description popup
 			if (InventoryItem != null)
 				ItemPanelDescription.Display(InventoryItem.Item);
 		};
