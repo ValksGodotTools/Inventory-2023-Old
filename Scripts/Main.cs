@@ -16,7 +16,7 @@ public partial class Main : Node
 	{
 		CanvasLayer = GetNode<Node>("CanvasLayer");
 		ItemCursor = CanvasLayer.GetNode<ItemCursorManager>("ItemCursorParent").ItemCursor;
-
+		
 		// Setup chest inventory
 		var chest = GetNode<Chest>("Chest");
 

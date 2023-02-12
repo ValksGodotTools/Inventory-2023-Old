@@ -58,8 +58,8 @@ public static class UtilsInventory
 
 		var hotbar = IsHotbarHotkeyJustPressed();
 		if (hotbar != -1)
-			InputHotbar(hotbar);
-
+			Player.Inventory.Actions.Enqueue(() => InputHotbar(hotbar));
+			
 		// DEBUG
 		var debugInv = Inventory.OtherInventory;
 

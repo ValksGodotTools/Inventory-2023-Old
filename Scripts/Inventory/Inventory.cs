@@ -8,6 +8,7 @@ public class Inventory
 	public static InventorySlot ActiveInventorySlot { get; set; } // mouse is currently hovering over this slot
 	public static Chest ActiveChest { get; set; }
 
+	public Queue<Action> Actions { get; set; } = new();
 	public InventorySlot[] InventorySlots { get; set; }
 	public int SlotSize { get; set; } = 50;
 	public bool Visible 
@@ -25,6 +26,7 @@ public class Inventory
 	private LayoutPreset LayoutPreset { get; set; }
 	private StyleBox PanelStyleBoxVisible { get; set; }
 	private Control ControlPivot { get; set; }
+	private GTimer TimerUpdate { get; set; }
 
 	public Inventory(Node node, int columns = 9, int rows = 5, int slotSize = 50)
 	{
@@ -53,8 +55,11 @@ public class Inventory
 			InventorySlots[i] = new InventorySlot(this, GridContainer);
 
 		ControlPivot.AddChild(PanelContainer);
-
 		Parent.AddChild(ControlPivot);
+
+		TimerUpdate = new GTimer(PanelContainer, Update, 16.6667);
+		TimerUpdate.Loop = true;
+		TimerUpdate.Start();
 
 		// Must set anchor after all children are added to the scene
 		LayoutPreset = LayoutPreset.CenterTop;
@@ -62,6 +67,12 @@ public class Inventory
 
 		// hide by default
 		ControlPivot.Hide();
+	}
+
+	public void Update()
+	{
+		if (Actions.TryDequeue(out Action result))
+			result();
 	}
 
 	public void MakePanelInvisible() =>

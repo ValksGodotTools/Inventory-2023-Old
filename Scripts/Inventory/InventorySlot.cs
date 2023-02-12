@@ -38,13 +38,13 @@ public class InventorySlot : ItemHolder
 
 			if (eventMouseButton.IsLeftClickPressed())
 			{
-				HandleLeftClick();
+				Enqueue(() => HandleLeftClick());
 				return;
 			}
 
 			if (eventMouseButton.IsRightClickPressed())
 			{
-				HandleRightClick();
+				Enqueue(() => HandleRightClick());
 				return;
 			}
 		};
@@ -61,21 +61,21 @@ public class InventorySlot : ItemHolder
 			// Continuous left click pickup
 			if (InputGame.HoldingLeftClick && cursorItem != null && InventoryItem != null)
 			{
-				PickupSameType(Main.ItemCursor);
+				Enqueue(() => PickupSameType(Main.ItemCursor));
 				return;
 			}
 
 			// Continuous right click place
 			if (InputGame.HoldingRightClick && cursorItem != null)
 			{
-				PlaceOne(Main.ItemCursor);
+				Enqueue(() => PlaceOne(Main.ItemCursor));
 				return;
 			}
 
 			// Continuous shift click transfer
 			if (InputGame.HoldingLeftClick && Input.IsKeyPressed(Key.Shift))
 			{
-				TransferItem();
+				Enqueue(() => TransferItem());
 				return;
 			}
 
@@ -291,6 +291,8 @@ public class InventorySlot : ItemHolder
 			Graphic.QueueFree();
 		}));
 	}
+
+	private void Enqueue(Action action) => Inventory.Actions.Enqueue(action);
 
 	private void HandleLeftClick()
 	{
