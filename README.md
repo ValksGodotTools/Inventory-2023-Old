@@ -38,6 +38,7 @@ As of writing this, this project requires Godot 4 Release Candidate 1 (`v4.0.rc1
 
 ### Todo
 - Hotkey to deposit all items from player inventory to 'other inventory'
+- Make item panel description popup only appear after small delay
 - Saving / loading inventory data
 - Allow items to define their own max stack sizes
 - Q = Drop Item (x1)
