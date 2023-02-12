@@ -75,11 +75,11 @@ public abstract class ItemHolder
 	/// </summary>
 	public void PickupOne()
 	{
-		if (Item.Count - 1 <= 0)
-			RemoveItem();
-
 		Item.Count -= 1;
 		ItemCountLabel.Text = Item.Count + "";
+
+		if (Item.Count <= 0)
+			RemoveItem();
 	}
 
 	/// <summary>
