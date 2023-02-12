@@ -3,6 +3,8 @@ https://user-images.githubusercontent.com/6277739/217958511-d5182a65-60e9-464d-8
 ## A Game Inventory being made in Godot 4 C#
 The goal of this project is to attempt to perfect a game inventory system so it can be used across all games that make use of inventories.
 
+As of writing this, this project requires Godot 4 Release Candidate 1 (`v4.0.rc1.mono.official [8843d9ad3]`)
+
 ## I really need help trying to figure out how to solve [#11](https://github.com/Valks-Games/Inventory/issues/11). I do not want to do anything more until this issue gets solved.
 
 #### Table of Contents
