@@ -32,10 +32,16 @@ public class InventorySlot : ItemHolder
 				return;
 
 			if (eventMouseButton.IsLeftClickPressed())
+			{
 				HandleLeftClick();
+				return;
+			}
 
 			if (eventMouseButton.IsRightClickPressed())
+			{
 				HandleRightClick();
+				return;
+			}
 		};
 
 		Panel.MouseEntered += () =>
