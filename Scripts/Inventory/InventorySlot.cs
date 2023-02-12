@@ -386,6 +386,15 @@ public class InventorySlot : ItemHolder
 	{
 		var cursorItem = Main.ItemCursor.GetItem();
 
+		// Shift + Right Click = Split Stack
+		if (Input.IsKeyPressed(Key.Shift))
+		{
+			if (InventoryItem != null && cursorItem == null)
+				SplitStack(Main.ItemCursor);
+
+			return;
+		}
+
 		// Is there a item attached to the cursor?
 		if (cursorItem != null)
 		{
@@ -409,13 +418,6 @@ public class InventorySlot : ItemHolder
 			// There is a item in this inventory slot
 			if (InventoryItem != null)
 			{
-				// Shift + Right Click = Split Stack
-				if (Input.IsKeyPressed(Key.Shift))
-				{
-					SplitStack(Main.ItemCursor);
-					return;
-				}
-
 				var invSlotItemCount = InventoryItem.Item.Count;
 
 				// Is this the last item in the stack?
