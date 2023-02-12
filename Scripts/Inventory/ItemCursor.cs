@@ -1,55 +1,31 @@
 ﻿namespace Inventory;
 
-public partial class ItemCursor : Control, IItemHolder
+public class ItemCursor : ItemHolder
 {
-	private Node ItemCursorParent { get; set; }
-	public Item Item { get; set; }
-	private Label LabelItemCount { get; set; }
+	private Node Parent { get; set; }
 
-	public override void _Ready()
+	public ItemCursor(Node parent)
 	{
-		SetPhysicsProcess(false);
-		ItemCursorParent = this;
+		Parent = parent;
 	}
 
-	public override void _PhysicsProcess(double delta)
-	{
-		Position = GetViewport().GetMousePosition();
-	}
-
-	public void SwapItem(IItemHolder to)
-	{
-		// Destination item exists and Item and to.Item are of different types
-		// If this is the case lets swap
-		if (to.Item != null && to.Item.Type != Item.Type)
-		{
-			// Remember Item as item before removing it
-			var item = Item;
-
-			RemoveItem();
-
-			SetItem(to.Item);
-			to.SetItem(item);
-		}
-	}
-
-	public void SetItem(Item item)
+	public override void SetItem(Item item)
 	{
 		ItemPanelDescription.ToggleVisiblity(false);
 
 		// There is an item in this cursor, lets move the parent now
-		ItemCursorParent.SetPhysicsProcess(true);
+		Parent.SetPhysicsProcess(true);
 		Item = item.Clone();
 
-		ItemCursorParent.QueueFreeChildren();
+		Parent.QueueFreeChildren();
 
-		LabelItemCount = UtilsLabel.CreateItemCountLabel();
-		LabelItemCount.ZIndex = 3;
+		ItemCountLabel = UtilsLabel.CreateItemCountLabel();
+		ItemCountLabel.ZIndex = 3;
 
 		if (item.Count > 1)
-			LabelItemCount.Text = item.Count + "";
+			ItemCountLabel.Text = item.Count + "";
 
-		ItemCursorParent.AddChild(LabelItemCount);
+		Parent.AddChild(ItemCountLabel);
 
 		if (item.Type is ItemStatic itemStatic)
 		{
@@ -60,7 +36,7 @@ public partial class ItemCursor : Control, IItemHolder
 				ZIndex = 2 // ensure cursor item rendered above Inventory UI
 			};
 
-			ItemCursorParent.AddChild(staticSprite);
+			Parent.AddChild(staticSprite);
 		}
 
 		if (item.Type is ItemAnimated itemAnimated)
@@ -74,39 +50,28 @@ public partial class ItemCursor : Control, IItemHolder
 
 			animatedSprite.Play();
 
-			ItemCursorParent.AddChild(animatedSprite);
+			Parent.AddChild(animatedSprite);
 		}
 
 		// Quick and dirty way to center the label. This is how it has to be
 		// for now until someone can figure out a better way
-		LabelItemCount.Position = -LabelItemCount.Size / 2 + new Vector2(4, 0);
+		ItemCountLabel.Position = -ItemCountLabel.Size / 2 + new Vector2(4, 0);
 	}
 
-	public Item GetItem()
-	{
-		if (ItemCursorParent.GetChildren().Count == 0)
-			return null;
-
-		return Item;
-	}
-
-	public void TakeItem()
-	{
-		if (Item.Count - 1 <= 0)
-		{
-			RemoveItem();
-		}
-
-		Item.Count -= 1;
-		LabelItemCount.Text = Item.Count + "";
-	}
-
-	public void RemoveItem()
+	public override void RemoveItem()
 	{
 		ItemPanelDescription.ToggleVisiblity(true);
 
 		// Only move the parent when there is an item in this cursor
-		ItemCursorParent.SetPhysicsProcess(false);
-		ItemCursorParent.QueueFreeChildren();
+		Parent.SetPhysicsProcess(false);
+		Parent.QueueFreeChildren();
+	}
+
+	public Item GetItem()
+	{
+		if (Parent.GetChildren().Count == 0)
+			return null;
+
+		return Item;
 	}
 }

@@ -15,7 +15,7 @@ public partial class Main : Node
 	public override void _Ready()
 	{
 		CanvasLayer = GetNode<Node>("CanvasLayer");
-		ItemCursor = CanvasLayer.GetNode<ItemCursor>("ItemCursorParent");
+		ItemCursor = CanvasLayer.GetNode<ItemCursorManager>("ItemCursorParent").ItemCursor;
 
 		// Setup chest inventory
 		var chest = GetNode<Chest>("Chest");

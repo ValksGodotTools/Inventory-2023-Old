@@ -75,7 +75,7 @@ public static class UtilsInventory
 			HotbarInv(activeInvSlot, hotbar);
 	}
 
-	private static void HotbarInv(IItemHolder itemHolder, int hotbar)
+	private static void HotbarInv(ItemHolder itemHolder, int hotbar)
 	{
 		var playerInv = Player.Inventory;
 		var playerInvSlots = playerInv.InventorySlots;
