@@ -3,14 +3,17 @@ https://user-images.githubusercontent.com/6277739/217958511-d5182a65-60e9-464d-8
 ## A Game Inventory being made in Godot 4 C#
 The goal of this project is to attempt to perfect a game inventory system so it can be used across all games that make use of inventories.
 
+As of writing this, this project requires Godot 4 Release Candidate 1 (`v4.0.rc1.mono.official [8843d9ad3]`). If you are unsure which version this project is on, please check the `Inventory.csproj` file, the version will be displayed in there.
+
+## I really need help trying to figure out how to solve [#11](https://github.com/Valks-Games/Inventory/issues/11). I do not want to do anything more until this issue gets solved.
+
 #### Table of Contents
 1. [Features](#features)
 2. [Implemented Controls](#implemented-controls)
 3. [Todo](#todo)
-4. [Known Issues](#known-issues)
-5. [Example Code](#example-code)
-6. [Contributing](#contributing)
-7. [Previews](#previews)
+4. [Example Code](#example-code)
+5. [Contributing](#contributing)
+6. [Previews](#previews)
 
 ### Features
 - [x] Inventories of varying sizes can be defined
@@ -35,6 +38,7 @@ The goal of this project is to attempt to perfect a game inventory system so it 
 
 ### Todo
 - Hotkey to deposit all items from player inventory to 'other inventory'
+- Make item panel description popup only appear after small delay
 - Saving / loading inventory data
 - Allow items to define their own max stack sizes
 - Q = Drop Item (x1)
