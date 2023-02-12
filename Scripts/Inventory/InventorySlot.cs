@@ -379,7 +379,17 @@ public class InventorySlot : ItemHolder
 		// Is there a item attached to the cursor?
 		if (cursorItem != null)
 		{
-			PlaceOne(Main.ItemCursor);
+			if (InventoryItem != null)
+			{
+				if (InventoryItem.Item.Type != cursorItem.Type)
+				{
+					SwapItem(Main.ItemCursor);
+				}
+				else
+				{
+					PlaceOne(Main.ItemCursor);
+				}
+			}
 		}
 		// There is no item being held in the cursor
 		else
