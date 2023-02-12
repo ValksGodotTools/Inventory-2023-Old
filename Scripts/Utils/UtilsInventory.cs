@@ -119,11 +119,7 @@ public static class UtilsInventory
 			// Hotbar slot item and item being transfered are not the same type
 			else
 			{
-				// Swap the items
-				var hotbarItem = hotbarSlot.InventoryItem.Item;
-
-				hotbarSlot.SetItem(itemHolder.Item);
-				itemHolder.SetItem(hotbarItem);
+				itemHolder.SwapItem(hotbarSlot);
 			}
 		}
 	}

@@ -17,6 +17,22 @@ public partial class ItemCursor : Control, IItemHolder
 		Position = GetViewport().GetMousePosition();
 	}
 
+	public void SwapItem(IItemHolder to)
+	{
+		// Destination item exists and Item and to.Item are of different types
+		// If this is the case lets swap
+		if (to.Item != null && to.Item.Type != Item.Type)
+		{
+			// Remember Item as item before removing it
+			var item = Item;
+
+			RemoveItem();
+
+			SetItem(to.Item);
+			to.SetItem(item);
+		}
+	}
+
 	public void SetItem(Item item)
 	{
 		ItemPanelDescription.ToggleVisiblity(false);

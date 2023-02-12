@@ -163,6 +163,22 @@ public class InventorySlot : IItemHolder
 		DebugLabel.Text = text;
 	}
 
+	public void SwapItem(IItemHolder to)
+	{
+		// Destination item exists and Item and to.Item are of different types
+		// If this is the case lets swap
+		if (to.Item != null && to.Item.Type != Item.Type)
+		{
+			// Remember Item as item before removing it
+			var item = Item;
+
+			RemoveItem();
+
+			SetItem(to.Item);
+			to.SetItem(item);
+		}
+	}
+
 	public void SetItem(Item item)
 	{
 		UpdateItemCountLabel(item.Count);
@@ -324,7 +340,7 @@ public class InventorySlot : IItemHolder
 			Graphic.QueueFree();
 		}));
 	}
-	
+
 	private void HandleLeftClick()
 	{
 		var cursorItem = Main.ItemCursor.GetItem();
@@ -413,18 +429,7 @@ public class InventorySlot : IItemHolder
 					// 4. The cursor item and inv slot item are of different types
 					// 
 					// So lets swap the cursor item with the inv slot item
-
-					var item = InventoryItem.Item;
-
-					this.RemoveItem();
-
-					Main.ItemCursor.RemoveItem();
-
-					// Set the item in this inventory slot to the item from the cursor
-					SetItem(cursorItem);
-
-					// Attach the item from the inventory slot to the cursor (pick up the item)
-					Main.ItemCursor.SetItem(item);
+					SwapItem(Main.ItemCursor);
 				}
 			}
 			// There is no item attached to the cursor
