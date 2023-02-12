@@ -400,6 +400,8 @@ public class InventorySlot : ItemHolder
 					PlaceOne(Main.ItemCursor);
 				}
 			}
+			else
+				PlaceOne(Main.ItemCursor);
 		}
 		// There is no item being held in the cursor
 		else
