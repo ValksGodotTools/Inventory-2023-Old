@@ -184,6 +184,30 @@ public class InventorySlot : ItemHolder
 			}
 		}
 
+		// Scan OtherInventorySlot for items of the same type and combine them to the cursor
+		if (Inventory.OtherInventory != null)
+		{
+			foreach (var slot in Inventory.OtherInventory.InventorySlots)
+			{
+				// Skip the slot we double clicked on
+				if (slot == this)
+					continue;
+
+				var invItem = slot.InventoryItem;
+
+				// A item exists in this inv slot
+				if (invItem != null)
+				{
+					// The inv slot item is the same type as the cursor item type
+					if (invItem.Item.Type == itemToMergeTo.Type)
+					{
+						otherItemCounts += invItem.Item.Count;
+
+						slot.RemoveItem();
+					}
+				}
+			}
+		}
 		var counts = itemToMergeTo.Count + otherItemCounts;
 		itemToMergeTo.Count = counts;
 		Main.ItemCursor.SetItem(itemToMergeTo);
@@ -214,6 +238,9 @@ public class InventorySlot : ItemHolder
 		// No empty slot was found!
 		if (emptySlot == -1)
 			return;
+
+		//Close Item Panels
+		ItemPanelDescription.Clear();
 
 		// Store temporary reference to the item in this inventory slot
 		var itemRef = InventoryItem.Item;
