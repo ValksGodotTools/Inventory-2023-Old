@@ -50,9 +50,9 @@ public abstract class ItemHolder
 	/// </summary>
 	public void PlaceOne(ItemHolder from)
 	{
-		from.PickupOne();
-
 		var item = from.Item.Clone();
+		from.PickupOne();
+		
 		item.Count = 1;
 
 		if (Item != null)
