@@ -1,6 +1,0 @@
-# Godot 4+ specific ignores
-.godot/
-
-# Other Ignores
-.vs/
-Properties/launchSettings.json
