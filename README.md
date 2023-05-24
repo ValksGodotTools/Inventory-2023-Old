@@ -5,8 +5,6 @@ The goal of this project is to attempt to perfect a game inventory system so it 
 
 As of writing this, this project requires Godot 4 Release Candidate 1 (`v4.0.rc1.mono.official [8843d9ad3]`). If you are unsure which version this project is on, please check the `Inventory.csproj` file, the version will be displayed in there.
 
-## I really need help trying to figure out how to solve [#11](https://github.com/Valks-Games/Inventory/issues/11). I do not want to do anything more until this issue gets solved.
-
 #### Table of Contents
 1. [Features](#features)
 2. [Implemented Controls](#implemented-controls)
