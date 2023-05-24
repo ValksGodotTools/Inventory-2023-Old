@@ -61,6 +61,7 @@ public class ItemCursor : ItemHolder
 	public override void RemoveItem()
 	{
 		ItemPanelDescription.ToggleVisiblity(true);
+		Item = null;
 
 		// Only move the parent when there is an item in this cursor
 		Parent.SetPhysicsProcess(false);
