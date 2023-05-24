@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory-v2", "Inventory-v2.csproj", "{D01DCA34-FDBC-4E1F-97FF-1B32D64B9ECF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D01DCA34-FDBC-4E1F-97FF-1B32D64B9ECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D01DCA34-FDBC-4E1F-97FF-1B32D64B9ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D01DCA34-FDBC-4E1F-97FF-1B32D64B9ECF}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{D01DCA34-FDBC-4E1F-97FF-1B32D64B9ECF}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{D01DCA34-FDBC-4E1F-97FF-1B32D64B9ECF}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{D01DCA34-FDBC-4E1F-97FF-1B32D64B9ECF}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91141185-66CA-407C-99C9-BDC5D3BBB435}
+	EndGlobalSection
+EndGlobal
