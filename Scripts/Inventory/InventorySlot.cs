@@ -215,6 +215,9 @@ public class InventorySlot : ItemHolder
 		if (emptySlot == -1)
 			return;
 
+		//Close Item Panels
+		ItemPanelDescription.Clear();
+
 		// Store temporary reference to the item in this inventory slot
 		var itemRef = InventoryItem.Item;
 
