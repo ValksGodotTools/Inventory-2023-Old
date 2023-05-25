@@ -11,7 +11,7 @@ public partial class UIInventory
     }
 
     public Container Container { get; }
-    public int SlotSize { get; } = 50; //pixels?
+    public int SlotSize { get; } = 50;
     public GridContainer GridContainer { get; set; }
     public UIInventorySlot[] UIInventorySlots { get; set; }
     public int Size { get; }
