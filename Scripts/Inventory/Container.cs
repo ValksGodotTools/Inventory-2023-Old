@@ -40,6 +40,28 @@ public class Container
 		return item;
 	}
 
+		public Item TakeHalf(int i)
+	{
+		// Lets say we have 11 pink coins
+		// We want to take 5 so there will be 6 pink coins left
+
+		// Lets take 5 pink coin
+		var item = Items[i].Clone();
+		item.Count = Items[i].Count / 2;
+
+		// 11 pink coins becomes 6 pink coins
+		Items[i].Count -= item.Count;
+
+		// Nothing left in this stack
+		if (Items[i].Count == 0)
+		{
+			// Set this item to null
+			Destroy(i);
+		}
+
+		return item;
+	}
+
 	public int TryGetEmptyOrSameTypeSlot(ItemType itemType)
 	{
 		var foundEmptySlot = false;
