@@ -2,6 +2,16 @@
 
 public class Items
 {
+    #region Texture Loading methods
+
+    private static SpriteFrames LoadSpriteFrames(string path) =>
+    GD.Load<SpriteFrames>($"res://SpriteFrames/{path}.tres");
+
+    private static Texture2D LoadTexture(string path) =>
+        GD.Load<Texture2D>($"res://Sprites/{path}.png");
+    #endregion
+    #region Currencies
+
     public static ItemStatic CoinRed { get; } = new()
     {
         Name = "Red Coin",
@@ -25,10 +35,23 @@ public class Items
         ItemCategory = ItemCategory.Currency,
         SpriteFrames = LoadSpriteFrames("coin")
     };
+    #endregion
+    #region Consumables
 
-    private static SpriteFrames LoadSpriteFrames(string path) =>
-        GD.Load<SpriteFrames>($"res://SpriteFrames/{path}.tres");
+    public static ItemStatic PotionRed { get; } = new()
+    {
+        Name = "Red Potion",
+        Description = "A potion with a red tint",
+        ItemCategory = ItemCategory.Consumable,
+        Texture = LoadTexture("potion_red")
+    };
 
-    private static Texture2D LoadTexture(string path) =>
-        GD.Load<Texture2D>($"res://Sprites/{path}.png");
+    public static ItemStatic PotionBlue { get; } = new()
+    {
+        Name = "Blue Potion",
+        Description = "A potion with a blue tint",
+        ItemCategory = ItemCategory.Consumable,
+        Texture = LoadTexture("potion_blue")
+    };
+    #endregion
 }

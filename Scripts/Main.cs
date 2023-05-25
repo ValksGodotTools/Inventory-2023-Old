@@ -11,6 +11,8 @@ public partial class Main : Node2D
     public static UIPlayerInventory PlayerInventory { get; set; }
     public static UIInventory OtherInventory { get; set; }
 
+     public static UIInventory CurrencyInventory { get; set; }
+     public static UIInventory ConsumableInventory { get; set; }
     // Msc
     public static CanvasLayer CanvasLayer { get; set; }
     public static SceneTree Tree { get; set; }
@@ -27,6 +29,16 @@ public partial class Main : Node2D
         PlayerInventory.SetItem(0, new Item(Items.CoinPink, 5));
         PlayerInventory.SetItem(1, new Item(Items.CoinRed, 10));
         PlayerInventory.SetItem(2, new Item(Items.Coin, 1));
+        
+        PlayerInventory.SetItem(7, new Item(Items.PotionRed, 4));
+        PlayerInventory.SetItem(8, new Item(Items.PotionBlue, 100));
+
+        //Add filtered inventories
+        CurrencyInventory = new UIInventory(CanvasLayer, 3, 1, ItemCategory.Currency);
+        CurrencyInventory.SetAnchor(Control.LayoutPreset.CenterLeft);
+
+        ConsumableInventory = new UIInventory(CanvasLayer, 3, 1, ItemCategory.Consumable);
+        ConsumableInventory.SetAnchor(Control.LayoutPreset.CenterRight);
 
         // Add UIOtherInventory to canvas layer
         OtherInventory = new UIInventory(CanvasLayer, 9, 9);

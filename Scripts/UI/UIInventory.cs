@@ -25,13 +25,13 @@ public partial class UIInventory
     private Control ControlPivot { get; set; }
     private StyleBox PanelStyleBoxVisible { get; set; }
 
-    public UIInventory(Node parent, int size, int columns)
+    public UIInventory(Node parent, int size, int columns, ItemCategory? itemCategoryFilter = null)
     {
         LayoutPreset = LayoutPreset.CenterTop;
         Size = size;
         Columns = columns;
         Container = new Container(size);
-        CreateUI(parent, columns);
+        CreateUI(parent, columns, itemCategoryFilter);
     }
 
     public void Update() => UIInventorySlots.ForEach(x => x.Update());
@@ -88,7 +88,7 @@ public partial class UIInventory
             Tween.TweenCallback(Callable.From(() => Animating = false));
     }
 
-    private void CreateUI(Node parent, int columns)
+    private void CreateUI(Node parent, int columns, ItemCategory? itemCategoryFilter)
     {
         // Setup inventory UI
         ControlPivot = new Control();
@@ -109,6 +109,6 @@ public partial class UIInventory
         UIInventorySlots = new UIInventorySlot[Container.Items.Length];
 
         for (int i = 0; i < Container.Items.Length; i++)
-            UIInventorySlots[i] = new UIInventorySlot(this, i);
+            UIInventorySlots[i] = new UIInventorySlot(this, i, itemCategoryFilter);
     }
 }

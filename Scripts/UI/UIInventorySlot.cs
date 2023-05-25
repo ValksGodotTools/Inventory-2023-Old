@@ -4,12 +4,13 @@ public class UIInventorySlot : UISlot
 {
     private UIInventory UIInventory { get; set; }
 
-    public UIInventorySlot(UIInventory uiInventory, int index)
+    public UIInventorySlot(UIInventory uiInventory, int index, ItemCategory? itemCategoryFilter = null)
     {
         Index = index;
         UIInventory = uiInventory;
         Container = uiInventory.Container;
         Parent = this.CreateUI(uiInventory);
+        this.ItemCategoryFilter = itemCategoryFilter;
     }
 
     public void Update()
@@ -54,7 +55,7 @@ public class UIInventorySlot : UISlot
     {
         if (Main.Cursor.IsEmpty())
         {
-            this.MoveHalfTo(Main.Cursor);   
+            this.MoveHalfTo(Main.Cursor);
         }
         else
         {

@@ -9,6 +9,7 @@ public class Container
 		Items = new Item[size];
 	}
 
+	#region Substracts from item count
 	public Item TakeAll(int i)
 	{
 		var item = Items[i];
@@ -40,7 +41,7 @@ public class Container
 		return item;
 	}
 
-		public Item TakeHalf(int i)
+	public Item TakeHalf(int i)
 	{
 		// Lets say we have 11 pink coins
 		// We want to take 5 so there will be 6 pink coins left
@@ -61,7 +62,8 @@ public class Container
 
 		return item;
 	}
-
+	#endregion
+	
 	public int TryGetEmptyOrSameTypeSlot(ItemType itemType)
 	{
 		var foundEmptySlot = false;
