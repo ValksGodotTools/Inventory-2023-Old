@@ -26,18 +26,17 @@ public class UIItem
         this.parent.AddChild(sprite);
 
         // Create count label
-        var marginContainer = new MarginContainer
+        var marginContainer = new GMarginContainer
         {
             CustomMinimumSize = Vector2.One * 50,
             MouseFilter = Control.MouseFilterEnum.Ignore,
             Position = centered ? Vector2.Zero : Vector2.One * -25,
             Visible = item.Count != 1
         };
-        marginContainer.AddThemeConstantOverride("margin_left", 3);
+        marginContainer.SetMarginLeft(3);
 
-        label = new Label
+        label = new GLabel(item.Count + "", 20)
         {
-            Text = item.Count + "",
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Bottom,
             SizeFlagsVertical = Control.SizeFlags.Fill,
@@ -45,7 +44,6 @@ public class UIItem
         };
         label.AddThemeColorOverride("font_shadow_color", Colors.Black);
         label.AddThemeConstantOverride("shadow_outline_size", 3);
-        label.AddThemeFontSizeOverride("font_size", 20);
 
         marginContainer.AddChild(label);
         this.parent.AddChild(marginContainer);
