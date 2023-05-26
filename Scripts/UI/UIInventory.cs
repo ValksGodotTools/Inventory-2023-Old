@@ -38,6 +38,20 @@ public partial class UIInventory
 
     public void Update() => UIInventorySlots.ForEach(x => x.Update());
 
+    /// <summary>
+    /// Refresh UISlots content based on Container's items
+    /// </summary>
+    public void Refresh()
+    {
+        for (var i = 0; i < UIInventorySlots.Count(); i++)
+        {
+            if (this.Container.Get(i) == null)
+                UIInventorySlots[i].Remove();
+            else
+                UIInventorySlots[i].Set(this.Container.Get(i));
+        }
+    }
+
     public void SetItem(int i, Item item) => UIInventorySlots[i].Set(item);
     public void SetItem(int x, int y, Item item) => UIInventorySlots[x + y * Columns].Set(item);
 

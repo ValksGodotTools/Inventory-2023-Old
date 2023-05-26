@@ -87,6 +87,13 @@ public partial class Main : Node2D
 
     public override void _Input(InputEvent @event)
     {
+        //Inventory sorting
+        if (Input.IsActionJustPressed("inventory_sort"))
+        {
+            PlayerInventory.Container.OrderByItemCategory();
+            PlayerInventory.Refresh();
+        }
+
         // Debug
         if (Input.IsActionJustPressed("debug1"))
         {

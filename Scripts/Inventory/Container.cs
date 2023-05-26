@@ -77,6 +77,10 @@ public class Container
     }
     #endregion
 
+    #region OrderBy
+    public void OrderByItemCategory() => Items = Items.OrderByDescending(i => i?.Type.ItemCategory ?? null).ThenByDescending(i => i?.Type.Name ?? null).ToArray();
+    #endregion
+
     public int TryGetEmptyOrSameTypeSlot(ItemType itemType)
     {
         var foundEmptySlot = false;
