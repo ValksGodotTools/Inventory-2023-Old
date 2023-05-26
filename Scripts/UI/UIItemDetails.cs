@@ -16,7 +16,7 @@ public class UIItemDetails
         CreateUI(parent);
     }
 
-	public void Clear()
+    public void Clear()
     {
         labelName.Text = string.Empty;
         labelCategory.Text = string.Empty;
@@ -56,34 +56,34 @@ public class UIItemDetails
         controlPivot.AddChild(panelContainer);
         parent.AddChild(controlPivot);
 
-		// Create labels
-		labelName = DefaultLabel();
+        // Create labels
+        labelName = DefaultLabel();
 
-		labelCategory = DefaultLabel();
-		labelCategory.AddThemeFontSizeOverride("font_size", 16);
+        labelCategory = DefaultLabel();
+        labelCategory.AddThemeFontSizeOverride("font_size", 16);
 
-		labelDescription = DefaultLabel();
-		labelDescription.AddThemeFontSizeOverride("font_size", 12);
+        labelDescription = DefaultLabel();
+        labelDescription.AddThemeFontSizeOverride("font_size", 12);
 
-		gridContainer.AddChild(labelName);
-		gridContainer.AddChild(labelCategory);
-		gridContainer.AddChild(labelDescription);
-	}
+        gridContainer.AddChild(labelName);
+        gridContainer.AddChild(labelCategory);
+        gridContainer.AddChild(labelDescription);
+    }
 
-	static Label DefaultLabel()
-	{
-		var label = new Label
-		{
-			HorizontalAlignment = HorizontalAlignment.Left,
-			VerticalAlignment = VerticalAlignment.Bottom,
-			SizeFlagsVertical = SizeFlags.Fill,
-			MouseFilter = MouseFilterEnum.Ignore // ignored by default but just in case Godot changes it in the future
+    static Label DefaultLabel()
+    {
+        var label = new Label
+        {
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            SizeFlagsVertical = SizeFlags.Fill,
+            MouseFilter = MouseFilterEnum.Ignore // ignored by default but just in case Godot changes it in the future
         };
 
-		label.AddThemeColorOverride("font_shadow_color", Colors.Black);
-		label.AddThemeConstantOverride("shadow_outline_size", 3);
-		label.AddThemeFontSizeOverride("font_size", 20);
+        label.AddThemeColorOverride("font_shadow_color", Colors.Black);
+        label.AddThemeConstantOverride("shadow_outline_size", 3);
+        label.AddThemeFontSizeOverride("font_size", 20);
 
-		return label;
-	}
+        return label;
+    }
 }
