@@ -75,8 +75,8 @@ public class UIInventorySlot : UISlot
         //Priorise Inventory with same item type filter and disponible slots
         var targetInv = (UIInventory == Main.PlayerInventory) ?
             Main.InventoryCollection.FirstOrDefault
-            (i => (i.ItemCategoryFilter == thisItem.Type.ItemCategory || i.ItemCategoryFilter == null) 
-                && i.Container.TryGetEmptyOrSameTypeSlot(thisItem.Type) != -1 )
+            (i => (i.ItemCategoryFilter == thisItem.Type.ItemCategory || i.ItemCategoryFilter == null)
+                && i.Container.TryGetEmptyOrSameTypeSlot(thisItem.Type) != -1)
             : Main.PlayerInventory;
 
         if (targetInv == null)
@@ -93,11 +93,19 @@ public class UIInventorySlot : UISlot
         {
             if (targetItem.Type == thisItem.Type)
             {
-                targetItem.Count += thisItem.Count;
-
-                targetInv.SetItem(slotIndex, targetItem);
-
-                this.Remove();
+                if (targetItem.Stacklimit >= targetItem.Count + thisItem.Count)
+                {
+                    targetItem.Count += thisItem.Count;
+                    targetInv.SetItem(slotIndex, targetItem);
+                    this.Remove();
+                }
+                else
+                {
+                    thisItem.Count -= targetItem.Stacklimit - targetItem.Count;
+                    this.UpdateCount();
+                    targetItem.Count = targetItem.Stacklimit;
+                    targetInv.SetItem(slotIndex, targetItem);
+                }
             }
         }
         else
@@ -142,14 +150,14 @@ public class UIInventorySlot : UISlot
         };
 
         panel.MouseEntered += () =>
-		{
+        {
             Main.ItemDetails.ChangeItem(this.Get());
-		};
+        };
 
-		panel.MouseExited += () =>
-		{
+        panel.MouseExited += () =>
+        {
             Main.ItemDetails.Clear();
-		};
+        };
 
         uiInventory.GridContainer.AddChild(panel);
         return panel;

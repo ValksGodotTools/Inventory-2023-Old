@@ -14,6 +14,7 @@ public partial class Main : Node2D
     public static UIInventory OtherInventory { get; set; }
     public static UIInventory CurrencyInventory { get; set; }
     public static UIInventory ConsumableInventory { get; set; }
+    public static UIInventory WeaponInventory { get; set; }
     public static UIItemDetails ItemDetails { get; set; }
     // Msc
     public static CanvasLayer CanvasLayer { get; set; }
@@ -28,12 +29,18 @@ public partial class Main : Node2D
         PlayerInventory = new UIPlayerInventory(CanvasLayer, 18, 9);
 
         // Setup player inventory
-        PlayerInventory.SetItem(0, new Item(Items.CoinPink, 5));
-        PlayerInventory.SetItem(1, new Item(Items.CoinRed, 10));
-        PlayerInventory.SetItem(2, new Item(Items.Coin, 1));
+        PlayerInventory.SetItem(0, new Item(Items.CoinPink, 5, 10));
+        PlayerInventory.SetItem(1, new Item(Items.CoinRed, 10, 10));
+        PlayerInventory.SetItem(10, new Item(Items.CoinRed, 10, 10));
 
-        PlayerInventory.SetItem(7, new Item(Items.PotionRed, 4));
-        PlayerInventory.SetItem(8, new Item(Items.PotionBlue, 100));
+        PlayerInventory.SetItem(2, new Item(Items.Coin, 1, 10));
+
+        PlayerInventory.SetItem(7, new Item(Items.PotionRed, 4, 100));
+        PlayerInventory.SetItem(8, new Item(Items.PotionBlue, 100, 100));
+
+        PlayerInventory.SetItem(4, new Item(Items.SwordWooden, 1, 1));
+        PlayerInventory.SetItem(5, new Item(Items.SwordIron, 1, 1));
+        PlayerInventory.SetItem(6, new Item(Items.SwordIron, 1, 1));
 
         //Add filtered inventories
         CurrencyInventory = new UIInventory(CanvasLayer, 3, 1, ItemCategory.Currency);
@@ -46,7 +53,12 @@ public partial class Main : Node2D
         OtherInventory = new UIInventory(CanvasLayer, 9, 9);
         OtherInventory.SetAnchor(Control.LayoutPreset.CenterTop);
 
+        // Add UIOtherInventory to canvas layer
+        WeaponInventory = new UIInventory(CanvasLayer, 1, 1, ItemCategory.Weapon);
+        WeaponInventory.SetAnchor(Control.LayoutPreset.Center);
+
         InventoryCollection = new UIInventory[]{ 
+            WeaponInventory,
             CurrencyInventory,
             ConsumableInventory,
             OtherInventory

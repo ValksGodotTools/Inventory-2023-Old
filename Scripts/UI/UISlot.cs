@@ -28,12 +28,23 @@ public abstract class UISlot
             {
                 if (this.SameType(other))
                 {
-                    var item = Container.TakeAll(Index);
-                    this.ClearGraphic();
+                    //Check type and stack limit
+                    if (other.Get().Stacklimit >= other.Get().Count + this.Get().Count)
+                    {
+                        var item = Container.TakeAll(Index);
+                        this.ClearGraphic();
 
-                    item.Count += other.Get().Count;
+                        item.Count += other.Get().Count;
 
-                    other.Set(item);
+                        other.Set(item);
+                    }
+                    else //Take amount necesary to reach stack limit
+                    {
+                        var item = Container.Take(Index, other.Get().Stacklimit - other.Get().Count);
+                        this.UpdateCount();
+                        item.Count += other.Get().Count;
+                        other.Set(item);
+                    }
                 }
                 else
                 {
@@ -59,12 +70,23 @@ public abstract class UISlot
             {
                 if (this.SameType(other))
                 {
-                    var item = Container.TakeHalf(Index);
-                    this.UpdateCount();
+                    //Check type and stack limit
+                    if (other.Get().Stacklimit >= other.Get().Count + this.Get().Count)
+                    {
+                        var item = Container.TakeHalf(Index);
+                        this.UpdateCount();
 
-                    item.Count += other.Get().Count;
+                        item.Count += other.Get().Count;
 
-                    other.Set(item);
+                        other.Set(item);
+                    }
+                    else //Take amount necesary to reach stack limit
+                    {
+                        var item = Container.Take(Index, other.Get().Stacklimit - other.Get().Count);
+                        this.UpdateCount();
+                        item.Count += other.Get().Count;
+                        other.Set(item);
+                    }
                 }
                 else
                 {
@@ -98,7 +120,8 @@ public abstract class UISlot
             {
                 if (other.HasItem())
                 {
-                    if (this.SameType(other))
+                    //Check type and stack limit
+                    if (this.SameType(other) && other.Get().Stacklimit >= other.Get().Count + 1)
                     {
                         var item = Container.TakeOne(Index);
 
@@ -187,7 +210,7 @@ public abstract class UISlot
     public void Show() => UIItem.Show();
 
     private void SetCount(int count) => UIItem.SetText(count == 1 ? "" : count + "");
-    private void UpdateCount()
+    public void UpdateCount()
     {
         if (HasItem())
             UIItem.SetText(Get().Count == 1 ? "" : Get().Count + "");
