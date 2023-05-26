@@ -30,7 +30,7 @@ public class Items
 
     public static ItemAnimated Coin { get; } = new()
     {
-        Name = "Coin",
+        Name = "Golden Coin",
         Description = "A dancing coin",
         ItemCategory = ItemCategory.Currency,
         SpriteFrames = LoadSpriteFrames("coin")
@@ -52,6 +52,23 @@ public class Items
         Description = "A potion with a blue tint",
         ItemCategory = ItemCategory.Consumable,
         Texture = LoadTexture("potion_blue")
+    };
+    #endregion
+    #region Weapons
+    public static ItemStatic SwordIron { get; } = new()
+    {
+        Name = "Iron Sword",
+        Description = "For slaying dragons or die trying",
+        ItemCategory = ItemCategory.Weapon,
+        Texture = LoadTexture("Weapons/sword_iron")
+    };
+
+    public static ItemStatic SwordWooden { get; } = new()
+    {
+        Name = "Wooden Sword",
+        Description = "Perfect for tickling foes gently",
+        ItemCategory = ItemCategory.Weapon,
+        Texture = LoadTexture("Weapons/sword_wood")
     };
     #endregion
 }
