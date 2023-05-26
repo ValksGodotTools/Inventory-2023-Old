@@ -57,6 +57,8 @@ public partial class Main : Node2D
         // Update cursor
         Cursor.Update();
 
+        ConsumableInventory.Update();
+        CurrencyInventory.Update();
         PlayerInventory.Update();
         OtherInventory.Update();
     }
