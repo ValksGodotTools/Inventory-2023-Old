@@ -4,27 +4,26 @@ public class UIItem
 {
     public Vector2 Position
     {
-        get => Parent.Position;
-        set => Parent.Position = value;
+        get => parent.Position;
+        set => parent.Position = value;
     }
 
-    public Control Parent { get; set; }
-
-    private Node2D Sprite { get; set; }
-    private Label Label { get; set; }
+    readonly Control parent;
+    readonly Node2D sprite;
+    readonly Label label;
 
     public UIItem(Node parent, Item item)
     {
-        Parent = new Control();
+        this.parent = new Control();
 
         // Need 'centered' bool because cursor is offset by (InvSlotSize / 2) on both axis
         var centered = parent.Name != "ParentCursor";
 
         // Create sprite
-        Sprite = item.Type.GenerateGraphic();
-        Sprite.Position = centered ? Vector2.One * (50 / 2) : Vector2.Zero;
-        Sprite.Scale = Vector2.One * 2;
-        Parent.AddChild(Sprite);
+        sprite = item.Type.GenerateGraphic();
+        sprite.Position = centered ? Vector2.One * (50 / 2) : Vector2.Zero;
+        sprite.Scale = Vector2.One * 2;
+        this.parent.AddChild(sprite);
 
         // Create count label
         var marginContainer = new MarginContainer
@@ -36,7 +35,7 @@ public class UIItem
         };
         marginContainer.AddThemeConstantOverride("margin_left", 3);
 
-        Label = new Label
+        label = new Label
         {
             Text = item.Count + "",
             HorizontalAlignment = HorizontalAlignment.Left,
@@ -44,31 +43,31 @@ public class UIItem
             SizeFlagsVertical = Control.SizeFlags.Fill,
             MouseFilter = Control.MouseFilterEnum.Ignore // ignored by default but just in case Godot changes it in the future
         };
-        Label.AddThemeColorOverride("font_shadow_color", Colors.Black);
-        Label.AddThemeConstantOverride("shadow_outline_size", 3);
-        Label.AddThemeFontSizeOverride("font_size", 20);
+        label.AddThemeColorOverride("font_shadow_color", Colors.Black);
+        label.AddThemeConstantOverride("shadow_outline_size", 3);
+        label.AddThemeFontSizeOverride("font_size", 20);
 
-        marginContainer.AddChild(Label);
-        Parent.AddChild(marginContainer);
-        parent.AddChild(Parent);
+        marginContainer.AddChild(label);
+        this.parent.AddChild(marginContainer);
+        parent.AddChild(this.parent);
     }
 
-    public void SetText(string text) => Label.Text = text;
+    public void SetText(string text) => label.Text = text;
 
     public void Hide()
     {
         // not sure why its not valid all the time
-        if (GodotObject.IsInstanceValid(Label))
-            Label.Hide();
+        if (GodotObject.IsInstanceValid(label))
+            label.Hide();
         
-        Sprite.Hide();
+        sprite.Hide();
     }
 
     public void Show()
     {
         // not sure why its not valid all the time
-        if (GodotObject.IsInstanceValid(Label))
-            Label.Show();
-        Sprite.Show();
+        if (GodotObject.IsInstanceValid(label))
+            label.Show();
+        sprite.Show();
     }
 }

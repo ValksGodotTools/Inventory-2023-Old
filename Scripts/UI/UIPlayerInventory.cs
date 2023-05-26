@@ -31,18 +31,18 @@ public class UIPlayerInventory : UIInventory
     {
         Transition(exitTime, false, true);
 
-        Tween.TweenCallback(Callable.From(() =>
+        tween.TweenCallback(Callable.From(() =>
         {
             action();
 
             // SetAnchor() mucks up position so lets reset it
-            PanelContainer.Position = new Vector2(PanelContainer.Position.X, 0);
-            PanelContainer.SortChildren += animateEnter;
+            panelContainer.Position = new Vector2(panelContainer.Position.X, 0);
+            panelContainer.SortChildren += animateEnter;
         }));
 
         void animateEnter()
         {
-            PanelContainer.SortChildren -= animateEnter;
+            panelContainer.SortChildren -= animateEnter;
 
             Transition(reEntryTime, true);
         }

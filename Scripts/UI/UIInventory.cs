@@ -6,8 +6,8 @@ public partial class UIInventory
 {
     public bool Visible
     {
-        get => ControlPivot.Visible;
-        set => ControlPivot.Visible = value;
+        get => controlPivot.Visible;
+        set => controlPivot.Visible = value;
     }
 
     public Container Container { get; }
@@ -17,17 +17,18 @@ public partial class UIInventory
     public int Size { get; }
     public int Columns { get; }
     public ItemCategory? ItemCategoryFilter { get; set; }
-    protected Tween Tween { get; set; }
-    protected PanelContainer PanelContainer { get; set; }
-    protected bool Animating { get; set; }
-    protected LayoutPreset LayoutPreset { get; set; }
 
-    private Control ControlPivot { get; set; }
-    private StyleBox PanelStyleBoxVisible { get; set; }
+    protected Tween tween;
+    protected PanelContainer panelContainer;
+    protected bool animating;
+    protected LayoutPreset layoutPreset;
+
+    private Control controlPivot;
+    private StyleBox panelStyleBoxVisible;
 
     public UIInventory(Node parent, int size, int columns, ItemCategory? itemCategoryFilter = null)
     {
-        LayoutPreset = LayoutPreset.CenterTop;
+        layoutPreset = LayoutPreset.CenterTop;
         Size = size;
         Columns = columns;
         Container = new Container(size);
@@ -42,28 +43,28 @@ public partial class UIInventory
 
     public void SetAnchor(LayoutPreset preset)
     {
-        LayoutPreset = preset;
-        PanelContainer.SetAnchorsAndOffsetsPreset(preset);
-        ControlPivot.SetAnchorsAndOffsetsPreset(preset);
+        layoutPreset = preset;
+        panelContainer.SetAnchorsAndOffsetsPreset(preset);
+        controlPivot.SetAnchorsAndOffsetsPreset(preset);
     }
 
     public Vector2 GetSlotPosition(int i) => UIInventorySlots[i].Parent.GlobalPosition + Vector2.One * (SlotSize / 2);
 
     public void HideBackPanel() =>
-        PanelContainer.AddThemeStyleboxOverride("panel", new StyleBoxEmpty());
+        panelContainer.AddThemeStyleboxOverride("panel", new StyleBoxEmpty());
 
     public void ShowBackPanel() =>
-        PanelContainer.AddThemeStyleboxOverride("panel", PanelStyleBoxVisible);
+        panelContainer.AddThemeStyleboxOverride("panel", panelStyleBoxVisible);
 
-    public void Hide() => ControlPivot.Hide();
-    public void Show() => ControlPivot.Show();
+    public void Hide() => controlPivot.Hide();
+    public void Show() => controlPivot.Show();
     public void SetSlotsVisibility(int a, int b, bool visible, bool anchor)
     {
         for (int i = a; i < b; i++)
             UIInventorySlots[i].Visible = visible;
 
         if (anchor)
-            SetAnchor(LayoutPreset);
+            SetAnchor(layoutPreset);
     }
 
     public void AnimateHide(double duration = 1) => Transition(duration, false, false);
@@ -71,39 +72,39 @@ public partial class UIInventory
 
     protected void Transition(double duration = 1, bool entering = false, bool extended = false)
     {
-        Animating = true;
+        animating = true;
 
-        Tween = PanelContainer.GetTree().CreateTween();
+        tween = panelContainer.GetTree().CreateTween();
 
-        var finalValue = LayoutPreset == LayoutPreset.CenterTop ?
-            -PanelContainer.Size.Y : PanelContainer.Size.Y;
+        var finalValue = layoutPreset == LayoutPreset.CenterTop ?
+            -panelContainer.Size.Y : panelContainer.Size.Y;
 
         if (entering)
             finalValue *= -1;
 
-        Tween.TweenProperty(PanelContainer, "position:y", finalValue, duration)
+        tween.TweenProperty(panelContainer, "position:y", finalValue, duration)
             .SetTrans(Tween.TransitionType.Cubic)
             .SetEase(Tween.EaseType.InOut);
 
         if (!extended)
-            Tween.TweenCallback(Callable.From(() => Animating = false));
+            tween.TweenCallback(Callable.From(() => animating = false));
     }
 
     private void CreateUI(Node parent, int columns, ItemCategory? itemCategoryFilter)
     {
         // Setup inventory UI
-        ControlPivot = new Control();
-        PanelContainer = new PanelContainer();
+        controlPivot = new Control();
+        panelContainer = new PanelContainer();
         var marginContainer = new GMarginContainer(5);
         GridContainer = new GridContainer();
 
-        PanelStyleBoxVisible = PanelContainer.GetThemeStylebox("panel");
+        panelStyleBoxVisible = panelContainer.GetThemeStylebox("panel");
         GridContainer.Columns = columns;
 
-        PanelContainer.AddChild(marginContainer);
+        panelContainer.AddChild(marginContainer);
         marginContainer.AddChild(GridContainer);
-        ControlPivot.AddChild(PanelContainer);
-        parent.AddChild(ControlPivot);
+        controlPivot.AddChild(panelContainer);
+        parent.AddChild(controlPivot);
 
         // Setup inventory slots
         UIInventorySlots = new UIInventorySlot[Container.Items.Length];

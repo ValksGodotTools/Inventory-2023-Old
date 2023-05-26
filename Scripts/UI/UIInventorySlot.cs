@@ -4,13 +4,13 @@ namespace Inventory;
 
 public class UIInventorySlot : UISlot
 {
-    private UIInventory UIInventory { get; set; }
+    UIInventory uiInventory;
 
     public UIInventorySlot(UIInventory uiInventory, int index, ItemCategory? itemCategoryFilter = null)
     {
-        Index = index;
-        UIInventory = uiInventory;
-        Container = uiInventory.Container;
+        base.index = index;
+        this.uiInventory = uiInventory;
+        container = uiInventory.Container;
         Parent = this.CreateUI(uiInventory);
         this.ItemCategoryFilter = itemCategoryFilter;
     }
@@ -73,7 +73,7 @@ public class UIInventorySlot : UISlot
         var thisItem = this.Get();
 
         //Priorise Inventory with same item type filter and disponible slots
-        var targetInv = (UIInventory == Main.PlayerInventory) ?
+        var targetInv = (uiInventory == Main.PlayerInventory) ?
             Main.InventoryCollection.FirstOrDefault
             (i => (i.ItemCategoryFilter == thisItem.Type.ItemCategory || i.ItemCategoryFilter == null)
                 && i.Container.TryGetEmptyOrSameTypeSlot(thisItem.Type) != -1)

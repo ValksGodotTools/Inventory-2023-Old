@@ -2,22 +2,22 @@
 
 public class UICursorSlot : UISlot
 {
-    private Viewport Viewport { get; set; }
+    Viewport viewport;
 
     public UICursorSlot(Control parent)
     {
-        Container = new(1);
+        container = new(1);
         Parent = parent;
-        Index = 0;
+        index = 0;
 
-        Viewport = parent.GetViewport();
-        parent.Position = Viewport.GetMousePosition();
+        viewport = parent.GetViewport();
+        parent.Position = viewport.GetMousePosition();
         parent.SetPhysicsProcess(false);
     }
 
     public void Update()
     {
-        Parent.Position = Viewport.GetMousePosition();
+        Parent.Position = viewport.GetMousePosition();
     }
 
     public override void Set(Item item)
