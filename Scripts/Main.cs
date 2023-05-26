@@ -10,9 +10,9 @@ public partial class Main : Node2D
     public static UICursorSlot Cursor { get; set; }
     public static UIPlayerInventory PlayerInventory { get; set; }
     public static UIInventory OtherInventory { get; set; }
-
-     public static UIInventory CurrencyInventory { get; set; }
-     public static UIInventory ConsumableInventory { get; set; }
+    public static UIInventory CurrencyInventory { get; set; }
+    public static UIInventory ConsumableInventory { get; set; }
+    public static UIItemDetails ItemDetails { get; set; }
     // Msc
     public static CanvasLayer CanvasLayer { get; set; }
     public static SceneTree Tree { get; set; }
@@ -43,6 +43,10 @@ public partial class Main : Node2D
         // Add UIOtherInventory to canvas layer
         OtherInventory = new UIInventory(CanvasLayer, 9, 9);
         OtherInventory.SetAnchor(Control.LayoutPreset.CenterTop);
+
+        //Item Desc
+        ItemDetails = new UIItemDetails(CanvasLayer);
+        ItemDetails.SetAnchor(Control.LayoutPreset.BottomLeft);
 
         // Setup cursor
         var cursorParent = new Control { Name = "ParentCursor" };

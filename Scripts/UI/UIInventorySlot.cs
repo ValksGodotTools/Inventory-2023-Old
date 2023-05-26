@@ -131,6 +131,16 @@ public class UIInventorySlot : UISlot
             }
         };
 
+        panel.MouseEntered += () =>
+		{
+            Main.ItemDetails.ChangeItem(this.Get());
+		};
+
+		panel.MouseExited += () =>
+		{
+            Main.ItemDetails.Clear();
+		};
+
         uiInventory.GridContainer.AddChild(panel);
         return panel;
     }

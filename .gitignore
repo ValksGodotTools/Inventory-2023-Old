@@ -4,3 +4,4 @@
 # Other Ignores
 .vs/
 Properties/launchSettings.json
+.vscode/settings.json
