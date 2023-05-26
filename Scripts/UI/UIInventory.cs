@@ -94,11 +94,10 @@ public partial class UIInventory
         // Setup inventory UI
         ControlPivot = new Control();
         PanelContainer = new PanelContainer();
-        var marginContainer = new MarginContainer();
+        var marginContainer = new GMarginContainer(5);
         GridContainer = new GridContainer();
 
         PanelStyleBoxVisible = PanelContainer.GetThemeStylebox("panel");
-        marginContainer.AddMargin(5);
         GridContainer.Columns = columns;
 
         PanelContainer.AddChild(marginContainer);

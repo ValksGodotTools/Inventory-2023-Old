@@ -46,8 +46,7 @@ public class UIItemDetails
         panelContainer = new PanelContainer();
         var gridContainer = new GridContainer();
 
-        var marginContainer = new MarginContainer();
-        marginContainer.AddMargin(10);
+        var marginContainer = new GMarginContainer(10);
 
         gridContainer.Columns = 1;
         

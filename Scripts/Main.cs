@@ -76,8 +76,6 @@ public partial class Main : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        GodotUtils.Main.Update();
-
         // Update cursor
         Cursor.Update();
 
