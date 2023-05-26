@@ -16,7 +16,7 @@ public partial class UIInventory
     public UIInventorySlot[] UIInventorySlots { get; set; }
     public int Size { get; }
     public int Columns { get; }
-
+    public ItemCategory? ItemCategoryFilter { get; set; }
     protected Tween Tween { get; set; }
     protected PanelContainer PanelContainer { get; set; }
     protected bool Animating { get; set; }
@@ -31,6 +31,7 @@ public partial class UIInventory
         Size = size;
         Columns = columns;
         Container = new Container(size);
+        ItemCategoryFilter = itemCategoryFilter;
         CreateUI(parent, columns, itemCategoryFilter);
     }
 

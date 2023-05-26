@@ -1,4 +1,6 @@
-﻿namespace Inventory;
+﻿using System.Linq;
+
+namespace Inventory;
 
 public class UIInventorySlot : UISlot
 {
@@ -68,15 +70,23 @@ public class UIInventorySlot : UISlot
         if (this.IsEmpty())
             return;
 
-        var targetInv = (UIInventory == Main.PlayerInventory) ?
-            Main.OtherInventory : Main.PlayerInventory;
+        var thisItem = this.Get();
 
-        var slotIndex = targetInv.Container.TryGetEmptyOrSameTypeSlot(this.Get().Type);
+        //Priorise Inventory with same item type filter and disponible slots
+        var targetInv = (UIInventory == Main.PlayerInventory) ?
+            Main.InventoryCollection.FirstOrDefault
+            (i => (i.ItemCategoryFilter == thisItem.Type.ItemCategory || i.ItemCategoryFilter == null) 
+                && i.Container.TryGetEmptyOrSameTypeSlot(thisItem.Type) != -1 )
+            : Main.PlayerInventory;
+
+        if (targetInv == null)
+            return;
+
+        var slotIndex = targetInv.Container.TryGetEmptyOrSameTypeSlot(thisItem.Type);
 
         if (slotIndex == -1)
             return;
 
-        var thisItem = this.Get();
         var targetItem = targetInv.Container.Get(slotIndex);
 
         if (targetInv.Container.HasItem(slotIndex))
