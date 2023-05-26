@@ -2,7 +2,7 @@
 
 public class UICursorSlot : UISlot
 {
-    Viewport viewport;
+    readonly Viewport viewport;
 
     public UICursorSlot(Control parent)
     {
