@@ -4,9 +4,9 @@ namespace Inventory;
 
 public class UIItemDetails
 {
-    Label labelName;
-    Label labelCategory;
-    Label labelDescription;
+    GLabel labelName;
+    GLabel labelCategory;
+    GLabel labelDescription;
 
     PanelContainer panelContainer;
     Control controlPivot;
@@ -59,19 +59,19 @@ public class UIItemDetails
         labelName = DefaultLabel();
 
         labelCategory = DefaultLabel();
-        labelCategory.AddThemeFontSizeOverride("font_size", 16);
+        labelCategory.SetFontSize(16);
 
         labelDescription = DefaultLabel();
-        labelDescription.AddThemeFontSizeOverride("font_size", 12);
+        labelDescription.SetFontSize(12);
 
         gridContainer.AddChild(labelName);
         gridContainer.AddChild(labelCategory);
         gridContainer.AddChild(labelDescription);
     }
 
-    static Label DefaultLabel()
+    static GLabel DefaultLabel()
     {
-        var label = new Label
+        var label = new GLabel
         {
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Bottom,
@@ -81,7 +81,7 @@ public class UIItemDetails
 
         label.AddThemeColorOverride("font_shadow_color", Colors.Black);
         label.AddThemeConstantOverride("shadow_outline_size", 3);
-        label.AddThemeFontSizeOverride("font_size", 20);
+        label.SetFontSize(20);
 
         return label;
     }
