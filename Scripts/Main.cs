@@ -29,18 +29,18 @@ public partial class Main : Node2D
         PlayerInventory = new UIPlayerInventory(CanvasLayer, 18, 9);
 
         // Setup player inventory
-        PlayerInventory.SetItem(0, new Item(Items.CoinPink, 5, 10));
-        PlayerInventory.SetItem(1, new Item(Items.CoinRed, 10, 10));
-        PlayerInventory.SetItem(10, new Item(Items.CoinRed, 10, 10));
+        PlayerInventory.SetItem(0, new Item(Items.CoinPink, 5));
+        PlayerInventory.SetItem(1, new Item(Items.CoinRed, 10));
+        PlayerInventory.SetItem(10, new Item(Items.CoinRed, 10));
 
-        PlayerInventory.SetItem(2, new Item(Items.Coin, 1, 10));
+        PlayerInventory.SetItem(2, new Item(Items.Coin, 1));
 
-        PlayerInventory.SetItem(7, new Item(Items.PotionRed, 4, 100));
-        PlayerInventory.SetItem(8, new Item(Items.PotionBlue, 100, 100));
+        PlayerInventory.SetItem(7, new Item(Items.PotionRed, 4));
+        PlayerInventory.SetItem(8, new Item(Items.PotionBlue, 100));
 
-        PlayerInventory.SetItem(4, new Item(Items.SwordWooden, 1, 1));
-        PlayerInventory.SetItem(5, new Item(Items.SwordIron, 1, 1));
-        PlayerInventory.SetItem(6, new Item(Items.SwordIron, 1, 1));
+        PlayerInventory.SetItem(4, new Item(Items.SwordWooden, 1));
+        PlayerInventory.SetItem(5, new Item(Items.SwordIron, 1));
+        PlayerInventory.SetItem(6, new Item(Items.SwordIron, 1));
 
         //Add filtered inventories
         CurrencyInventory = new UIInventory(CanvasLayer, 3, 1, ItemCategory.Currency);
@@ -90,7 +90,7 @@ public partial class Main : Node2D
         //Inventory sorting
         if (Input.IsActionJustPressed("inventory_sort"))
         {
-            PlayerInventory.Container.OrderByItemCategory();
+            PlayerInventory.Container.OrderByItemCategoryAndGroup();
             PlayerInventory.Refresh();
         }
 

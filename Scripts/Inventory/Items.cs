@@ -16,6 +16,7 @@ public class Items
     {
         Name = "Red Coin",
         Description = "A coin with a red tint",
+        Stacklimit = 10,
         ItemCategory = ItemCategory.Currency,
         Texture = LoadTexture("coin_red")
     };
@@ -24,6 +25,7 @@ public class Items
     {
         Name = "Pink Coin",
         Description = "A coin with a pink tint",
+        Stacklimit = 10,
         ItemCategory = ItemCategory.Currency,
         Texture = LoadTexture("coin_pink")
     };
@@ -32,6 +34,7 @@ public class Items
     {
         Name = "Golden Coin",
         Description = "A dancing coin",
+        Stacklimit = 10,
         ItemCategory = ItemCategory.Currency,
         SpriteFrames = LoadSpriteFrames("coin")
     };
@@ -42,6 +45,7 @@ public class Items
     {
         Name = "Red Potion",
         Description = "A potion with a red tint",
+        Stacklimit = 100,
         ItemCategory = ItemCategory.Consumable,
         Texture = LoadTexture("potion_red")
     };
@@ -50,6 +54,7 @@ public class Items
     {
         Name = "Blue Potion",
         Description = "A potion with a blue tint",
+        Stacklimit = 100,
         ItemCategory = ItemCategory.Consumable,
         Texture = LoadTexture("potion_blue")
     };
@@ -59,6 +64,7 @@ public class Items
     {
         Name = "Iron Sword",
         Description = "For slaying dragons or die trying",
+        Stacklimit = 1,
         ItemCategory = ItemCategory.Weapon,
         Texture = LoadTexture("Weapons/sword_iron")
     };
@@ -67,6 +73,7 @@ public class Items
     {
         Name = "Wooden Sword",
         Description = "Perfect for tickling foes gently",
+        Stacklimit = 1,
         ItemCategory = ItemCategory.Weapon,
         Texture = LoadTexture("Weapons/sword_wood")
     };

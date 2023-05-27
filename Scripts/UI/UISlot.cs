@@ -28,7 +28,7 @@ public abstract class UISlot
                 if (this.SameType(other))
                 {
                     //Check type and stack limit
-                    if (other.Get().Stacklimit >= other.Get().Count + this.Get().Count)
+                    if (other.Get().Type.Stacklimit >= other.Get().Count + this.Get().Count)
                     {
                         var item = container.TakeAll(index);
                         this.ClearGraphic();
@@ -39,7 +39,7 @@ public abstract class UISlot
                     }
                     else //Take amount necesary to reach stack limit
                     {
-                        var item = container.Take(index, other.Get().Stacklimit - other.Get().Count);
+                        var item = container.Take(index, other.Get().Type.Stacklimit - other.Get().Count);
                         this.UpdateCount();
                         item.Count += other.Get().Count;
                         other.Set(item);
@@ -70,7 +70,7 @@ public abstract class UISlot
                 if (this.SameType(other))
                 {
                     //Check type and stack limit
-                    if (other.Get().Stacklimit >= other.Get().Count + this.Get().Count)
+                    if (other.Get().Type.Stacklimit >= other.Get().Count + this.Get().Count)
                     {
                         var item = container.TakeHalf(index);
                         this.UpdateCount();
@@ -81,7 +81,7 @@ public abstract class UISlot
                     }
                     else //Take amount necesary to reach stack limit
                     {
-                        var item = container.Take(index, other.Get().Stacklimit - other.Get().Count);
+                        var item = container.Take(index, other.Get().Type.Stacklimit - other.Get().Count);
                         this.UpdateCount();
                         item.Count += other.Get().Count;
                         other.Set(item);
@@ -120,7 +120,7 @@ public abstract class UISlot
                 if (other.HasItem())
                 {
                     //Check type and stack limit
-                    if (this.SameType(other) && other.Get().Stacklimit >= other.Get().Count + 1)
+                    if (this.SameType(other) && other.Get().Type.Stacklimit >= other.Get().Count + 1)
                     {
                         var item = container.TakeOne(index);
 

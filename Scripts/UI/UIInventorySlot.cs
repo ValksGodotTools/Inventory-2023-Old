@@ -93,7 +93,7 @@ public class UIInventorySlot : UISlot
         {
             if (targetItem.Type == thisItem.Type)
             {
-                if (targetItem.Stacklimit >= targetItem.Count + thisItem.Count)
+                if (targetItem.Type.Stacklimit >= targetItem.Count + thisItem.Count)
                 {
                     targetItem.Count += thisItem.Count;
                     targetInv.SetItem(slotIndex, targetItem);
@@ -101,9 +101,9 @@ public class UIInventorySlot : UISlot
                 }
                 else
                 {
-                    thisItem.Count -= targetItem.Stacklimit - targetItem.Count;
+                    thisItem.Count -= targetItem.Type.Stacklimit - targetItem.Count;
                     this.UpdateCount();
-                    targetItem.Count = targetItem.Stacklimit;
+                    targetItem.Count = targetItem.Type.Stacklimit;
                     targetInv.SetItem(slotIndex, targetItem);
                 }
             }

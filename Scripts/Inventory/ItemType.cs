@@ -11,6 +11,8 @@ public abstract class ItemType
 {
     public string Name { get; set; }
     public string Description { get; set; }
+    public int Stacklimit { get; set; }
+
     public Node2D Node2D { get; set; }
 
     public ItemCategory ItemCategory { get; set; }

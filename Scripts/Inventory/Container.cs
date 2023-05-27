@@ -79,6 +79,28 @@ public class Container
 
     #region OrderBy
     public void OrderByItemCategory() => Items = Items.OrderByDescending(i => i?.Type.ItemCategory ?? null).ThenByDescending(i => i?.Type.Name ?? null).ToArray();
+    public void OrderByItemCategoryAndGroup()
+    {
+        var newItems = new Item[Items.Count()];
+        var index = 0;
+
+        //group items by type
+        foreach (var c in Items.GroupBy(i => i?.Type))
+        {
+            var limit = c.Key?.Stacklimit ?? 0;
+            var total = c.Sum(item => item?.Count ?? 0);
+            if (c.Key != null)
+            {
+                //divide on items with count based on stacklimit
+                for (int i = total; i >0; i -= limit)
+                {
+                    newItems[index] = new Item(c.Key, (i > limit ? limit : i));
+                    index++;
+                }
+            }
+        }
+        this.Items = newItems.OrderByDescending(i => i?.Type.ItemCategory ?? null).ThenByDescending(i => i?.Type.Name ?? null).ToArray();
+    }
     #endregion
 
     public int TryGetEmptyOrSameTypeSlot(ItemType itemType)
@@ -91,7 +113,7 @@ public class Container
             var item = Items[i];
 
             //Check for same type items without reaching stack limit
-            if (item != null && item.Type == itemType && item.Count < item.Stacklimit)
+            if (item != null && item.Type == itemType && item.Count < item.Type.Stacklimit)
                 return i;
 
             if (!foundEmptySlot && item == null)
