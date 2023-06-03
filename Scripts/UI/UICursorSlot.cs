@@ -2,33 +2,33 @@
 
 public class UICursorSlot : UISlot
 {
-	private Viewport Viewport { get; set; }
+    readonly Viewport viewport;
 
-	public UICursorSlot(Control parent)
-	{
-		Container = new(1);
-		Parent = parent;
-		Index = 0;
+    public UICursorSlot(Control parent)
+    {
+        container = new(1);
+        Parent = parent;
+        index = 0;
 
-		Viewport = parent.GetViewport();
-		parent.Position = Viewport.GetMousePosition();
-		parent.SetPhysicsProcess(false);
-	}
+        viewport = parent.GetViewport();
+        parent.Position = viewport.GetMousePosition();
+        parent.SetPhysicsProcess(false);
+    }
 
-	public void Update()
-	{
-		Parent.Position = Viewport.GetMousePosition();
-	}
+    public void Update()
+    {
+        Parent.Position = viewport.GetMousePosition();
+    }
 
-	public override void Set(Item item)
-	{
-		base.Set(item);
-		Parent.SetPhysicsProcess(true);
-	}
+    public override void Set(Item item)
+    {
+        base.Set(item);
+        Parent.SetPhysicsProcess(true);
+    }
 
-	public override void Remove()
-	{
-		base.Remove();
-		Parent.SetPhysicsProcess(false);
-	}
+    public override void Remove()
+    {
+        base.Remove();
+        Parent.SetPhysicsProcess(false);
+    }
 }

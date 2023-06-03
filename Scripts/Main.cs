@@ -1,92 +1,134 @@
 global using Godot;
 global using GodotUtils;
 global using System;
-global using System.Collections.Generic;
-global using System.Threading.Tasks;
 
 namespace Inventory;
 
 public partial class Main : Node2D
 {
-	// Inventories
-	public static UICursorSlot      Cursor          { get; set; }
-	public static UIPlayerInventory PlayerInventory { get; set; }
-	public static UIInventory       OtherInventory  { get; set; }
+    // Inventories
+    public static UICursorSlot Cursor { get; set; }
+    public static UIPlayerInventory PlayerInventory { get; set; }
 
-	// Msc
-	public static CanvasLayer       CanvasLayer     { get; set; }
-	public static SceneTree         Tree            { get; set; }
+    public static UIInventory[] InventoryCollection{ get; set; }
+    public static UIInventory OtherInventory { get; set; }
+    public static UIInventory CurrencyInventory { get; set; }
+    public static UIInventory ConsumableInventory { get; set; }
+    public static UIInventory WeaponInventory { get; set; }
+    public static UIItemDetails ItemDetails { get; set; }
+    // Msc
+    public static CanvasLayer CanvasLayer { get; set; }
+    public static SceneTree Tree { get; set; }
 
-	public override void _Ready()
-	{
-		CanvasLayer = GetNode<CanvasLayer>("CanvasLayer");
-		Tree = GetTree();
+    public override void _Ready()
+    {
+        CanvasLayer = GetNode<CanvasLayer>("CanvasLayer");
+        Tree = GetTree();
 
-		// Add UIPlayerInventory to canvas layer
-		PlayerInventory = new UIPlayerInventory(CanvasLayer, 18, 9);
+        // Add UIPlayerInventory to canvas layer
+        PlayerInventory = new UIPlayerInventory(CanvasLayer, 18, 9);
 
-		// Setup player inventory
-		PlayerInventory.SetItem(9, new Item(Items.CoinPink, 22));
-		PlayerInventory.SetItem(10, new Item(Items.CoinRed, 22));
+        // Setup player inventory
+        PlayerInventory.SetItem(0, new Item(Items.CoinPink, 5));
+        PlayerInventory.SetItem(1, new Item(Items.CoinRed, 10));
+        PlayerInventory.SetItem(10, new Item(Items.CoinRed, 10));
 
-		// Add UIOtherInventory to canvas layer
-		OtherInventory = new UIInventory(CanvasLayer, 9, 9);
-		OtherInventory.SetAnchor(Control.LayoutPreset.CenterTop);
+        PlayerInventory.SetItem(2, new Item(Items.Coin, 1));
 
-		// Setup cursor
-		var cursorParent = new Control { Name = "ParentCursor" };
-		CanvasLayer.AddChild(cursorParent);
-		Cursor = new UICursorSlot(cursorParent);
-	}
+        PlayerInventory.SetItem(7, new Item(Items.PotionRed, 4));
+        PlayerInventory.SetItem(8, new Item(Items.PotionBlue, 100));
 
-	public override void _PhysicsProcess(double delta)
-	{
-		GodotUtils.Main.Update();
+        PlayerInventory.SetItem(4, new Item(Items.SwordWooden, 1));
+        PlayerInventory.SetItem(5, new Item(Items.SwordIron, 1));
+        PlayerInventory.SetItem(6, new Item(Items.SwordIron, 1));
 
-		// Update cursor
-		Cursor.Update();
+        //Add filtered inventories
+        CurrencyInventory = new UIInventory(CanvasLayer, 3, 1, ItemCategory.Currency);
+        CurrencyInventory.SetAnchor(Control.LayoutPreset.CenterLeft);
 
-		PlayerInventory.Update();
-		OtherInventory.Update();
-	}
+        ConsumableInventory = new UIInventory(CanvasLayer, 3, 1, ItemCategory.Consumable);
+        ConsumableInventory.SetAnchor(Control.LayoutPreset.CenterRight);
 
-	public override void _Input(InputEvent @event)
-	{
-		// Debug
-		if (Input.IsActionJustPressed("debug1"))
-		{
-			var container = PlayerInventory.Container;
+        // Add UIOtherInventory to canvas layer
+        OtherInventory = new UIInventory(CanvasLayer, 9, 9);
+        OtherInventory.SetAnchor(Control.LayoutPreset.CenterTop);
 
-			GD.Print("=== Player Inventory ===");
+        // Add UIOtherInventory to canvas layer
+        WeaponInventory = new UIInventory(CanvasLayer, 1, 1, ItemCategory.Weapon);
+        WeaponInventory.SetAnchor(Control.LayoutPreset.Center);
 
-			for (int i = 0; i < container.Items.Length; i++)
-			{
-				var item = container.Items[i];
+        InventoryCollection = new UIInventory[]{ 
+            WeaponInventory,
+            CurrencyInventory,
+            ConsumableInventory,
+            OtherInventory
+        };
 
-				if (item != null)
-					GD.Print($"[{i}] {item}");
-			}
-		}
+        //Item Desc
+        ItemDetails = new UIItemDetails(CanvasLayer);
+        ItemDetails.SetAnchor(Control.LayoutPreset.BottomLeft);
 
-		if (Input.IsActionJustPressed("debug2"))
-		{
-			
-		}
+        // Setup cursor
+        var cursorParent = new Control { Name = "ParentCursor" };
+        CanvasLayer.AddChild(cursorParent);
+        Cursor = new UICursorSlot(cursorParent);
+    }
 
-		HotbarHotkeys();
-	}
+    public override void _PhysicsProcess(double delta)
+    {
+        // Update cursor
+        Cursor.Update();
 
-	private void HotbarHotkeys()
-	{
-		var inv = PlayerInventory;
+        ConsumableInventory.Update();
+        CurrencyInventory.Update();
+        PlayerInventory.Update();
+        OtherInventory.Update();
+    }
 
-		for (int i = 0; i < inv.Columns; i++)
-			if (Input.IsActionJustPressed($"inventory_hotbar_{i + 1}"))
-				if (Cursor.HasItem())
-				{
-					var firstHotbarSlot = inv.Size - inv.Columns;
-					Cursor.MoveAllTo(inv.UIInventorySlots[firstHotbarSlot + i]);
-					break;
-				}
-	}
+    public override void _Input(InputEvent @event)
+    {
+        //Inventory sorting
+        if (Input.IsActionJustPressed("inventory_sort"))
+        {
+            PlayerInventory.Container.OrderByItemCategoryAndGroup();
+            PlayerInventory.Refresh();
+        }
+
+        // Debug
+        if (Input.IsActionJustPressed("debug1"))
+        {
+            var container = PlayerInventory.Container;
+
+            GD.Print("=== Player Inventory ===");
+
+            for (int i = 0; i < container.Items.Length; i++)
+            {
+                var item = container.Items[i];
+
+                if (item != null)
+                    GD.Print($"[{i}] {item}");
+            }
+        }
+
+        if (Input.IsActionJustPressed("debug2"))
+        {
+
+        }
+
+        HotbarHotkeys();
+    }
+
+    private void HotbarHotkeys()
+    {
+        var inv = PlayerInventory;
+
+        for (int i = 0; i < inv.Columns; i++)
+            if (Input.IsActionJustPressed($"inventory_hotbar_{i + 1}"))
+                if (Cursor.HasItem())
+                {
+                    var firstHotbarSlot = inv.Size - inv.Columns;
+                    Cursor.MoveAllTo(inv.UIInventorySlots[firstHotbarSlot + i]);
+                    break;
+                }
+    }
 }

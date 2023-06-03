@@ -1,14 +1,11 @@
-<Project Sdk="Godot.NET.Sdk/4.0.0">
+<Project Sdk="Godot.NET.Sdk/4.0.3">
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>Inventory</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <!--This is used because net472 does not have System.Text.Json-->
+		<PackageReference Include="ENet-CSharp" Version="2.4.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <Reference Include="GodotUtils">
-      <HintPath>GodotUtils.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>

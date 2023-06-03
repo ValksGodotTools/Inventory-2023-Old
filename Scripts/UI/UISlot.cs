@@ -2,129 +2,226 @@
 
 public abstract class UISlot
 {
-	public bool Visible
-	{
-		get => Parent.Visible;
-		set => Parent.Visible = value;
-	}
+    public bool Visible
+    {
+        get => Parent.Visible;
+        set => Parent.Visible = value;
+    }
 
-	public    Control   Parent    { get; set; }
-						 
-	protected Container Container { get; set; }
-	protected int       Index     { get; set; }
+    public Control Parent { get; set; }
+    public ItemCategory? ItemCategoryFilter { get; set; } //all categories allowed if null
 
-	private   UIItem    UIItem    { get; set; }
+    protected Container container;
+    protected int index;
 
-	public void Hide() => UIItem.Hide();
-	public void Show() => UIItem.Show();
+    private UIItem uiItem;
 
-	public virtual Item Get() => Container.Get(Index);
+    public virtual Item Get() => container.Get(index);
 
-	public virtual void MoveAllTo(UISlot other)
-	{
-		if (other.HasItem())
-		{
-			if (SameType(other))
-			{
-				var item = Container.TakeAll(Index);
-				ClearGraphic();
+    #region Alter Items
+    public virtual void MoveAllTo(UISlot other)
+    {
+        if (other.IsItemCategoryAllowed(container.Get(index)))
+        {
+            if (other.HasItem())
+            {
+                if (this.SameType(other))
+                {
+                    //Check type and stack limit
+                    if (other.Get().Type.Stacklimit >= other.Get().Count + this.Get().Count)
+                    {
+                        var item = container.TakeAll(index);
+                        this.ClearGraphic();
 
-				item.Count += other.Get().Count;
+                        item.Count += other.Get().Count;
 
-				other.Set(item);
-			}
-			else
-			{
-				Swap(other);
-			}
-		}
-		else
-		{
-			if (HasItem())
-			{
-				other.Set(Container.TakeAll(Index));
-				ClearGraphic();
-			}
-		}
-	}
+                        other.Set(item);
+                    }
+                    else //Take amount necesary to reach stack limit
+                    {
+                        var item = container.Take(index, other.Get().Type.Stacklimit - other.Get().Count);
+                        this.UpdateCount();
+                        item.Count += other.Get().Count;
+                        other.Set(item);
+                    }
+                }
+                else
+                {
+                    this.Swap(other);
+                }
+            }
+            else
+            {
+                if (this.HasItem())
+                {
+                    other.Set(container.TakeAll(index));
+                    this.ClearGraphic();
+                }
+            }
+        }
+    }
 
-	public virtual void MoveOneTo(UISlot other)
-	{
-		if (HasItem())
-		{
-			if (other.HasItem())
-			{
-				if (SameType(other))
-				{
-					var item = Container.TakeOne(Index);
+    public virtual void MoveHalfTo(UISlot other)
+    {
+        if (other.IsItemCategoryAllowed(container.Get(index)))
+        {
+            if (other.HasItem())
+            {
+                if (this.SameType(other))
+                {
+                    //Check type and stack limit
+                    if (other.Get().Type.Stacklimit >= other.Get().Count + this.Get().Count)
+                    {
+                        var item = container.TakeHalf(index);
+                        this.UpdateCount();
 
-					UpdateCount();
+                        item.Count += other.Get().Count;
 
-					// Combine
-					item.Count += other.Get().Count;
+                        other.Set(item);
+                    }
+                    else //Take amount necesary to reach stack limit
+                    {
+                        var item = container.Take(index, other.Get().Type.Stacklimit - other.Get().Count);
+                        this.UpdateCount();
+                        item.Count += other.Get().Count;
+                        other.Set(item);
+                    }
+                }
+                else
+                {
+                    this.Swap(other);
+                }
+            }
+            else
+            {
+                if (this.HasItem())
+                {
+                    var item = container.TakeHalf(index);
 
-					// Set the [cursor] with the item that was taken
-					other.Set(item);
-				}
-				else
-				{
-					Swap(other);
-				}
-			}
-			else
-			{
-				var item = Container.TakeOne(Index);
+                    if (item.Count > 0)
+                        other.Set(item);
 
-				UpdateCount();
+                    this.UpdateCount();
+                }
+            }
 
-				other.Set(item);
-			}
-		}
+            if (container.IsEmpty(index))
+                this.ClearGraphic();
+        }
+    }
 
-		if (Container.IsEmpty(Index))
-			ClearGraphic();
-	}
 
-	public virtual void Swap(UISlot other)
-	{
-		var otherItem = other.Get();
+    public virtual void MoveOneTo(UISlot other)
+    {
+        if (other.IsItemCategoryAllowed(container.Get(index)))
+        {
+            if (this.HasItem())
+            {
+                if (other.HasItem())
+                {
+                    //Check type and stack limit
+                    if (this.SameType(other) && other.Get().Type.Stacklimit >= other.Get().Count + 1)
+                    {
+                        var item = container.TakeOne(index);
 
-		other.Set(Get());
-		Set(otherItem);
-	}
+                        this.UpdateCount();
 
-	public virtual void Set(Item item)
-	{
-		Container.Set(Index, item);
-		SetGraphic(item);
-		SetCount(item.Count);
-	}
+                        // Combine
+                        item.Count += other.Get().Count;
 
-	public virtual void Remove()
-	{
-		Container.Destroy(Index);
-		ClearGraphic();
-	}
+                        // Set the [cursor] with the item that was taken
+                        other.Set(item);
+                    }
+                    else
+                    {
+                        this.Swap(other);
+                    }
+                }
+                else
+                {
+                    if (other.IsItemCategoryAllowed(container.Get(index)))
+                    {
+                        var item = container.TakeOne(index);
 
-	public virtual bool SameType(UISlot other) => other.Get().Type == Get().Type;
+                        this.UpdateCount();
 
-	public virtual bool IsEmpty() => Container.IsEmpty(Index);
+                        other.Set(item);
+                    }
+                }
+            }
 
-	public virtual bool HasItem() => !IsEmpty();
+            if (container.IsEmpty(index))
+                this.ClearGraphic();
+        }
+    }
 
-	// UI Stuff
-	private void SetCount(int count) => UIItem.SetText(count == 1 ? "" : count + "");
-	private void UpdateCount()
-	{
-		if (HasItem())
-			UIItem.SetText(Get().Count == 1 ? "" : Get().Count + "");
-	}
+    /// <summary>
+    /// Swap this Slot Item with other Slot Item if allowed.
+    /// </summary>
+    /// <param name="other"></param>
+    public virtual void Swap(UISlot other)
+    {
+        var otherItem = other.Get();
+        if (this.IsItemCategoryAllowed(otherItem))
+        {
+            other.Set(this.Get());
+            this.Set(otherItem);
+        }
+    }
 
-	private void SetGraphic(Item item)
-	{
-		ClearGraphic();
-		UIItem = new UIItem(Parent, item);
-	}
+    /// <summary>
+    /// Set Item for this Slot.
+    /// </summary>
+    /// <param name="item"></param>
+    public virtual void Set(Item item)
+    {
+        if (this.IsItemCategoryAllowed(item))
+        {
+            container.Set(index, item);
+            this.SetGraphic(item);
+            this.SetCount(item.Count);
+        }
+    }
 
-	private void ClearGraphic() => Parent.QueueFreeChildren();
+    public virtual void Remove()
+    {
+        container.Destroy(index);
+        this.ClearGraphic();
+    }
+
+    #endregion
+
+    public virtual bool SameType(UISlot other) => other.Get().Type == this.Get().Type;
+
+    /// <summary>
+    /// Checks if param ItemCategory is allowed on this slot.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns>true if ItemCategory is allowed on this slot, false otherwise</returns>
+    public virtual bool IsItemCategoryAllowed(Item item) => (ItemCategoryFilter == null || item.Type.ItemCategory == ItemCategoryFilter);
+
+    public virtual bool IsEmpty() => container.IsEmpty(index);
+
+    public virtual bool HasItem() => !this.IsEmpty();
+
+    #region UI
+    public void Hide() => uiItem.Hide();
+    public void Show() => uiItem.Show();
+
+    private void SetCount(int count) => uiItem.SetText(count == 1 ? "" : count + "");
+    public void UpdateCount()
+    {
+        if (HasItem())
+            uiItem.SetText(Get().Count == 1 ? "" : Get().Count + "");
+    }
+
+    private void SetGraphic(Item item)
+    {
+        this.ClearGraphic();
+        uiItem = new UIItem(Parent, item);
+    }
+
+    private void ClearGraphic() => Parent.QueueFreeChildren();
+
+    #endregion
 }
