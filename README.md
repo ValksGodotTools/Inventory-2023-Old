@@ -1,3 +1,5 @@
+# This is now archived because it is being remade in [ValksGodotTools/Template](https://github.com/ValksGodotTools/Template)
+
 https://user-images.githubusercontent.com/6277739/217958511-d5182a65-60e9-464d-82d3-23a069720ae3.mp4
 
 ## A Game Inventory being made in Godot 4 C#
